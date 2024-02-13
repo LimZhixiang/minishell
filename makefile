@@ -2,7 +2,9 @@ NAME = minishell
 
 SRC = \
 	main.c
-	hi 235
+hi
+hi235
+
 
 LIBFT = \
 	ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c \
