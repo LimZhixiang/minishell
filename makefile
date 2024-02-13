@@ -20,12 +20,13 @@ LIBFTBONUS = \
 	ft_lstclear_bonus.c ft_lstiter_bonus.c ft_lstmap_bonus.c
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
+LFLAGS = -lreadline -lncurses
 
 all: $(NAME)
 
 $(NAME):
-	$(CC) $(CFLAGS) -g -lreadline -o $(NAME) $(SRC) $(addprefix libft/, $(LIBFT))
+	$(CC) $(CFLAGS) -o $(NAME) $(SRC) $(addprefix libft/, $(LIBFT)) $(LFLAGS)
 
 clean:
 	rm -f $(NAME)
