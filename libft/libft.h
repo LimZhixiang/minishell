@@ -62,6 +62,7 @@ void	free_str_arr(char **result);
 int		ft_isspace(char c);
 int		ft_atoi_base(char *str, char *base);
 int		str_isdigit(char *str);
+char	*str_find_replace(char *line, char *find,char *replace);
 
 t_list	*ft_lstnew(void *content);
 void	ft_lstadd_front(t_list **lst, t_list *new);

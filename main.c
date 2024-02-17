@@ -1,11 +1,18 @@
 #include "minishell.h"
 
-int main()
+int main(int argc, char **argv, char **envp)
 {
 	char *line;
+	(void)argc;
+	(void)argv;
+
 	line = NULL;
 	line = readline("Minishell: ");
-	printf("%s", line);
+	printf("old line:\t%s\n", line);
+	if (env_found(line))
+		line = convert_env(line, envp);
+	printf("new line:\t%s\n", line);
+	free(line);
 	return 0;
 }
 // 1. readline()
