@@ -8,12 +8,10 @@ int main()
 	printf("%s", line);
 	return 0;
 }
- hello 
 // 1. readline()
 // 	library: <readline/readline.h>
 // 	Inputs: readline("prompt message")
 // 	Outputs: char*
-dishdihsdisi
 
 // 2. rl_add_history()
 // 	library: <readline/history.h>
@@ -29,8 +27,3 @@ dishdihsdisi
 
 // 4. rl_on_new_line()
 // 	library: <readline/history.h>
-4. rl_on_new_line()
-	library: <readline/history.h>
-
-Hello
-hihi
