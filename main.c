@@ -1,19 +1,51 @@
 #include "minishell.h"
 
+char	*get_envps(char **envp)
+{
+	int		i;
+	int		j;
+	int 	k;
+	char	*result;
+
+	i = 0;
+	k = 0;
+	j = 0;
+	while (envp[i])
+		k += ft_strlen(envp[i++]);
+	result = malloc(sizeof(char) *(i + k + 1));
+	i = -1;
+	k = 0;
+	while (envp[++i])
+	{
+		while(envp[i][j])
+			result[k++] = envp[i][j++];
+		result[k++] = '\n';
+		j = 0;
+	}
+	result[k] = 0;
+	return (result);
+}
+
 int main(int argc, char **argv, char **envp)
 {
 	char *line;
 	(void)argc;
 	(void)argv;
 
-	line = NULL;
 	line = readline("Minishell: ");
-	printf("old line:\t%s\n", line);
-	if (env_found(line))
-		line = convert_env(line, envp);
-	printf("new line:\t%s\n", line);
+	while (!ft_strcmp(line, ""))
+	{
+		printf("old line:\t%s\n", line);
+		if (ft_strchr(line, '$'))
+			line = convert_env(line, envp);
+		printf("new line:\t%s\n", line);
+		if (find_word(line, "env") != -1)
+			printf("%s", get_envps(envp));
+		free(line);
+		line = readline("Minishell: ");
+	}
 	free(line);
-	return 0;
+	return (0);
 }
 // 1. readline()
 // 	library: <readline/readline.h>
