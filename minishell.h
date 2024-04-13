@@ -23,4 +23,23 @@ int	find_env(char *line, char *wrd);
 char	*get_envp_name(char *str);
 char	*get_envp_value(char *str);
 
+typedef	struct	s_env{
+	char			*value;
+	struct	s_env	*next;
+}	t_env;
+
+typedef struct	s_parse{
+	char	*arg;
+	int		type;
+	int		token;
+}	t_parse;
+
+typedef	struct	s_mini{
+	t_env	*env;
+	char	*input;
+	t_parse	*parsed_input;
+	int		exit;
+}	t_mini;
+
+
 #endif
