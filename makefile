@@ -1,7 +1,13 @@
 NAME = minishell
 
 SRC = \
-	main.c
+	main.c helpers.c
+
+PARSING = \
+	parsing_main.c parsing_minisplit.c parsing_split_helpers.c
+
+ENV = \
+	env.c
 
 #Libft files
 LIBFT = \
@@ -32,7 +38,7 @@ LFLAGS = -lreadline -lncurses
 all: $(NAME)
 
 $(NAME):
-	$(CC) $(CFLAGS) -o $(NAME) $(SRC) $(addprefix libft/, $(LIBFT)) $(INPUT_CHECK) $(INPUT_MANIPULATION) $(LFLAGS)
+	$(CC) $(CFLAGS) -o $(NAME) $(SRC) $(addprefix libft/, $(LIBFT)) $(addprefix parsing/, $(PARSING)) $(addprefix env/, $(ENV)) $(INPUT_CHECK) $(INPUT_MANIPULATION) $(LFLAGS)
 
 clean:
 	rm -f $(NAME)
