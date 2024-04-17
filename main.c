@@ -238,40 +238,6 @@ char	*ft_var_count(char *new, t_mini *mini)
 	return (new);
 }
 
-void	filter_quotes(char *new)
-{
-	int	i;
-	int j;
-	int	quotes;
-	int	count;
-	char *temp;
-
-	i = 0;
-	quotes = 0;
-	count = 0;
-	while (new[i])
-	{
-		if (ft_quote(new, i + 1) != quotes)
-			quotes = ft_quote(new, i + 1);
-		else
-			count++;
-		i++;
-	}
-	temp = malloc(sizeof(char) * count + 1);
-	if (!temp)
-		return ;
-	i = -1;
-	j = 0;
-	while (new[++i])
-	{
-		if (ft_quote(new, i + 1) != quotes)
-			quotes = ft_quote(new, i + 1);
-		else
-			temp[j++] = new[i];
-	}
-	temp[j] = '\0';
-}
-
 int	mini_wrd(char *new)
 {
 	int	i;
@@ -293,33 +259,10 @@ int	mini_wrd(char *new)
 	return (word);
 }
 
-char	**ft_mini_split(char *new)
-{
-	char	**result;
-
-	result = malloc(sizeof(char *) * (mini_wrd(new) + 1));
-	if (!new || !result)
-		return (NULL);
-	while (new[i])
-	{
-		while (new[i])
-		{
-			if (ft_quote(new, i + 1) != quotes)
-				quotes = ft_quote(new, i + 1);
-			else
-				count++;
-			i++;
-		}
-	}
-	result[mini_wrd(new)] = NULL;
-	return (result);
-}
-
-char	*ft_count_letters(char *new, int i)
+int	mini_letters(char *new, int i, int flag)
 {
 	int quote;
 	int	count;
-	char	*ret;
 
 	count = 0;
 	quote = 0;
@@ -338,30 +281,80 @@ char	*ft_count_letters(char *new, int i)
 			count++;
 		i++;
 	}
-	ret = malloc(sizeof(char) * count + 1);
+	if (flag == 1)
+		return (count);
+	else
+		return (i);
+}
+
+void	ft_copy_letters(char *ret, char *new, int i)
+{
+	int	j;
+	int	quote;
+
+	quote = 0;
+	j = 0;
+	while (new[i] && (new[i] != ' ' || quote != 0))
+	{
+		if ((new[i] == '\'' || new[i] == '\"'))
+		{
+			if (quote == 0)
+				quote = ft_quote_c(new[i]);
+			else if (quote == ft_quote_c(new[i]))
+				quote = 0;
+			else
+				ret[j++] = new[i];
+		}
+		else
+			ret[j++] = new[i];
+		i++;
+	}
+	ret[j] = '\0';
+}
+
+char	*mini_split_malloc(char *new, int i)
+{
+	char	*ret;
+
+	ret = malloc(sizeof(char) * mini_letters(new, i, 1) + 1);
+	if (!ret)
+		return (NULL);
+	ft_copy_letters(ret, new, i);
 	return (ret);
 }
 
-void	shell_split(char *new)
+char	**ft_mini_split(char *new)
+{
+	char	**result;
+	int		i;
+	int		arg;
+
+	arg = 0;
+	i = 0;
+	result = malloc(sizeof(char *) * (mini_wrd(new) + 1));
+	if (!new || !result || mini_wrd(new) == 0)
+		return (NULL);
+	while (arg < mini_wrd(new))
+	{
+		while (new[i] == ' ')
+			i++;
+		result[arg++] = mini_split_malloc(new, i);
+		i = mini_letters(new, i, 2);
+	}
+	result[mini_wrd(new)] = NULL;
+	return (result);
+}
+
+void	shell_split(char *new, t_mini *mini)
 {
 	char	**split;
+	t_parse	*temp;
 	int		i;
-	int		j;
-	int		quote;
 
-	j = 0;
-	i = -1;
-	quote = 0;
+	i = 0;
 	split = ft_mini_split(new);
-	while (new[++i])
+	while (split[i])
 	{
-		while (split[j])
-		{
-			if (ft_quote_c(new[i]) != quote)
-				quote = ft_quote_c(new[i]);
-			split[j] = ft_count_letters(new, i);
-			j++;
-		}
 	}
 }
 
@@ -372,7 +365,7 @@ int	parsing(char *line, t_mini *mini)
 	new = ft_alloc_space(line);
 	ft_space_line(new, line);
 	new = ft_var_count(new, mini);
-	shell_split(new);
+	ft_mini_split(new, mini);
 	// tokenization()
 	return (1);
 }

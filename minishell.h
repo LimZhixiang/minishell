@@ -36,8 +36,8 @@ typedef struct	s_parse{
 
 typedef	struct	s_mini{
 	t_env	*env;
-	char	*input;
-	t_parse	*parsed_input;
+	char	*in;
+	t_parse	*input;
 	int		exit;
 }	t_mini;
 
