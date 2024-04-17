@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 int	get_env(t_mini *mini, char **env)
@@ -7,7 +6,8 @@ int	get_env(t_mini *mini, char **env)
 	t_env	*new;
 	int		i;
 
-	if (!(mini_env = malloc(sizeof(t_env))))
+	mini_env = malloc(sizeof(t_env));
+	if (!mini_env)
 		return (1);
 	mini_env->value = ft_strdup(env[0]);
 	mini_env->next = NULL;
@@ -15,7 +15,8 @@ int	get_env(t_mini *mini, char **env)
 	i = 1;
 	while (env[i])
 	{
-		if (!(new = malloc(sizeof(t_env))))
+		new = malloc(sizeof(t_env));
+		if (!new)
 			return (1);
 		new->value = ft_strdup(env[i]);
 		new->next = NULL;
@@ -35,7 +36,7 @@ void	print_env(t_mini *mini)
 	}
 }
 
-int		is_sep(char c)
+int	is_sep(char c)
 {
 	if (c == '|')
 		return (1);
@@ -48,7 +49,7 @@ int		is_sep(char c)
 
 int	ft_quote(char *line, int i)
 {
-	int j;
+	int	j;
 	int	quote;
 
 	quote = 0;
@@ -77,13 +78,13 @@ char	*ft_alloc_space(char *line)
 
 	space = 0;
 	i = 0;
-	sep = 0;
 	while (line[i])
 	{
-		if ((sep = is_sep(line[i])) && ft_quote(line, i) == 0 && i > 0)
+		sep = is_sep(line[i]);
+		if (sep != 0 && ft_quote(line, i) == 0 && i > 0)
 		{
 			if (!ft_strchr(" ", line[i - 1]) && is_sep(line[i - 1]) != sep)
-					space++;
+				space++;
 			if (sep != 1 && is_sep(line[i + 1]) == sep)
 				i++;
 			if (!ft_strchr(" \0", line[i + 1]))
@@ -91,23 +92,25 @@ char	*ft_alloc_space(char *line)
 		}
 		i++;
 	}
-	if (!(new = malloc(sizeof(char) * (i + space + 1))))
+	new = malloc(sizeof(char) * (i + space + 1));
+	if (!new)
 		return (NULL);
 	return (new);
 }
 
-int ft_space_line(char *new, char *line)
+int	ft_space_line(char *new, char *line)
 {
-	int i;
-	int j;
-	int sep;
+	int	i;
+	int	j;
+	int	sep;
 
 	sep = 0;
 	i = 0;
 	j = 0;
 	while (new && line[i])
 	{
-		if ((sep = is_sep(line[i])) && ft_quote(line, i) == 0 && i > 0)
+		sep = is_sep(line[i]);
+		if (sep != 0 && ft_quote(line, i) == 0 && i > 0)
 		{
 			if (line[i - 1] != ' ' && is_sep(line[i - 1]) != sep)
 				new[j++] = ' ';
@@ -138,7 +141,7 @@ int	env_compare(char *env, char *name)
 	}
 	if (env[i] != '=')
 		return (0);
-	return(1);
+	return (1);
 }
 
 char	*ft_get_env(char *name, t_mini *mini)
@@ -157,7 +160,7 @@ char	*ft_get_env(char *name, t_mini *mini)
 			while (temp->value[i] != '=')
 				i++;
 			i++;
-			return(ft_strdup(temp->value + i));
+			return (ft_strdup(temp->value + i));
 		}
 	}
 	return (NULL);
@@ -199,20 +202,20 @@ int	ft_valid_env(char c)
 	return (0);
 }
 
-
 char	*ft_var_count(char *new, t_mini *mini)
 {
-	int	i;
-	int j;
-	char *name;
-	char *result;
+	int		i;
+	int		j;
+	char	*name;
+	char	*result;
 
 	i = -1;
 	while (new[++i])
 	{
-		if (ft_quote(new, i) != 1 && new[i] == '$' && ft_valid_env(new[i + 1]) != 0)
+		if (ft_quote(new, i) != 1 && new[i] == '$'
+			&& ft_valid_env(new[i + 1]) != 0)
 		{
-			j = 1;	
+			j = 1;
 			while (ft_valid_env(new[i + j]) != 0)
 				j++;
 			name = ft_substr(new, i, j);
@@ -226,20 +229,104 @@ char	*ft_var_count(char *new, t_mini *mini)
 	return (new);
 }
 
+void	filter_quotes(char *new)
+{
+	int	i;
+	int j;
+	int	quotes;
+	int	count;
+	char *temp;
+
+	i = 0;
+	quotes = 0;
+	count = 0;
+	while (new[i])
+	{
+		if (ft_quote(new, i + 1) != quotes)
+			quotes = ft_quote(new, i + 1);
+		else
+			count++;
+		i++;
+	}
+	temp = malloc(sizeof(char) * count + 1);
+	if (!temp)
+		return ;
+	i = -1;
+	j = 0;
+	while (new[++i])
+	{
+		if (ft_quote(new, i + 1) != quotes)
+			quotes = ft_quote(new, i + 1);
+		else
+			temp[j++] = new[i];
+	}
+	temp[j] = '\0';
+}
+
+int	mini_wrd(char *new)
+{
+	int	i;
+	int	word;
+
+	word = 0;
+	i = 0;
+	while(new[i])
+	{
+		if (new[i] != ' ' && ft_quote(new, i) == 0)
+		{
+			word++;
+			while (new[i] && (new[i] != ' ' || ft_quote(new, i) != 0))
+				i++;
+		}
+		else
+			i++;
+	}
+	return (word);
+}
+
+char	**ft_mini_split(char *new)
+{
+	char	**result;
+
+	result = malloc(sizeof(char *) * (mini_wrd(new) + 1));
+	if (!new || !result)
+		return (NULL);
+	// while (*new)
+	// {
+	// 	if (*new != ' ' || ft_quote(new, i + 1) != 0)
+	// 	{
+	// 		// ft_mini_substr(new)
+	// 	}
+	// }
+	return (result);
+}
+
+void	shell_split(char *new)
+{
+	char	**split;
+	int		i;
+
+	i = -1;
+	split = ft_mini_split(new);
+	while (split[++i])
+	{
+		// split[i] = filter_quotes(split[i]);
+	}
+}
 
 int	parsing(char *line, t_mini *mini)
 {
 	char	*new;
-	
+
 	new = ft_alloc_space(line);
 	ft_space_line(new, line);
 	new = ft_var_count(new, mini);
-	shell_split(new, mini);
+	shell_split(new);
 	// tokenization()
-	return(1);
+	return (1);
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	t_mini	*mini;
 	char	*input;
@@ -257,23 +344,3 @@ int main(int argc, char **argv, char **envp)
 	}
 	return (0);
 }
-
-// 1. readline()
-// 	library: <readline/readline.h>
-// 	Inputs: readline("prompt message")
-// 	Outputs: char*
-
-// 2. rl_add_history()
-// 	library: <readline/history.h>
-// 	Input: rl_clear_history(char *)
-// 	Output: Nil
-// 	Purpose: Used to add the inputs entered bby the users into a struct
-
-// 3. rl_clear_history()
-// 	library: <readline/history.h>
-// 	Input: rl_clear_history(nil)
-// 	Outputs: Nil
-// 	Purpose: Clears inputs history that is keyed by user when using readline and stored into rl_add_history.
-
-// 4. rl_on_new_line()
-// 	library: <readline/history.h>
