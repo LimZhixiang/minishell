@@ -47,6 +47,15 @@ int	is_sep(char c)
 	return (0);
 }
 
+int	ft_quote_c(char c)
+{
+	if (c == '\'')
+		return (1);
+	if (c == '\"')
+		return (2);
+	return (0);
+}
+
 int	ft_quote(char *line, int i)
 {
 	int	j;
@@ -291,26 +300,68 @@ char	**ft_mini_split(char *new)
 	result = malloc(sizeof(char *) * (mini_wrd(new) + 1));
 	if (!new || !result)
 		return (NULL);
-	// while (*new)
-	// {
-	// 	if (*new != ' ' || ft_quote(new, i + 1) != 0)
-	// 	{
-	// 		// ft_mini_substr(new)
-	// 	}
-	// }
+	while (new[i])
+	{
+		while (new[i])
+		{
+			if (ft_quote(new, i + 1) != quotes)
+				quotes = ft_quote(new, i + 1);
+			else
+				count++;
+			i++;
+		}
+	}
+	result[mini_wrd(new)] = NULL;
 	return (result);
+}
+
+char	*ft_count_letters(char *new, int i)
+{
+	int quote;
+	int	count;
+	char	*ret;
+
+	count = 0;
+	quote = 0;
+	while (new[i] && (new[i] != ' ' || quote != 0))
+	{
+		if ((new[i] == '\'' || new[i] == '\"'))
+		{
+			if (quote == 0)
+				quote = ft_quote_c(new[i]);
+			else if (quote == ft_quote_c(new[i]))
+				quote = 0;
+			else
+				count++;
+		}
+		else
+			count++;
+		i++;
+	}
+	ret = malloc(sizeof(char) * count + 1);
+	return (ret);
 }
 
 void	shell_split(char *new)
 {
 	char	**split;
 	int		i;
+	int		j;
+	int		quote;
 
+	j = 0;
 	i = -1;
+	quote = 0;
 	split = ft_mini_split(new);
-	while (split[++i])
+	while (new[++i])
 	{
-		// split[i] = filter_quotes(split[i]);
+		while (split[j])
+		{
+			if (ft_quote_c(new[i]) != quote)
+				quote = ft_quote_c(new[i]);
+			split[j] = ft_count_letters(new, i);
+			j++;
+		}
 	}
 }
 
