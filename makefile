@@ -6,6 +6,8 @@ SRC = \
 PARSING = \
 	parsing_main.c parsing_minisplit.c parsing_split_helpers.c
 
+SIGNAL = \
+	signal.c
 ENV = \
 	env.c
 
@@ -38,7 +40,7 @@ LFLAGS = -lreadline -lncurses
 all: $(NAME)
 
 $(NAME):
-	$(CC) $(CFLAGS) -o $(NAME) $(SRC) $(addprefix libft/, $(LIBFT)) $(addprefix parsing/, $(PARSING)) $(addprefix env/, $(ENV)) $(INPUT_CHECK) $(INPUT_MANIPULATION) $(LFLAGS)
+	$(CC) $(CFLAGS) -o $(NAME) $(SRC) $(addprefix libft/, $(LIBFT)) $(addprefix signal/, $(SIGNAL)) $(addprefix parsing/, $(PARSING)) $(addprefix env/, $(ENV)) $(INPUT_CHECK) $(INPUT_MANIPULATION) $(LFLAGS)
 
 clean:
 	rm -f $(NAME)

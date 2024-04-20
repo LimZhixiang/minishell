@@ -1,5 +1,7 @@
 # ifndef MINISHELL_H
 # define MINISHELL_H
+# include <sys/types.h>
+# include <sys/wait.h>
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -10,6 +12,7 @@
 # include <curses.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <errno.h>
 # include "libft/libft.h"
 
 //Input checkers
@@ -70,7 +73,8 @@ char	*replace_env(char *line, char *envp, char *envp_name, int index);
 int	ft_valid_env(char c);
 
 
-
+//./signal/signal.c
+void	signal_controller(void);
 
 
 
