@@ -54,25 +54,34 @@ char	**ft_mini_split(char *new)
 	return (result);
 }
 
-void	input_init(char *new, t_mini *mini)
+void	tokenization(char *new, t_mini *mini)
 {
 	char	**split;
 	t_parse	*temp;
+	int		cmd_flag;
 	int		i;
 
 	i = 0;
+	cmd_flag = 1;
 	split = ft_mini_split(new);
-	if (split != NULL)
-	{
-		temp = ft_newnode(split[i++]);
-		mini->input = temp;
-	}
-	else
-		return;
+	//printf for testing
+	printf("\033[0;31m\n2.[TOKENIZATION]: CREATE STRUCT AND TOKENIZE:\n1 = CMD\n2 = ARG\n3 = (|)PIPE\n4 = (>)OUTPUT\n5 = (>>)APPEND\n6 = (<)INPUT\n7 = (<<)HDOC\n\033[0m");
+	
+	if (split == NULL)
+		return ;
+	temp = ft_newnode(split[i++]);
+	temp->type = operator_type(temp->arg, &cmd_flag);
+	//testing rmb to remove
+	printf("[Node%i]: \033[0;32m%i, %s\n\033[0m", i - 1, temp->type, temp->arg);
+	mini->input = temp;
 	while (split[i])
 	{
-		temp->next = ft_newnode(split[i]);
+		temp->next = ft_newnode(split[i++]);
+		temp->next->type = operator_type(temp->next->arg, &cmd_flag);
+		//testing rmb to remove
+		printf("[Node%i]: \033[0;32m%i, %s \n\033[0m", i - 1, temp->next->type, temp->next->arg);
 		temp = temp->next;
-		i++;
 	}
+	//testing rmb to remove
+	printf("\n");
 }

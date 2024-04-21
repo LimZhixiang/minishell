@@ -4,7 +4,8 @@ SRC = \
 	main.c helpers.c
 
 PARSING = \
-	parsing_main.c parsing_minisplit.c parsing_split_helpers.c
+	parsing_main.c parsing_rm_quote.c parsing_token_utils.c \
+	parsing_token.c
 
 SIGNAL = \
 	signal.c

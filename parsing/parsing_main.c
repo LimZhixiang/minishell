@@ -85,111 +85,89 @@ char	*ft_alloc_space(char *line)
 	return (new);
 }
 
-int	operator_type(char *arg, int *CMD_FLAG)
+//[START DEL]testing rmb to rm
+void	print_input(t_mini *mini)
 {
-	int	type;
-
-	type = 0;
-	if (ft_strcmp("|", arg) == 1)
-		type = PIPE
-	else if (ft_strcmp(">", arg) == 1)
-		type = OUTPUT;
-	else if (ft_strcmp(">>", arg) == 1)
-		type = APPEND;
-	else if (ft_strcmp("<", arg) == 1)
-		type = INPUT;
-	else if (ft_strcmp("<<", arg) == 1)
-		type = HDOC;
-	if (*CMD_FLAG == 1 && type == 0)
-		type = CMD;
-	if (type != 0)
-	{
-		if (type == PIPE)
-			*CMD_FLAG = 1;
-		else if (*CMD_FLAG == 1)
-			*CMD_FLAG = 0;
-	}
-	return (type);
-}
-
-// void	tokenization(t_mini *mini)
-// {
-// 	t_parse *temp;
-// 	int		next_cmd;
-
-// 	next_cmd = 1;
-// 	temp = mini->input;
-// 	if (mini != NULL)
-// 	{
-// 		while (temp != NULL)
-// 		{
-// 			if (next_cmd == 1)
-// 			{
-// 				temp->type = CMD;
-// 				next_cmd = 0;
-// 			}
-// 			else if (operator_type(temp->arg) == 3)
-// 			{
-// 				temp->type = operator_type(temp->arg);
-// 				next_cmd = 1;
-// 			}
-// 			else
-// 				temp->type = operator_type(temp ->arg);
-// 			printf("%s, %i\n", temp->arg, temp->type);
-// 			temp = temp->next;
-// 		}
-// 	}
-// }
-
-void	ft_create_node(char *new, t_mini *mini)
-{
-	char	**split;
 	t_parse	*temp;
-	int		cmd_flag;
-	int		i;
+	int	i;
+	char *s;
 
 	i = 0;
-	cmd_flag = 1;
-	split = ft_mini_split(new);
-	if (split != NULL)
+	temp = mini->input;
+	while (temp)
 	{
-		temp = ft_newnode(split[i]);
-		temp->type = operator_type(temp->arg, &cmd_flag);
-		mini->input = temp;
-		i++;
-	}
-	while (split[i])
-	{
-		temp->next = ft_newnode(split[i++]);
-		temp->next->type = operator_type(temp->next->arg, &cmd_flag);
+		printf("[Node%i]\n", i++);
+		printf("Arg : [%s]\n", temp->arg);
+		if (temp->type == 1)
+			s = ft_strdup("CMD");
+		if (temp->type == 2)
+			s = ft_strdup("ARG");
+		if (temp->type == 3)
+			s = ft_strdup("PIPE");
+		if (temp->type == 4)
+			s = ft_strdup("OUTPUT");
+		if (temp->type == 5)
+			s = ft_strdup("APPEND");
+		if (temp->type == 6)
+			s = ft_strdup(" INPUT");
+		if (temp->type == 7)
+			s = ft_strdup("HDOC");
+		printf("Type: %s, %i\n", s, temp->type);
+		free(s);
 		temp = temp->next;
-		i++;
+		if (temp)
+		{
+			printf("   |\n");
+			printf("   V\n");
+		}
 	}
+	printf("\n");
 }
+void	print_input_tgt(t_mini *mini)
+{
+	t_parse	*temp;
+	int	i;
 
-// void tokenization(t_mini *mini)
-// {
-// 	t_parse	*temp;
-// 	int	i;
-
-// 	i = 0;
-// 	temp = mini->env;
-// 	while (temp != NULL)
-// 	{
-// 		temp->type = operator_type(temp->arg, i);
-// 		temp = temp->next;
-// 	}
-// }
+	i = 0;
+	temp = mini->input;
+	printf("\033[0;32mMINI INPUT: ");
+	while (temp)
+	{
+		if(i == 0)
+			printf("[");
+		printf("%s", temp->arg);
+		if (temp->next)
+			printf(" ");
+		else
+			printf("]\n\033[0m");
+		i++;
+		temp=temp->next;
+	}
+	printf("\n");
+}
+//[END DEL]testing rmb to rm
 
 int	parsing(char *line, t_mini *mini)
 {
 	char	*new;
 
 	new = ft_alloc_space(line);
+
+	//[START DEL]testing rmb to rm
+	printf("\033[0;31m\n1.[FT_SPACE_LINE]: ADDING SPACES IF NO SPACES\nExample\nBefore:\"echo hi|echo bye\"\nAfter:\"echo hi | echo bye\"\n\033[0m");
+	//[END]testing rmb to rm
 	ft_space_line(new, line);
+	//[START DEL]testing rmb to rm
+	printf("Before: %s\n\033[0;32mResult: %s\n\033[0m", line, new);
+	//[END DEL]testing rmb to rm
 	new = ft_var_exp(new, mini);
-	ft_create_node(new, mini);
-	// tokenization(mini);
-	// input_init(new, mini);
+	tokenization(new, mini);
+	ft_rm_quotes(mini);
+	//[START DEL]testing rmb to rm
+	printf("\033[0;31mMINI->INPUT(AFT PARSING)\n\033[0m");
+	print_input(mini);
+	printf("USER INPUT: [%s]\n", line);
+	print_input_tgt(mini);
+	//[START DEL]testing rmb to rm
 	return (1);
 }

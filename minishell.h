@@ -62,27 +62,36 @@ char	*ft_var_exp(char *new, t_mini *mini);
 int		ft_space_line(char *new, char *line);
 char	*ft_alloc_space(char *line);
 int		parsing(char *line, t_mini *mini);
-//parsing_minisplit.c
+
+//parsing_rm_quotes.c
+void	cpy_rm_quote(char *result, char *current);
+int		rm_quote_letters(char *new);
+char	*rm_node_quote(char *current);
+void	ft_rm_quotes(t_mini *mini);
+
+//parsing_token.c
 void	ft_copy_letters(char *ret, char *new, int i);
 char	*mini_cpy_letters(char *new, int i);
 char	**ft_mini_split(char *new);
-void	input_init(char *new, t_mini *mini);
-//parsing_split_helpers.c
-int	wrd_count(char *new);
-int	mini_letters(char *new, int i, int flag);
+void	tokenization(char *new, t_mini *mini);
+
+//parsing_token_helpers.c
+int		operator_type(char *arg, int *CMD_FLAG);
+int		wrd_count(char *new);
+int		mini_letters(char *new, int i, int flag);
 t_parse	*ft_newnode(char *content);
 
 //./helpers.c
-int	is_sep(char c);
-int	ft_quote_c(char c);
-int	ft_quote(char *line, int i);
+int		is_sep(char c);
+int		ft_quote_c(char c);
+int		ft_quote(char *line, int i);
 
 //./env/get_env.c
-int	mini_env(t_mini *mini, char **env);
-int	env_compare(char *env, char *name);
+int		mini_env(t_mini *mini, char **env);
+int		env_compare(char *env, char *name);
 char	*ft_get_env(char *name, t_mini *mini);
 char	*replace_env(char *line, char *envp, char *envp_name, int index);
-int	ft_valid_env(char c);
+int		ft_valid_env(char c);
 
 
 //./signal/signal.c

@@ -1,14 +1,5 @@
 #include "minishell.h"
 
-void	print_env(t_mini *mini)
-{
-	while (mini->env)
-	{
-		printf("%s\n", mini->env->value);
-		mini->env = mini->env->next;
-	}
-}
-
 int	main(int argc, char **argv, char **envp)
 {
 	t_mini	*mini;
