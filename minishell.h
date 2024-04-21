@@ -1,5 +1,16 @@
 # ifndef MINISHELL_H
 # define MINISHELL_H
+
+#define CMD 1
+#define ARG 2
+#define PIPE 3
+//>,>>
+#define OUTPUT 4
+#define APPEND 5
+//<, <<
+#define INPUT 6
+#define HDOC 7
+
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <stdio.h>
@@ -14,6 +25,7 @@
 # include <readline/history.h>
 # include <errno.h>
 # include "libft/libft.h"
+
 
 //Input checkers
 int	env_found(char *line);

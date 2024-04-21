@@ -15,12 +15,8 @@ void	ft_copy_letters(char *ret, char *new, int i)
 				quote = ft_quote_c(new[i]);
 			else if (quote == ft_quote_c(new[i]))
 				quote = 0;
-			else
-				ret[j++] = new[i];
 		}
-		else
-			ret[j++] = new[i];
-		i++;
+		ret[j++] = new[i++];
 	}
 	ret[j] = '\0';
 }
