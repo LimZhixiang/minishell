@@ -18,6 +18,8 @@ int	main(int argc, char **argv, char **envp)
 			ft_putstr_fd("exit\n", 2);
 			exit(1);
 		}
+		if (input || *input)
+			add_history(input);
 		parsing(input, mini);
 		if (ft_strcmp(input, "exit"))
 			break ;
