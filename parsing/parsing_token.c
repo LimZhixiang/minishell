@@ -76,6 +76,7 @@ void	tokenization(char *new, t_mini *mini)
 	mini->input = temp;
 	while (split[i])
 	{
+		split[i] = ft_var_exp(split[i], mini);
 		temp->next = ft_newnode(split[i++]);
 		temp->next->type = operator_type(temp->next->arg, &cmd_flag);
 		//testing rmb to remove

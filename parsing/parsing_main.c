@@ -7,8 +7,8 @@ char	*ft_var_exp(char *new, t_mini *mini)
 	char	*name;
 	char	*result;
 
-	i = -1;
-	while (new[++i])
+	i = 0;
+	while (new[i])
 	{
 		if (ft_quote(new, i) != 1 && new[i] == '$'
 			&& ft_valid_env(new[i + 1]) != 0)
@@ -19,10 +19,12 @@ char	*ft_var_exp(char *new, t_mini *mini)
 			name = ft_substr(new, i, j);
 			result = ft_get_env(name, mini);
 			new = replace_env(new, result, name, i);
-			i = i + ft_strlen(result);
+			i = 0;
 			free(name);
 			free(result);
 		}
+		else
+			i++;
 	}
 	return (new);
 }
@@ -160,7 +162,6 @@ int	parsing(char *line, t_mini *mini)
 	//[START DEL]testing rmb to rm
 	printf("Before: %s\n\033[0;32mResult: %s\n\033[0m", line, new);
 	//[END DEL]testing rmb to rm
-	new = ft_var_exp(new, mini);
 	tokenization(new, mini);
 	ft_rm_quotes(mini);
 	//[START DEL]testing rmb to rm
