@@ -29,10 +29,10 @@ LIBFTBONUS = \
 	ft_lstclear_bonus.c ft_lstiter_bonus.c ft_lstmap_bonus.c
 
 #files that manipulates env in user input
-INPUT_MANIPULATION= input_env_utils.c input_env.c
+BUILT_INS= $(addprefix env/, $(ENV_FUNC))
 
 #files that check env in user input
-INPUT_CHECK = input_env_check.c
+ENV_FUNC = input_env_check.c input_env_utils.c input_env.c
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
@@ -41,7 +41,7 @@ LFLAGS = -lreadline -lncurses
 all: $(NAME)
 
 $(NAME):
-	$(CC) $(CFLAGS) -o $(NAME) $(SRC) $(addprefix libft/, $(LIBFT)) $(addprefix signal/, $(SIGNAL)) $(addprefix parsing/, $(PARSING)) $(addprefix env/, $(ENV)) $(INPUT_CHECK) $(INPUT_MANIPULATION) $(LFLAGS)
+	$(CC) $(CFLAGS) -o $(NAME) $(SRC) $(addprefix libft/, $(LIBFT)) $(addprefix signal/, $(SIGNAL)) $(addprefix parsing/, $(PARSING)) $(addprefix env/, $(ENV)) $(addprefix built_ins/, $(BUILT_INS)) $(LFLAGS)
 
 clean:
 	rm -f $(NAME)

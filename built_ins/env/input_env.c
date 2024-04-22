@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../../minishell.h"
 
 char	*convert_env(char *line, char **envp)
 {
