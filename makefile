@@ -1,15 +1,23 @@
 NAME = minishell
 
-SRC = \
-	main.c helpers.c
+MINISHELL_DIR = srcs/minishell/
 
-PARSING = \
+BUILT_INS_DIR = $(MINISHELL_DIR)/built_ins/
+ENV_DIR = $(MINISHELL_DIR)env/
+PARSING_DIR = $(MINISHELL_DIR)parsing/
+SIGNAL_DIR = $(MINISHELL_DIR)signal/
+
+SRC_FILES = \
+	main.c
+
+PARSING_FILES = \
 	parsing_main.c parsing_rm_quote.c parsing_token_utils.c \
-	parsing_token.c
+	parsing_token.c parsing_helpers.c
 
-SIGNAL = \
+SIGNAL_FILES = \
 	signal.c
-ENV = \
+
+ENV_FILES = \
 	env.c
 
 #Libft files
@@ -29,7 +37,11 @@ LIBFTBONUS = \
 	ft_lstclear_bonus.c ft_lstiter_bonus.c ft_lstmap_bonus.c
 
 #files that manipulates env in user input
-BUILT_INS= $(addprefix env/, $(ENV_FUNC))
+SRC = $(addprefix $(MINISHELL_DIR), $(SRC_FILES))
+ENV = $(addprefix $(ENV_DIR), $(ENV_FILES))
+PARSING = $(addprefix $(PARSING_DIR), $(PARSING_FILES))
+SIGNAL = $(addprefix $(SIGNAL_DIR), $(SIGNAL_FILES))
+BUILT_INS= $(addprefix srcs/minishell/built_ins/env/, $(ENV_FUNC))
 
 #files that check env in user input
 ENV_FUNC = input_env_check.c input_env_utils.c input_env.c
@@ -41,7 +53,7 @@ LFLAGS = -lreadline -lncurses
 all: $(NAME)
 
 $(NAME):
-	$(CC) $(CFLAGS) -o $(NAME) $(SRC) $(addprefix libft/, $(LIBFT)) $(addprefix signal/, $(SIGNAL)) $(addprefix parsing/, $(PARSING)) $(addprefix env/, $(ENV)) $(addprefix built_ins/, $(BUILT_INS)) $(LFLAGS)
+	$(CC) $(CFLAGS) -o $(NAME) $(SRC) $(addprefix srcs/libft/, $(LIBFT)) $(ENV) $(PARSING) $(SIGNAL) $(BUILT_INS) $(LFLAGS)
 
 clean:
 	rm -f $(NAME)
