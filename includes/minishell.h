@@ -55,6 +55,7 @@ typedef	struct	s_mini{
 	int		in;
 	int		out;
 	
+	int		status;
 	int		exit;
 }	t_mini;
 

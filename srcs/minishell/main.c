@@ -14,6 +14,24 @@ int	input_handler(char *input)
 	return (0);
 }
 
+void	minishell(t_mini *mini)
+{
+	t_parse	*input_cpy;
+
+	input_cpy = mini->input;
+	mini->in = dup(0);
+	mini->out = dup(1);
+	mini->status = 0;
+	while (input_cpy != NULL)
+	{
+		//prioritse | change output to the input
+		//execute redir need to make sure the std in change
+		//pwd | cat << EOF | cat << EOF
+		//pwd | cat << EOF hi bye
+		while (input_cpy("|", ">>, <<, <, >"))
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_mini	*mini;
@@ -30,6 +48,7 @@ int	main(int argc, char **argv, char **envp)
 		if (input_handler(input))
 			break;
 		parsing(input, mini);
+		minishell(mini);
 		free (input);
 	}
 	free(input);
