@@ -55,27 +55,27 @@ char	**get_command(t_parse *input)
 void	minishell(t_mini *mini)
 {
 	t_parse	*input_cpy;
-	char **cmd;
+	// char **cmd;
 
 	input_cpy = mini->input;
 	mini->status = 0;
 	while (input_cpy != NULL)
 	{
-		cmd = get_command(input_cpy);
-		check_for_pipe_redir( |);
-		check_other_redir(>>);
-		execuve(cmd, mini);
-		while (input_cpy != NULL || input_cpy != '|')
-		{
-			input_cpy = input_cpy->next;
-			int i = 0;
-			while (cmd[i])
-			{
-				printf("%s\n", cmd[i]);
-				i++;
-			}	
-			free(cmd)
-		}
+		// cmd = get_command(input_cpy);
+		// check_for_pipe_redir( |);
+		// check_other_redir(>>);
+		// execuve(cmd, mini);
+		// while (input_cpy != NULL || input_cpy != '|')
+		// {
+		// 	input_cpy = input_cpy->next;
+		// 	int i = 0;
+		// 	while (cmd[i])
+		// 	{
+		// 		printf("%s\n", cmd[i]);
+		// 		i++;
+		// 	}	
+		// 	free(cmd);
+		// }
 	}
 	// 	check_redir(in);
 	// 	// will replace arg with cmd when theres no cmd infront of redir
@@ -113,9 +113,9 @@ int	main(int argc, char **argv, char **envp)
 		input = readline("minishell: ");
 		if (input_handler(input))
 			break;
-		syntax_check();
+		// syntax_check();
 		parsing(input, mini);
-		minishell(mini);
+		// minishell(mini);
 		free (input);
 	}
 	free(input);
