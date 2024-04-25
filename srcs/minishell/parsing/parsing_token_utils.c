@@ -1,19 +1,23 @@
 #include "../../../includes/minishell.h"
 
-int	operator_type(char *arg, int *CMD_FLAG)
+int	operator_type(t_parse *node, int *CMD_FLAG)
 {
 	int	type;
 
 	type = ARG;
-	if (ft_strcmp("|", arg) == 1)
+	if (node->prev != NULL && ft_strcmp("<<", node->prev->arg) == 1)
+		type = DELIMITER;
+	if (node->prev != NULL && OUTPUT <= node->prev->type && node->prev->type <= INPUT)
+		type = FILENAME;
+	if (ft_strcmp("|", node->arg) == 1)
 		type = PIPE;
-	else if (ft_strcmp(">", arg) == 1)
+	else if (ft_strcmp(">", node->arg) == 1)
 		type = OUTPUT;
-	else if (ft_strcmp(">>", arg) == 1)
+	else if (ft_strcmp(">>", node->arg) == 1)
 		type = APPEND;
-	else if (ft_strcmp("<", arg) == 1)
+	else if (ft_strcmp("<", node->arg) == 1)
 		type = INPUT;
-	else if (ft_strcmp("<<", arg) == 1)
+	else if (ft_strcmp("<<", node->arg) == 1)
 		type = HDOC;
 	else if (*CMD_FLAG == 1)
 		type = CMD;
@@ -74,13 +78,14 @@ int	mini_letters(char *new, int i, int flag)
 		return (i);
 }
 
-t_parse	*ft_newnode(char *content)
+t_parse	*ft_newnode(char *content, t_parse *prev)
 {
 	t_parse	*new;
 	new = malloc(sizeof(t_parse));
 	if (!new)
 		return (0);
 	new->arg = ft_strdup(content);
+	new->prev = prev;
 	new->next = NULL;
 	return (new);
 }

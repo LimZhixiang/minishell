@@ -3,13 +3,16 @@
 
 #define CMD 1
 #define ARG 2
-#define PIPE 3
+#define DELIMITER 3
+#define FILENAME 4
+#define PIPE 5
 //>,>>
-#define OUTPUT 4
-#define APPEND 5
+#define OUTPUT 6
+#define APPEND 7
 //<, <<
-#define INPUT 6
-#define HDOC 7
+#define INPUT 8
+#define HDOC 9
+
 
 # include <sys/types.h>
 # include <sys/wait.h>
@@ -47,6 +50,7 @@ typedef struct	s_parse{
 	char	*arg;
 	int		type;
 	struct s_parse	*next;
+	struct s_parse	*prev;
 }	t_parse;
 
 typedef	struct	s_mini{
@@ -79,10 +83,10 @@ char	**ft_mini_split(char *new);
 void	tokenization(char *new, t_mini *mini);
 
 //parsing_token_helpers.c
-int		operator_type(char *arg, int *CMD_FLAG);
+int		operator_type(t_parse *node, int *CMD_FLAG);
 int		wrd_count(char *new);
 int		mini_letters(char *new, int i, int flag);
-t_parse	*ft_newnode(char *content);
+t_parse	*ft_newnode(char *content, t_parse *prev);
 
 //./helpers.c
 int		is_sep(char c);

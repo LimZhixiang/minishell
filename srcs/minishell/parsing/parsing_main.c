@@ -105,14 +105,18 @@ void	print_input(t_mini *mini)
 		if (temp->type == 2)
 			s = ft_strdup("ARG");
 		if (temp->type == 3)
-			s = ft_strdup("PIPE");
+			s = ft_strdup("DELIMITER");
 		if (temp->type == 4)
-			s = ft_strdup("OUTPUT");
+			s = ft_strdup("FILENAME");
 		if (temp->type == 5)
-			s = ft_strdup("APPEND");
+			s = ft_strdup("PIPE");
 		if (temp->type == 6)
-			s = ft_strdup(" INPUT");
+			s = ft_strdup("OUTPUT");
 		if (temp->type == 7)
+			s = ft_strdup("APPEND");
+		if (temp->type == 8)
+			s = ft_strdup("INPUT");
+		if (temp->type == 9)
 			s = ft_strdup("HDOC");
 		printf("Type: %s, %i\n", s, temp->type);
 		free(s);

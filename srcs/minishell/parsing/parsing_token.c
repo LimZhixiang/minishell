@@ -69,16 +69,16 @@ void	tokenization(char *new, t_mini *mini)
 	
 	if (split == NULL)
 		return ;
-	temp = ft_newnode(split[i++]);
-	temp->type = operator_type(temp->arg, &cmd_flag);
+	temp = ft_newnode(split[i++], NULL);
+	temp->type = operator_type(temp, &cmd_flag);
 	//testing rmb to remove
 	printf("[Node%i]: \033[0;32m%i, %s\n\033[0m", i - 1, temp->type, temp->arg);
 	mini->input = temp;
 	while (split[i])
 	{
 		split[i] = ft_var_exp(split[i], mini);
-		temp->next = ft_newnode(split[i++]);
-		temp->next->type = operator_type(temp->next->arg, &cmd_flag);
+		temp->next = ft_newnode(split[i++], temp);
+		temp->next->type = operator_type(temp->next, &cmd_flag);
 		//testing rmb to remove
 		printf("[Node%i]: \033[0;32m%i, %s \n\033[0m", i - 1, temp->next->type, temp->next->arg);
 		temp = temp->next;
