@@ -55,13 +55,14 @@ char	**get_command(t_parse *input)
 void	minishell(t_mini *mini)
 {
 	t_parse	*input_cpy;
-	// char **cmd;
+	char **cmd;
 
 	input_cpy = mini->input;
 	mini->status = 0;
 	while (input_cpy != NULL)
 	{
-		// cmd = get_command(input_cpy);
+		cmd = get_command(input_cpy);
+		(void) cmd;
 		// check_for_pipe_redir( |);
 		// check_other_redir(>>);
 		// execuve(cmd, mini);

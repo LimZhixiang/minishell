@@ -58,7 +58,6 @@ typedef	struct	s_mini{
 	t_parse	*input;
 	int		in;
 	int		out;
-	
 	int		status;
 	int		exit;
 }	t_mini;
@@ -100,6 +99,8 @@ char	*ft_get_env(char *name, t_mini *mini);
 char	*replace_env(char *line, char *envp, char *envp_name, int index);
 int		ft_valid_env(char c);
 
+//./redir/fd_hanlder.c
+void	fd_handler(t_mini *mini, t_parse *head);
 
 //./signal/signal.c
 void	signal_controller(void);

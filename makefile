@@ -6,6 +6,7 @@ BUILT_INS_DIR = $(MINISHELL_DIR)/built_ins/
 ENV_DIR = $(MINISHELL_DIR)env/
 PARSING_DIR = $(MINISHELL_DIR)parsing/
 SIGNAL_DIR = $(MINISHELL_DIR)signal/
+REDIR_DIR = $(MINISHELL_DIR)redir/
 
 SRC_FILES = \
 	main.c
@@ -19,6 +20,9 @@ SIGNAL_FILES = \
 
 ENV_FILES = \
 	env.c
+
+REDIR_FILES = \
+	fd_handler.c
 
 #Libft files
 LIBFT = \
@@ -41,6 +45,7 @@ SRC = $(addprefix $(MINISHELL_DIR), $(SRC_FILES))
 ENV = $(addprefix $(ENV_DIR), $(ENV_FILES))
 PARSING = $(addprefix $(PARSING_DIR), $(PARSING_FILES))
 SIGNAL = $(addprefix $(SIGNAL_DIR), $(SIGNAL_FILES))
+REDIR = $(addprefix $(REDIR_DIR), $(REDIR_FILES))
 BUILT_INS= $(addprefix srcs/minishell/built_ins/env/, $(ENV_FUNC))
 
 #files that check env in user input
@@ -53,7 +58,7 @@ LFLAGS = -lreadline -lncurses
 all: $(NAME)
 
 $(NAME):
-	$(CC) $(CFLAGS) -o $(NAME) $(SRC) $(addprefix srcs/libft/, $(LIBFT)) $(ENV) $(PARSING) $(SIGNAL) $(BUILT_INS) $(LFLAGS)
+	$(CC) $(CFLAGS) -o $(NAME) $(SRC) $(addprefix srcs/libft/, $(LIBFT)) $(ENV) $(PARSING) $(SIGNAL) $(REDIR) $(BUILT_INS) $(LFLAGS)
 
 clean:
 	rm -f $(NAME)
