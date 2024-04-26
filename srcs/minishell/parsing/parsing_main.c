@@ -41,9 +41,9 @@ int	ft_space_line(char *new, char *line)
 	while (new && line[i])
 	{
 		sep = is_sep(line[i]);
-		if (sep != 0 && ft_quote(line, i) == 0 && i > 0)
+		if (sep != 0 && ft_quote(line, i) == 0)
 		{
-			if (line[i - 1] != ' ' && is_sep(line[i - 1]) != sep)
+			if (i != 0 && line[i - 1] != ' ' && is_sep(line[i - 1]) != sep)
 				new[j++] = ' ';
 			new[j++] = line[i++];
 			if (sep != 1 && is_sep(line[i]) == sep)
@@ -70,13 +70,13 @@ char	*ft_alloc_space(char *line)
 	while (line[i])
 	{
 		sep = is_sep(line[i]);
-		if (sep != 0 && ft_quote(line, i) == 0 && i > 0)
+		if (sep != 0 && ft_quote(line, i) == 0)
 		{
-			if (!ft_strchr(" ", line[i - 1]) && is_sep(line[i - 1]) != sep)
+			if (i != 0 && !ft_strchr(" ", line[i - 1]) && is_sep(line[i - 1]) != sep)
 				space++;
 			if (sep != 1 && is_sep(line[i + 1]) == sep)
 				i++;
-			if (!ft_strchr(" \0", line[i + 1]))
+			if (!ft_strchr("\0", line[i + 1]))
 				space++;
 		}
 		i++;

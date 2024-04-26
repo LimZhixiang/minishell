@@ -64,6 +64,8 @@ void	minishell(t_mini *mini)
 		cmd = get_command(input_cpy);
 		(void) cmd;
 		// check_for_pipe_redir( |);
+
+		// check_for_pipe_redir(|);
 		// check_other_redir(>>);
 		// execuve(cmd, mini);
 		// while (input_cpy != NULL || input_cpy != '|')
@@ -114,9 +116,9 @@ int	main(int argc, char **argv, char **envp)
 		input = readline("minishell: ");
 		if (input_handler(input))
 			break;
-		// syntax_check();
 		parsing(input, mini);
-		// minishell(mini);
+		if (mini->status == 1)
+			minishell(mini);
 		free (input);
 	}
 	free(input);
