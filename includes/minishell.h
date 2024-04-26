@@ -58,6 +58,8 @@ typedef	struct	s_mini{
 	t_parse	*input;
 	int		in;
 	int		out;
+	int		term_in;
+	int		term_out;
 	int		status;
 	int		exit;
 }	t_mini;

@@ -58,7 +58,6 @@ void	minishell(t_mini *mini)
 	char **cmd;
 
 	input_cpy = mini->input;
-	mini->status = 0;
 	while (input_cpy != NULL)
 	{
 		cmd = get_command(input_cpy);
@@ -99,6 +98,20 @@ void	minishell(t_mini *mini)
 	// }
 }
 
+t_mini	*innit_mini(char **envp)
+{
+	t_mini	*mini;
+
+	mini = malloc(sizeof(t_mini));
+	mini_env(mini, envp);
+	mini->in = -1;
+	mini->out = -1;
+	mini->term_in = dup(0);
+	mini->term_out = dup(1);
+	mini->status = 0;
+	return(mini);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_mini	*mini;
@@ -106,10 +119,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 
-	mini = malloc(sizeof(t_mini));
+	mini = innit_mini(envp);
 	mini_env(mini, envp);
-	mini->in = dup(0);
-	mini->out = dup(1);
 	while (1)
 	{
 		signal_controller();
@@ -117,8 +128,8 @@ int	main(int argc, char **argv, char **envp)
 		if (input_handler(input))
 			break;
 		parsing(input, mini);
-		if (mini->status == 1)
-			minishell(mini);
+		fd_handler(mini, mini->input);
+		// minishell(mini);
 		free (input);
 	}
 	free(input);
