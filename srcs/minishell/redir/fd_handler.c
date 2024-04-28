@@ -3,7 +3,6 @@
 
 void	filehandler(char *filename, int *fd, int flag)
 {
-
 	if (*fd != -1)
 	{
 		printf("closed %d fd\n", *fd);
@@ -52,8 +51,10 @@ void	heredoc(t_mini *mini, char *eof)
 		if (line == 0 || ft_strcmp(line, eof))
 		{
 			if (line == 0)
+			{
 				print_cmd_error("here-document got EOF signal instead of", eof);
-			unlink(".heredoctemp.tmp");
+				unlink(".heredoctemp.tmp");
+			}
 			break ;
 		}
 		else

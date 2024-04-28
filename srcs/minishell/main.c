@@ -58,10 +58,10 @@ void	minishell(t_mini *mini)
 	char **cmd;
 
 	input_cpy = mini->input;
-	while (input_cpy != NULL)
+	while (input_cpy)
 	{
+		fd_handler(mini, input_cpy);
 		cmd = get_command(input_cpy);
-		(void) cmd;
 		// check_for_pipe_redir( |);
 
 		// check_for_pipe_redir(|);
@@ -78,7 +78,18 @@ void	minishell(t_mini *mini)
 		// 	}	
 		// 	free(cmd);
 		// }
+		while (input_cpy)
+		{
+			input_cpy = input_cpy->next;
+			if (input_cpy)
+				if (input_cpy->type == PIPE)
+				{
+					input_cpy = input_cpy->next;
+					break;
+				}
+		}	
 	}
+	(void) cmd;
 	// 	check_redir(in);
 	// 	// will replace arg with cmd when theres no cmd infront of redir
 	// 	check_cmd();
@@ -128,11 +139,8 @@ int	main(int argc, char **argv, char **envp)
 		if (input_handler(input))
 			break;
 		parsing(input, mini);
-		//fork then call fd_handler maybe ???
-		//fd handler gets all fds needed until the pipe node
 		free (input);
-		fd_handler(mini, mini->input);
-		// minishell(mini);
+		minishell(mini);
 	}
 	free(input);
 	return (0);
