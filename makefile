@@ -19,7 +19,7 @@ SIGNAL_FILES = \
 	signal.c
 
 ENV_FILES = \
-	env.c
+	env.c get_env_arr.c
 
 REDIR_FILES = \
 	fd_handler.c

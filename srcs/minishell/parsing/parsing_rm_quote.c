@@ -69,20 +69,11 @@ void	ft_rm_quotes(t_mini *mini)
 {
 	t_parse	*temp;
 	char	*result;
-	//testing var rmb to rm
-	int		i;
-	i = 0;
-	printf("\033[0;31m3.[FT_RM_QUOTES]: REMOVAL OF QUOTES AFT TOKENIZATION\n");
-	printf("\033[0m");
 
 	temp = mini->input;
 	while (temp)
 	{
 		result = rm_node_quote(temp->arg);
-		//testing rmb to RM
-		printf("[Node%i]\nBefore: %s\n", i++ ,temp->arg);
-		printf("\033[0;32mResult: %s\n\033[0m", result);
-
 		if (!result)
 			free (mini);
 		free(temp->arg);
@@ -90,6 +81,4 @@ void	ft_rm_quotes(t_mini *mini)
 		free(result);
 		temp = temp->next;
 	}
-	//testing rmb to RM
-	printf("\n");
 }

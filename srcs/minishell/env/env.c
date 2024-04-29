@@ -1,6 +1,6 @@
 #include "../../../includes/minishell.h"
 
-int	mini_env(t_mini *mini, char **env)
+int	init_mini_env(t_mini *mini, char **env)
 {
 	t_env	*mini_env;
 	t_env	*new;

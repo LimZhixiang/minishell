@@ -41,7 +41,6 @@ char	**get_command(t_parse *input)
 	ret = malloc(sizeof(char *) * (cmd_word_count(input) + 1));
 	if (!ret)
 		return (NULL);
-	
 	while (temp != NULL && temp->type != PIPE)
 	{
 		if (temp->type <= ARG)
@@ -62,22 +61,6 @@ void	minishell(t_mini *mini)
 	{
 		fd_handler(mini, input_cpy);
 		cmd = get_command(input_cpy);
-		// check_for_pipe_redir( |);
-
-		// check_for_pipe_redir(|);
-		// check_other_redir(>>);
-		// execuve(cmd, mini);
-		// while (input_cpy != NULL || input_cpy != '|')
-		// {
-		// 	input_cpy = input_cpy->next;
-		// 	int i = 0;
-		// 	while (cmd[i])
-		// 	{
-		// 		printf("%s\n", cmd[i]);
-		// 		i++;
-		// 	}	
-		// 	free(cmd);
-		// }
 		while (input_cpy)
 		{
 			input_cpy = input_cpy->next;
@@ -87,9 +70,47 @@ void	minishell(t_mini *mini)
 					input_cpy = input_cpy->next;
 					break;
 				}
-		}	
+		}
 	}
 	(void) cmd;
+}
+
+t_mini	*innit_mini(char **envp)
+{
+	t_mini	*mini;
+
+	mini = malloc(sizeof(t_mini));
+	init_mini_env(mini, envp);
+	mini->in = -1;
+	mini->out = -1;
+	mini->term_in = dup(0);
+	mini->term_out = dup(1);
+	mini->status = 0;
+	return(mini);
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_mini	*mini;
+	char	*input;
+	(void)argc;
+	(void)argv;
+
+	mini = innit_mini(envp);
+	while (1)
+	{
+		signal_controller();
+		input = readline("minishell: ");
+		if (input_handler(input))
+			break;
+		parsing(input, mini);
+		free (input);
+		minishell(mini);
+	}
+	free(input);
+	return (0);
+}
+
 	// 	check_redir(in);
 	// 	// will replace arg with cmd when theres no cmd infront of redir
 	// 	check_cmd();
@@ -107,41 +128,20 @@ void	minishell(t_mini *mini)
 	// 	<< eof hi
 	// 	echo hi >> | echo he |  ehcih ji
 	// }
-}
 
-t_mini	*innit_mini(char **envp)
-{
-	t_mini	*mini;
+			// check_for_pipe_redir( |);
 
-	mini = malloc(sizeof(t_mini));
-	mini_env(mini, envp);
-	mini->in = -1;
-	mini->out = -1;
-	mini->term_in = dup(0);
-	mini->term_out = dup(1);
-	mini->status = 0;
-	return(mini);
-}
-
-int	main(int argc, char **argv, char **envp)
-{
-	t_mini	*mini;
-	char	*input;
-	(void)argc;
-	(void)argv;
-
-	mini = innit_mini(envp);
-	mini_env(mini, envp);
-	while (1)
-	{
-		signal_controller();
-		input = readline("minishell: ");
-		if (input_handler(input))
-			break;
-		parsing(input, mini);
-		free (input);
-		minishell(mini);
-	}
-	free(input);
-	return (0);
-}
+		// check_for_pipe_redir(|);
+		// check_other_redir(>>);
+		// execuve(cmd, mini);
+		// while (input_cpy != NULL || input_cpy != '|')
+		// {
+		// 	input_cpy = input_cpy->next;
+		// 	int i = 0;
+		// 	while (cmd[i])
+		// 	{
+		// 		printf("%s\n", cmd[i]);
+		// 		i++;
+		// 	}	
+		// 	free(cmd);
+		// }

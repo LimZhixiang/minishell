@@ -96,11 +96,15 @@ int		ft_quote_c(char c);
 int		ft_quote(char *line, int i);
 
 //./env/get_env.c
-int		mini_env(t_mini *mini, char **env);
+int		init_mini_env(t_mini *mini, char **env);
 int		env_compare(char *env, char *name);
 char	*ft_get_env(char *name, t_mini *mini);
 char	*replace_env(char *line, char *envp, char *envp_name, int index);
 int		ft_valid_env(char c);
+
+int		env_node_count(t_env *env);
+char	**get_env_arr(t_mini *mini);
+
 
 //./redir/fd_hanlder.c
 void	fd_handler(t_mini *mini, t_parse *head);

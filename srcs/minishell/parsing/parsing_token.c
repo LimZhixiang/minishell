@@ -111,25 +111,17 @@ void	tokenization(char *new, t_mini *mini)
 	i = 0;
 	cmd_flag = 1;
 	split = ft_mini_split(new);
-	//printf for testing
-	printf("\033[0;31m\n2.[TOKENIZATION]: CREATE STRUCT AND TOKENIZE:\n1 = CMD\n2 = ARG\n3 = (|)PIPE\n4 = (>)OUTPUT\n5 = (>>)APPEND\n6 = (<)INPUT\n7 = (<<)HDOC\n\033[0m");
 	if (split == NULL)
 		return ;
 	temp = ft_newnode(split[i++], NULL);
 	temp->type = operator_type(temp, &cmd_flag);
-	//testing rmb to remove
-	printf("[Node%i]: \033[0;32m%i, %s\n\033[0m", i - 1, temp->type, temp->arg);
 	mini->input = temp;
 	while (split[i])
 	{
 		split[i] = ft_var_exp(split[i], mini);
 		temp->next = ft_newnode(split[i++], temp);
 		temp->next->type = operator_type(temp->next, &cmd_flag);
-		//testing rmb to remove
-		printf("[Node%i]: \033[0;32m%i, %s \n\033[0m", i - 1, temp->next->type, temp->next->arg);
 		temp = temp->next;
 	}
 	check_syntax(mini);
-	//testing rmb to remove
-	printf("\n");
 }

@@ -158,14 +158,7 @@ int	parsing(char *line, t_mini *mini)
 	char	*new;
 
 	new = ft_alloc_space(line);
-
-	//[START DEL]testing rmb to rm
-	printf("\033[0;31m\n1.[FT_SPACE_LINE]: ADDING SPACES IF NO SPACES\nExample\nBefore:\"echo hi|echo bye\"\nAfter:\"echo hi | echo bye\"\n\033[0m");
-	//[END]testing rmb to rm
 	ft_space_line(new, line);
-	//[START DEL]testing rmb to rm
-	printf("Before: %s\n\033[0;32mResult: %s\n\033[0m", line, new);
-	//[END DEL]testing rmb to rm
 	tokenization(new, mini);
 	ft_rm_quotes(mini);
 	//[START DEL]testing rmb to rm
