@@ -51,14 +51,11 @@ void	heredoc(t_mini *mini, char *eof)
 		if (line == 0 || ft_strcmp(line, eof))
 		{
 			if (line == 0)
-			{
-				print_cmd_error("here-document got EOF signal instead of", eof);
-				unlink(".heredoctemp.tmp");
-			}
+				print_cmd_error("here-document got end-of-file instead of", eof);
 			break ;
 		}
 		else
-			ft_putstr_fd(line, tmpfd);
+			ft_putendl_fd(line, tmpfd);
 		free(line);
 	}
 	free(line);

@@ -71,6 +71,7 @@ void	minishell(t_mini *mini)
 					break;
 				}
 		}
+		free(cmd);
 	}
 	(void) cmd;
 }
@@ -104,6 +105,8 @@ int	main(int argc, char **argv, char **envp)
 		if (input_handler(input))
 			break;
 		parsing(input, mini);
+		//fork then call fd_handler maybe ???
+		//fd handler gets all fds needed until the pipe node
 		free (input);
 		minishell(mini);
 	}
