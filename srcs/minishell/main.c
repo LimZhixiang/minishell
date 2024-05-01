@@ -14,66 +14,33 @@ int	input_handler(char *input)
 	return (0);
 }
 
-int		cmd_word_count(t_parse *input)
+void	subshell(t_mini *mini)
 {
-	t_parse	*temp;
-	int		word;
-
-	word = 0;
-	temp = input;
-	while (temp != NULL && temp->type != PIPE)
-	{
-		if (temp->type <= ARG)
-			word++;
-		temp = temp->next;
-	}
-	return (word);
-}
-
-char	**get_command(t_parse *input)
-{
-	char	**ret;
-	t_parse *temp;
-	int		i;
-
-	temp = input;
-	i = 0;
-	ret = malloc(sizeof(char *) * (cmd_word_count(input) + 1));
-	if (!ret)
-		return (NULL);
-	while (temp != NULL && temp->type != PIPE)
-	{
-		if (temp->type <= ARG)
-			ret[i++] = ft_strdup(temp->arg);
-		temp = temp->next;
-	}
-	ret[cmd_word_count(input)] = NULL;
-	return(ret);
+	(void) mini;
 }
 
 void	minishell(t_mini *mini)
 {
 	t_parse	*input_cpy;
-	char **cmd;
+	char	**env;
 
 	input_cpy = mini->input;
+	env = get_env_arr(mini);
+	if (mini->pipe == 1)
+		subshell(mini);
+	else
+		chop_blk(mini, input_cpy, env);
 	while (input_cpy)
 	{
-		fd_handler(mini, input_cpy);
-		cmd = get_command(input_cpy);
-		while (input_cpy)
-		{
-			input_cpy = input_cpy->next;
-			if (input_cpy)
-				if (input_cpy->type == PIPE)
-				{
-					input_cpy = input_cpy->next;
-					break;
-				}
-		}
-		free(cmd);
+		input_cpy = input_cpy->next;
+		if (input_cpy)
+			if (input_cpy->type == PIPE)
+			{
+				input_cpy = input_cpy->next;
+				break;
+			}
 	}
-	(void) cmd;
+	free_str_arr(env);
 }
 
 t_mini	*innit_mini(char **envp)
@@ -87,6 +54,7 @@ t_mini	*innit_mini(char **envp)
 	mini->term_in = dup(0);
 	mini->term_out = dup(1);
 	mini->status = 0;
+	mini->pipe = 0;
 	return(mini);
 }
 
@@ -107,7 +75,8 @@ int	main(int argc, char **argv, char **envp)
 		parsing(input, mini);
 		//fork then call fd_handler maybe ???
 		//fd handler gets all fds needed until the pipe node
-		free (input);
+		free(input);
+		pipe_present(mini, mini->input);
 		minishell(mini);
 	}
 	free(input);

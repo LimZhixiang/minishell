@@ -13,7 +13,6 @@
 #define INPUT 8
 #define HDOC 9
 
-
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <stdio.h>
@@ -61,6 +60,7 @@ typedef	struct	s_mini{
 	int		term_in;
 	int		term_out;
 	int		status;
+	int		pipe;
 	int		exit;
 }	t_mini;
 
@@ -105,13 +105,26 @@ int		ft_valid_env(char c);
 int		env_node_count(t_env *env);
 char	**get_env_arr(t_mini *mini);
 
-
 //./redir/fd_hanlder.c
 void	fd_handler(t_mini *mini, t_parse *head);
+
+//./execution/cmdpaths.c
+char	*extract_path(char **env);
+char	*check_cmd(char *envpath, char *cmd);
+char	*getcmdpath(char *cmdarg, char *envpath);
+
+//./execution/execute.c
+int		cmd_word_count(t_parse *input);
+char	**get_command(t_parse *input);
+void	execute(t_mini *mini, char **envp);
+void	chop_blk(t_mini *mini, t_parse *node, char **env);
 
 //./signal/signal.c
 void	signal_controller(void);
 
+//./utils
+void	pipe_present(t_mini *mini, t_parse *head);
+void	print_file(int fd);
 
 
 

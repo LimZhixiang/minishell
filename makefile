@@ -7,6 +7,8 @@ ENV_DIR = $(MINISHELL_DIR)env/
 PARSING_DIR = $(MINISHELL_DIR)parsing/
 SIGNAL_DIR = $(MINISHELL_DIR)signal/
 REDIR_DIR = $(MINISHELL_DIR)redir/
+EXECUTE_DIR = $(MINISHELL_DIR)execution/
+UTILS_DIR = $(MINISHELL_DIR)utils/
 
 SRC_FILES = \
 	main.c
@@ -24,6 +26,12 @@ ENV_FILES = \
 REDIR_FILES = \
 	fd_handler.c
 
+EXECUTE_FILES = \
+	execute.c cmdpath.c
+
+UTILS_FILES = \
+	pipe_present.c print_file.c
+
 #Libft files
 LIBFT = \
 	ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c \
@@ -33,7 +41,8 @@ LIBFT = \
 	ft_calloc.c ft_strdup.c ft_substr.c ft_strjoin.c ft_strtrim.c ft_split.c \
 	ft_itoa.c ft_strmapi.c ft_striteri.c ft_putchar_fd.c ft_putstr_fd.c \
 	ft_putendl_fd.c ft_putnbr_fd.c ft_atol.c ft_strcmp.c ft_atoi_base.c \
-	free_str_arr.c ft_isspace.c str_isdigit.c str_find_replace.c find_word.c
+	free_str_arr.c ft_isspace.c str_isdigit.c str_find_replace.c find_word.c \
+	get_next_line.c
 
 LIBFTBONUS = \
 	ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c \
@@ -47,6 +56,8 @@ PARSING = $(addprefix $(PARSING_DIR), $(PARSING_FILES))
 SIGNAL = $(addprefix $(SIGNAL_DIR), $(SIGNAL_FILES))
 REDIR = $(addprefix $(REDIR_DIR), $(REDIR_FILES))
 BUILT_INS= $(addprefix srcs/minishell/built_ins/env/, $(ENV_FUNC))
+EXECUTE= $(addprefix $(EXECUTE_DIR), $(EXECUTE_FILES))
+UTILS= $(addprefix $(UTILS_DIR), $(UTILS_FILES))
 
 #files that check env in user input
 ENV_FUNC = input_env_check.c input_env_utils.c input_env.c
@@ -58,7 +69,7 @@ LFLAGS = -lreadline -lncurses
 all: $(NAME)
 
 $(NAME):
-	$(CC) $(CFLAGS) -o $(NAME) $(SRC) $(addprefix srcs/libft/, $(LIBFT)) $(ENV) $(PARSING) $(SIGNAL) $(REDIR) $(BUILT_INS) $(LFLAGS)
+	$(CC) $(CFLAGS) -o $(NAME) $(SRC) $(addprefix srcs/libft/, $(LIBFT)) $(ENV) $(PARSING) $(SIGNAL) $(REDIR) $(BUILT_INS) $(EXECUTE) $(UTILS) $(LFLAGS)
 
 clean:
 	rm -f $(NAME)

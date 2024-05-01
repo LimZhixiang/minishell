@@ -82,11 +82,7 @@ void	redir(t_mini *mini, t_parse *node)
 void	fd_handler(t_mini *mini, t_parse *head)
 {
 	t_parse	*node;
-	int		type;
 
-	(void)mini;
-	type = 0;
-	(void)type;
 	node = head;
 	while (node != NULL && node->type != PIPE)
 	{
