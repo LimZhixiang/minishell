@@ -14,9 +14,31 @@ int	input_handler(char *input)
 	return (0);
 }
 
-void	subshell(t_mini *mini)
+void	subshell(t_mini *mini, t_parse *node, char **env)
 {
-	(void) mini;
+	while (node)
+	{
+		fd_handler(mini, node);
+		pipe_handler(mini, node, env);
+		node = node->next;
+		while (node)
+		{
+			if (node->type == PIPE)
+			{
+				node = node->next;
+				break;
+			}
+			node = node->next;
+		}
+		mini->pipe = pipe_present(node);
+		mini->in = -1;
+		mini->out = -1;
+		dup2(mini->term_out, 1);
+	}
+	mini->in = -1;
+	mini->out = -1;
+	dup2(mini->term_in, 0);
+	dup2(mini->term_out, 1);
 }
 
 void	minishell(t_mini *mini)
@@ -27,19 +49,11 @@ void	minishell(t_mini *mini)
 	input_cpy = mini->input;
 	env = get_env_arr(mini);
 	if (mini->pipe == 1)
-		subshell(mini);
+		subshell(mini, input_cpy, env);
 	else
 		exec_handler(mini, input_cpy, env);
-	while (input_cpy)
-	{
-		input_cpy = input_cpy->next;
-		if (input_cpy)
-			if (input_cpy->type == PIPE)
-			{
-				input_cpy = input_cpy->next;
-				break;
-			}
-	}
+	if (access(".heredoctemp.tmp", F_OK) == 0)
+		unlink(".heredoctemp.tmp");
 	free_str_arr(env);
 }
 
@@ -73,10 +87,8 @@ int	main(int argc, char **argv, char **envp)
 		if (input_handler(input))
 			break;
 		parsing(input, mini);
-		//fork then call fd_handler maybe ???
-		//fd handler gets all fds needed until the pipe node
 		free(input);
-		pipe_present(mini, mini->input);
+		mini->pipe = pipe_present(mini->input);
 		minishell(mini);
 	}
 	free(input);

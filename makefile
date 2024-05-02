@@ -24,7 +24,7 @@ ENV_FILES = \
 	env.c get_env_arr.c
 
 REDIR_FILES = \
-	fd_handler.c heredoc.c
+	fd_handler.c heredoc.c pipex.c
 
 EXECUTE_FILES = \
 	execute.c cmdpath.c

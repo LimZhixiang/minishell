@@ -4,7 +4,7 @@ void	filehandler(char *filename, int *fd, int flag)
 {
 	if (*fd != -1)
 	{
-		printf("closed %d fd\n", *fd);
+		// printf("closed %d fd\n", *fd);
 		close(*fd);
 	}
 	if (flag == INPUT)
@@ -20,7 +20,7 @@ void	filehandler(char *filename, int *fd, int flag)
 		ft_putstr_fd(filename, 2);
 		ft_putstr_fd("\n", 2);
 	}
-	printf("%d fd assigned\n", *fd);
+	// printf("%d fd assigned\n", *fd);
 }
 
 void	redir(t_mini *mini, t_parse *node)
@@ -29,7 +29,10 @@ void	redir(t_mini *mini, t_parse *node)
 
 	nxtArg = node->next->arg;
 	if (node->type == HDOC)
+	{
 		heredoc(mini, node->next->arg);
+		filehandler(".heredoctemp.tmp", &mini->in, INPUT);
+	}
 	if (node->next->type != FILENAME)
 		return;
 	if (node->type == INPUT)
