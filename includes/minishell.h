@@ -107,6 +107,10 @@ char	**get_env_arr(t_mini *mini);
 
 //./redir/fd_hanlder.c
 void	fd_handler(t_mini *mini, t_parse *head);
+void	filehandler(char *filename, int *fd, int flag);
+
+//./redir/heredoc.c
+void	heredoc(t_mini *mini, char *eof);
 
 //./execution/cmdpaths.c
 char	*extract_path(char **env);
@@ -117,7 +121,7 @@ char	*getcmdpath(char *cmdarg, char *envpath);
 int		cmd_word_count(t_parse *input);
 char	**get_command(t_parse *input);
 void	execute(t_mini *mini, char **envp);
-void	chop_blk(t_mini *mini, t_parse *node, char **env);
+void	exec_handler(t_mini *mini, t_parse *node, char **env);
 
 //./signal/signal.c
 void	signal_controller(void);
@@ -125,6 +129,7 @@ void	signal_controller(void);
 //./utils
 void	pipe_present(t_mini *mini, t_parse *head);
 void	print_file(int fd);
+void	print_cmd_error(char *cmd, char *str);
 
 
 

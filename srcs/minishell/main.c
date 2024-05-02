@@ -29,7 +29,7 @@ void	minishell(t_mini *mini)
 	if (mini->pipe == 1)
 		subshell(mini);
 	else
-		chop_blk(mini, input_cpy, env);
+		exec_handler(mini, input_cpy, env);
 	while (input_cpy)
 	{
 		input_cpy = input_cpy->next;

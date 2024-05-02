@@ -55,10 +55,11 @@ void	execute(t_mini *mini, char **envp)
 	}
 }
 
-void	axe_swing(t_mini *mini, char **envp)
+void	get_execution(t_mini *mini, char **envp)
 {
 	pid_t	pid;
 	int		fds[2];
+	int		status;
 
 	if (pipe(fds) == -1)
 		return ;
@@ -75,20 +76,21 @@ void	axe_swing(t_mini *mini, char **envp)
 	else
 	{
 		close(fds[1]);
-		wait(NULL);
+		wait(&status);
 		print_file(fds[0]);
 		close(fds[0]);
 	}
+	mini->status = WEXITSTATUS(status);
 }
 
-void	chop_blk(t_mini *mini, t_parse *node, char **env)
+void	exec_handler(t_mini *mini, t_parse *node, char **env)
 {
 	fd_handler(mini, node);
 	if (mini->in != -1)
 		dup2(mini->in, 0);
 	if (mini->out != -1)
 		dup2(mini->out, 1);
-	axe_swing(mini, env);
+	get_execution(mini, env);
 	dup2(mini->term_in, 0);
 	dup2(mini->term_out, 1);
 	mini->in = -1;

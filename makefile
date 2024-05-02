@@ -24,13 +24,13 @@ ENV_FILES = \
 	env.c get_env_arr.c
 
 REDIR_FILES = \
-	fd_handler.c
+	fd_handler.c heredoc.c
 
 EXECUTE_FILES = \
 	execute.c cmdpath.c
 
 UTILS_FILES = \
-	pipe_present.c print_file.c
+	pipe_present.c print_file.c print_cmd_error.c
 
 #Libft files
 LIBFT = \

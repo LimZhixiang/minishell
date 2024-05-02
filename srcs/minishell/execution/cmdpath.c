@@ -66,7 +66,7 @@ char	*getcmdpath(char *cmdarg, char *envpath)
 		write(2, "\n", 1);
 		free(envpath);
 		free_str_arr(cmd);
-		exit(1);
+		exit(127);
 	}
 	free_str_arr(cmd);
 	return (cmdpath);
