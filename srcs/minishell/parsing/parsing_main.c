@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zhilim <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/05 21:15:24 by zhilim            #+#    #+#             */
+/*   Updated: 2023/10/06 11:41:37 by zhilim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../includes/minishell.h"
 
 char	*ft_var_exp(char *new, t_mini *mini)
@@ -72,7 +84,8 @@ char	*ft_alloc_space(char *line)
 		sep = is_sep(line[i]);
 		if (sep != 0 && ft_quote(line, i) == 0)
 		{
-			if (i != 0 && !ft_strchr(" ", line[i - 1]) && is_sep(line[i - 1]) != sep)
+			if (i != 0 && !ft_strchr(" ", line[i - 1])
+				&& is_sep(line[i - 1]) != sep)
 				space++;
 			if (sep != 1 && is_sep(line[i + 1]) == sep)
 				i++;
@@ -91,8 +104,8 @@ char	*ft_alloc_space(char *line)
 void	print_input(t_mini *mini)
 {
 	t_parse	*temp;
-	int	i;
-	char *s;
+	int		i;
+	char	*s;
 
 	i = 0;
 	temp = mini->input;
@@ -129,17 +142,18 @@ void	print_input(t_mini *mini)
 	}
 	printf("\n");
 }
+
 void	print_input_tgt(t_mini *mini)
 {
 	t_parse	*temp;
-	int	i;
+	int		i;
 
 	i = 0;
 	temp = mini->input;
 	printf("\033[0;32mMINI INPUT: ");
 	while (temp)
 	{
-		if(i == 0)
+		if (i == 0)
 			printf("[");
 		printf("%s", temp->arg);
 		if (temp->next)
@@ -147,7 +161,7 @@ void	print_input_tgt(t_mini *mini)
 		else
 			printf("]\n\033[0m");
 		i++;
-		temp=temp->next;
+		temp = temp->next;
 	}
 	printf("\n");
 }

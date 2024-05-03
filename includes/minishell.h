@@ -1,17 +1,17 @@
-# ifndef MINISHELL_H
+#ifndef MINISHELL_H
 # define MINISHELL_H
 
-#define CMD 1
-#define ARG 2
-#define DELIMITER 3
-#define FILENAME 4
-#define PIPE 5
+# define CMD	1
+# define ARG 2
+# define DELIMITER 3
+# define FILENAME 4
+# define PIPE 5
 //>,>>
-#define OUTPUT 6
-#define APPEND 7
+# define OUTPUT 6
+# define APPEND 7
 //<, <<
-#define INPUT 8
-#define HDOC 9
+# define INPUT 8
+# define HDOC 9
 
 # include <sys/types.h>
 # include <sys/wait.h>
@@ -28,31 +28,30 @@
 # include <errno.h>
 # include "../srcs/libft/libft.h"
 
-
 //Input checkers
-int	env_found(char *line);
+int		env_found(char *line);
 char	*invalid_env(char *line);
 
 //Input env manipulation
 char	*convert_env(char *line, char **envp);
 char	*replace_env(char *line, char *envp, char *envp_name, int index);
-int	find_env(char *line, char *wrd);
+int		find_env(char *line, char *wrd);
 char	*get_envp_name(char *str);
 char	*get_envp_value(char *str);
 
-typedef	struct	s_env{
+typedef struct s_env{
 	char			*value;
-	struct	s_env	*next;
+	struct s_env	*next;
 }	t_env;
 
-typedef struct	s_parse{
-	char	*arg;
-	int		type;
+typedef struct s_parse{
+	char			*arg;
+	int				type;
 	struct s_parse	*next;
 	struct s_parse	*prev;
 }	t_parse;
 
-typedef	struct	s_mini{
+typedef struct s_mini{
 	t_env	*env;
 	t_parse	*input;
 	int		in;
@@ -109,7 +108,7 @@ char	**get_env_arr(t_mini *mini);
 void	fd_handler(t_mini *mini, t_parse *head);
 void	filehandler(char *filename, int *fd, int flag);
 void	heredoc(t_mini *mini, char *eof);
-void	pipex(t_mini *mini,t_parse *node, char **envp);
+void	pipex(t_mini *mini, t_parse *node, char **envp);
 void	pipe_handler(t_mini *mini, t_parse *node, char **envp);
 
 //./execution/cmdpaths.c
@@ -120,7 +119,7 @@ char	*getcmdpath(char *cmdarg, char *envpath);
 //./execution/execute.c
 int		cmd_word_count(t_parse *input);
 char	**get_command(t_parse *input);
-void	execute(t_mini *mini, t_parse *node,char **envp);
+void	execute(t_mini *mini, t_parse *node, char **envp);
 void	exec_handler(t_mini *mini, t_parse *node, char **env);
 
 //./signal/signal.c
@@ -130,18 +129,5 @@ void	signal_controller(void);
 int		pipe_present(t_parse *head);
 void	print_file(int fd);
 void	print_cmd_error(char *cmd, char *str);
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #endif

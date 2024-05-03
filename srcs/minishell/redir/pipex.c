@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yraynen <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/15 17:10:25 by yraynen           #+#    #+#             */
+/*   Updated: 2023/09/15 17:10:26 by yraynen          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../includes/minishell.h"
 
 void	pipex(t_mini *mini, t_parse *node, char **envp)
@@ -39,5 +51,5 @@ void	pipe_handler(t_mini *mini, t_parse *node, char **envp)
 		dup2(mini->in, 0);
 	if (mini->out != -1)
 		dup2(mini->out, 1);
-	pipex(mini, node,envp);
+	pipex(mini, node, envp);
 }

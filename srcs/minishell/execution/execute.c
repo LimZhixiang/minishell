@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yraynen <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/15 17:10:25 by yraynen           #+#    #+#             */
+/*   Updated: 2023/09/15 17:10:26 by yraynen          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../includes/minishell.h"
 
-int		cmd_word_count(t_parse *input)
+int	cmd_word_count(t_parse *input)
 {
 	t_parse	*temp;
 	int		word;
@@ -19,7 +31,7 @@ int		cmd_word_count(t_parse *input)
 char	**get_command(t_parse *input)
 {
 	char	**ret;
-	t_parse *temp;
+	t_parse	*temp;
 	int		i;
 	int		count;
 
@@ -27,7 +39,7 @@ char	**get_command(t_parse *input)
 	i = 0;
 	count = cmd_word_count(input);
 	if (count == 0)
-		return(NULL);
+		return (NULL);
 	ret = malloc(sizeof(char *) * (count + 1));
 	if (!ret)
 		return (NULL);
@@ -38,18 +50,18 @@ char	**get_command(t_parse *input)
 		temp = temp->next;
 	}
 	ret[cmd_word_count(input)] = NULL;
-	return(ret);
+	return (ret);
 }
 
 void	execute(t_mini *mini, t_parse *node, char **envp)
 {
-	(void) mini;
 	char	*envpath;
 	char	*cmdpath;
 	char	**cmdarg;
 
+	(void) mini;
 	envpath = extract_path(envp);
-	cmdarg =  get_command(node);
+	cmdarg = get_command(node);
 	if (cmdarg == NULL)
 	{
 		//add freeing of node list
@@ -82,7 +94,7 @@ void	get_execution(t_mini *mini, t_parse *node, char **envp)
 		close(fds[0]);
 		dup2(fds[1], 1);
 		close(fds[1]);
-		execute(mini ,node, envp);
+		execute(mini, node, envp);
 	}
 	else
 	{

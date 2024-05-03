@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zhilim <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/05 21:15:24 by zhilim            #+#    #+#             */
+/*   Updated: 2023/10/06 11:41:37 by zhilim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 int	input_handler(char *input)
@@ -26,7 +38,7 @@ void	subshell(t_mini *mini, t_parse *node, char **env)
 			if (node->type == PIPE)
 			{
 				node = node->next;
-				break;
+				break ;
 			}
 			node = node->next;
 		}
@@ -69,25 +81,27 @@ t_mini	*innit_mini(char **envp)
 	mini->term_out = dup(1);
 	mini->status = 0;
 	mini->pipe = 0;
-	return(mini);
+	return (mini);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_mini	*mini;
 	char	*input;
+
 	(void)argc;
 	(void)argv;
-
 	mini = innit_mini(envp);
 	while (1)
 	{
 		signal_controller();
 		input = readline("minishell: ");
 		if (input_handler(input))
-			break;
+			break ;
 		parsing(input, mini);
 		free(input);
+		if (mini->status == 2)
+			continue ;
 		mini->pipe = pipe_present(mini->input);
 		minishell(mini);
 	}

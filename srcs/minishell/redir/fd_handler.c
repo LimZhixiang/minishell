@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yraynen <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/15 17:10:25 by yraynen           #+#    #+#             */
+/*   Updated: 2023/09/15 17:10:26 by yraynen          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../includes/minishell.h"
 
 void	filehandler(char *filename, int *fd, int flag)
@@ -25,22 +37,22 @@ void	filehandler(char *filename, int *fd, int flag)
 
 void	redir(t_mini *mini, t_parse *node)
 {
-	char	*nxtArg;
+	char	*nxtarg;
 
-	nxtArg = node->next->arg;
+	nxtarg = node->next->arg;
 	if (node->type == HDOC)
 	{
 		heredoc(mini, node->next->arg);
 		filehandler(".heredoctemp.tmp", &mini->in, INPUT);
 	}
 	if (node->next->type != FILENAME)
-		return;
+		return ;
 	if (node->type == INPUT)
-		filehandler(nxtArg, &mini->in, INPUT);
+		filehandler(nxtarg, &mini->in, INPUT);
 	else if (node->type == OUTPUT)
-		filehandler(nxtArg, &mini->out, OUTPUT);
+		filehandler(nxtarg, &mini->out, OUTPUT);
 	else if (node->type == APPEND)
-		filehandler(nxtArg, &mini->out, APPEND);
+		filehandler(nxtarg, &mini->out, APPEND);
 }
 
 void	fd_handler(t_mini *mini, t_parse *head)

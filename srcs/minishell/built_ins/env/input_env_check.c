@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yraynen <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/15 17:10:25 by yraynen           #+#    #+#             */
+/*   Updated: 2023/09/15 17:10:26 by yraynen          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../../includes/minishell.h"
 
 int	env_found(char *line)
@@ -16,8 +28,8 @@ int	env_found(char *line)
 
 char	*invalid_env(char *line)
 {
-	int	i;
-	int index;
+	int		i;
+	int		index;
 	char	*temp;
 
 	i = 0;
@@ -26,9 +38,9 @@ char	*invalid_env(char *line)
 	index = i;
 	while (line[i] != ' ' && line[i])
 		i++;
-	i  = i - index;
+	i = i - index;
 	temp = ft_substr((const char *)line, index, i);
 	line = str_find_replace(line, temp, "");
 	free(temp);
-	return(line);
+	return (line);
 }

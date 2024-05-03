@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zhilim <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/05 21:15:24 by zhilim            #+#    #+#             */
+/*   Updated: 2023/10/06 11:41:37 by zhilim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../includes/minishell.h"
 
 void	ft_copy_letters(char *ret, char *new, int i)
@@ -56,14 +68,15 @@ char	**ft_mini_split(char *new)
 
 int	syntax_error_type(t_parse *input)
 {
-	int	error;
-	t_parse *temp;
+	int		error;
+	t_parse	*temp;
 
 	temp = input;
 	error = 0;
 	if (temp->type == PIPE)
 	{
-		if (temp->prev == NULL || temp->prev->type >= PIPE || temp->next == NULL || temp->next->type >= PIPE)
+		if (temp->prev == NULL || temp->prev->type >= PIPE
+			|| temp->next == NULL || temp->next->type >= PIPE)
 			error = 1;
 	}
 	if (temp->type > PIPE)
