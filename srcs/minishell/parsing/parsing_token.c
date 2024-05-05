@@ -53,13 +53,19 @@ char	**ft_mini_split(char *new)
 	arg = 0;
 	i = 0;
 	result = malloc(sizeof(char *) * (wrd_count(new) + 1));
-	if (!new || !result || wrd_count(new) == 0)
+	if (!result)
 		return (NULL);
 	while (arg < wrd_count(new))
 	{
 		while (new[i] == ' ')
 			i++;
-		result[arg++] = mini_cpy_letters(new, i);
+		result[arg] = mini_cpy_letters(new, i);
+		if (result[arg] == NULL)
+		{
+			free_str_arr(result);
+			return (NULL);
+		}
+		arg++;
 		i = mini_letters(new, i, 2);
 	}
 	result[wrd_count(new)] = NULL;
@@ -114,7 +120,7 @@ void	check_syntax(t_mini *mini)
 	}
 }
 
-void	tokenization(char *new, t_mini *mini)
+int	tokenization(char *new, t_mini *mini)
 {
 	char	**split;
 	t_parse	*temp;
@@ -124,17 +130,27 @@ void	tokenization(char *new, t_mini *mini)
 	i = 0;
 	cmd_flag = 1;
 	split = ft_mini_split(new);
+	free(new);
 	if (split == NULL)
-		return ;
+		return (0);
 	temp = ft_newnode(split[i++], NULL);
+	if (temp == NULL)
+		return (0);
 	temp->type = operator_type(temp, &cmd_flag);
 	mini->input = temp;
 	while (split[i])
 	{
 		split[i] = ft_var_exp(split[i], mini);
 		temp->next = ft_newnode(split[i++], temp);
+		if (temp->next == NULL)
+		{
+			free_str_arr(split);
+			return(0);
+		}
 		temp->next->type = operator_type(temp->next, &cmd_flag);
 		temp = temp->next;
 	}
+	free_str_arr(split);
 	check_syntax(mini);
+	return (1);
 }

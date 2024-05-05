@@ -1,7 +1,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# define CMD	1
+# define CMD 1
 # define ARG 2
 # define DELIMITER 3
 # define FILENAME 4
@@ -12,6 +12,9 @@
 //<, <<
 # define INPUT 8
 # define HDOC 9
+
+# define RE_SHELL 1
+# define EXIT_SHELL 2
 
 # include <sys/types.h>
 # include <sys/wait.h>
@@ -53,6 +56,7 @@ typedef struct s_parse{
 
 typedef struct s_mini{
 	t_env	*env;
+	char	*user_input;
 	t_parse	*input;
 	int		in;
 	int		out;
@@ -69,6 +73,7 @@ char	*ft_var_exp(char *new, t_mini *mini);
 int		ft_space_line(char *new, char *line);
 char	*ft_alloc_space(char *line);
 int		parsing(char *line, t_mini *mini);
+void	ft_free_all(t_mini *mini, int state);
 
 //parsing_rm_quotes.c
 void	cpy_rm_quote(char *result, char *current);
@@ -81,7 +86,7 @@ void	ft_copy_letters(char *ret, char *new, int i);
 char	*mini_cpy_letters(char *new, int i);
 char	**ft_mini_split(char *new);
 void	check_syntax(t_mini *mini);
-void	tokenization(char *new, t_mini *mini);
+int	tokenization(char *new, t_mini *mini);
 
 //parsing_token_helpers.c
 int		operator_type(t_parse *node, int *CMD_FLAG);

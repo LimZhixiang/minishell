@@ -106,8 +106,13 @@ t_parse	*ft_newnode(char *content, t_parse *prev)
 
 	new = malloc(sizeof(t_parse));
 	if (!new)
-		return (0);
+		return (NULL);
 	new->arg = ft_strdup(content);
+	if (new->arg == NULL)
+	{
+		free(new);
+		return (NULL);
+	}
 	new->prev = prev;
 	new->next = NULL;
 	return (new);

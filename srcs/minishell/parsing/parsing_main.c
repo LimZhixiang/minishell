@@ -12,6 +12,51 @@
 
 #include "../../../includes/minishell.h"
 
+void	free_t_parse(t_parse *ptr)
+{
+	t_parse	*current;
+	t_parse	*next;
+
+	if (ptr == NULL)
+		return ;
+	current = ptr;
+	while (current != NULL)
+	{
+		next = current->next;
+		free(current->arg);
+		free(current);
+		current = next;
+	}
+}
+
+void	free_t_env(t_env *ptr)
+{
+	t_env	*current;
+	t_env	*next;
+
+	if (ptr == NULL)
+		return ;
+	current = ptr;
+	while (current != NULL)
+	{
+		next = current->next;
+		free(current->value);
+		free(current);
+		current = next;
+	}
+}
+
+void	ft_free_all(t_mini *mini, int state)
+{
+	if (state == EXIT_SHELL)
+	{
+		free_t_env(mini->env);
+		free (mini);
+		return ;
+	}
+	free_t_parse(mini->input);
+}
+
 char	*ft_var_exp(char *new, t_mini *mini)
 {
 	int		i;
@@ -70,12 +115,21 @@ int	ft_space_line(char *new, char *line)
 	return (1);
 }
 
+char	*malloc_char(int size)
+{
+	char	*new;
+
+	new = malloc(sizeof(char) * (size + 1));
+	if (!new)
+		return (NULL);
+	return (new);
+}
+
 char	*ft_alloc_space(char *line)
 {
 	int		i;
 	int		space;
 	int		sep;
-	char	*new;
 
 	space = 0;
 	i = 0;
@@ -94,10 +148,7 @@ char	*ft_alloc_space(char *line)
 		}
 		i++;
 	}
-	new = malloc(sizeof(char) * (i + space + 1));
-	if (!new)
-		return (NULL);
-	return (new);
+	return (malloc_char(i + space));
 }
 
 //[START DEL]testing rmb to rm
@@ -172,8 +223,11 @@ int	parsing(char *line, t_mini *mini)
 	char	*new;
 
 	new = ft_alloc_space(line);
+	if (new == NULL)
+		return (0);
 	ft_space_line(new, line);
-	tokenization(new, mini);
+	if (tokenization(new, mini) == 0)
+		return (0);
 	ft_rm_quotes(mini);
 	//[START DEL]testing rmb to rm
 	printf("\033[0;31mMINI->INPUT(AFT PARSING)\n\033[0m");

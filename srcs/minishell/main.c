@@ -86,7 +86,6 @@ t_mini	*innit_mini(char **envp)
 int	main(int argc, char **argv, char **envp)
 {
 	t_mini	*mini;
-	char	*input;
 
 	(void)argc;
 	(void)argv;
@@ -94,17 +93,24 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		signal_controller();
-		input = readline("minishell: ");
-		if (input_handler(input))
+		mini->user_input = readline("minishell: ");
+		if (input_handler(mini->user_input))
+		{
+			ft_free_all(mini, EXIT_SHELL);
 			break ;
-		parsing(input, mini);
-		free(input);
-		if (mini->status == 2)
-			continue ;
+		}
+		if (parsing(mini->user_input, mini) == 0 || mini->status == 2)
+		{
+			ft_free_all(mini, RE_SHELL);
+			free(mini->user_input);
+			continue;
+		}
 		mini->pipe = pipe_present(mini->input);
 		minishell(mini);
+		free(mini->user_input);
+		ft_free_all(mini, RE_SHELL);
 	}
-	free(input);
+	free(mini->user_input);
 	return (0);
 }
 
