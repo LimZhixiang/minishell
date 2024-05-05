@@ -44,8 +44,7 @@ void	subshell(t_mini *mini, t_parse *node, char **env)
 		}
 		mini->pipe = pipe_present(node);
 		mini->in = -1;
-		mini->out = -1;
-		dup2(mini->term_out, 1);
+		mini->out = -1;;
 	}
 	mini->in = -1;
 	mini->out = -1;

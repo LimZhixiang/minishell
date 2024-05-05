@@ -25,7 +25,8 @@ void	pipex(t_mini *mini, t_parse *node, char **envp)
 	// 	error_checker(1);
 	if (pid == 0)
 	{
-		dup2(fds[1], 1);
+		if (mini->out == -1)
+			dup2(fds[1], 1);
 		close(fds[0]);
 		close(fds[1]);
 		execute(mini, node, envp);
@@ -36,7 +37,10 @@ void	pipex(t_mini *mini, t_parse *node, char **envp)
 		close(fds[1]);
 		if (mini->pipe == 0)
 		{
-			dup2(mini->out, 1);
+			if (mini->out != -1)
+				dup2(fds[0], mini->out);
+			else
+				dup2(mini->term_out, 1);
 			print_file(fds[0]);
 		}
 		close(fds[0]);
