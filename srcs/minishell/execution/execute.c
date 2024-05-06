@@ -38,8 +38,6 @@ char	**get_command(t_parse *input)
 	temp = input;
 	i = 0;
 	count = cmd_word_count(input);
-	if (count == 0)
-		return (NULL);
 	ret = malloc(sizeof(char *) * (count + 1));
 	if (!ret)
 		return (NULL);
@@ -49,7 +47,7 @@ char	**get_command(t_parse *input)
 			ret[i++] = ft_strdup(temp->arg);
 		temp = temp->next;
 	}
-	ret[cmd_word_count(input)] = NULL;
+	ret[count] = NULL;
 	return (ret);
 }
 
@@ -68,6 +66,8 @@ void	execute(t_mini *mini, t_parse *node, char **envp)
 		free(envpath);
 		exit(0);
 	}
+	if (builtin_handler(mini, node, cmdarg))
+		exit(mini->status);
 	cmdpath = getcmdpath(cmdarg[0], envpath);
 	free(envpath);
 	if (execve(cmdpath, cmdarg, envp) == -1)
@@ -99,9 +99,9 @@ void	get_execution(t_mini *mini, t_parse *node, char **envp)
 	else
 	{
 		close(fds[1]);
-		wait(&status);
 		print_file(fds[0]);
 		close(fds[0]);
+		wait(&status);
 	}
 	mini->status = WEXITSTATUS(status);
 }

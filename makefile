@@ -29,6 +29,12 @@ REDIR_FILES = \
 EXECUTE_FILES = \
 	execute.c cmdpath.c
 
+BUILT_INS_FILES = \
+	builtin_main.c
+
+#files that check env in user input
+ENV_FUNC = input_env_check.c input_env_utils.c input_env.c
+
 UTILS_FILES = \
 	pipe_present.c print_file.c print_cmd_error.c
 
@@ -55,12 +61,10 @@ ENV = $(addprefix $(ENV_DIR), $(ENV_FILES))
 PARSING = $(addprefix $(PARSING_DIR), $(PARSING_FILES))
 SIGNAL = $(addprefix $(SIGNAL_DIR), $(SIGNAL_FILES))
 REDIR = $(addprefix $(REDIR_DIR), $(REDIR_FILES))
-BUILT_INS= $(addprefix srcs/minishell/built_ins/env/, $(ENV_FUNC))
+BUILT_INS= $(addprefix $(BUILT_INS_DIR), $(BUILT_INS_FILES)) $(addprefix srcs/minishell/built_ins/env/, $(ENV_FUNC))
 EXECUTE= $(addprefix $(EXECUTE_DIR), $(EXECUTE_FILES))
 UTILS= $(addprefix $(UTILS_DIR), $(UTILS_FILES))
 
-#files that check env in user input
-ENV_FUNC = input_env_check.c input_env_utils.c input_env.c
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g

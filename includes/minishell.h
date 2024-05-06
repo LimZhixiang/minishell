@@ -127,6 +127,9 @@ char	**get_command(t_parse *input);
 void	execute(t_mini *mini, t_parse *node, char **envp);
 void	exec_handler(t_mini *mini, t_parse *node, char **env);
 
+//./built_ins/builtin_main.c
+int		builtin_handler(t_mini *mini, t_parse *node, char **cmdarg);
+
 //./signal/signal.c
 void	signal_controller(void);
 
