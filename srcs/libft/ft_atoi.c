@@ -32,7 +32,7 @@ int	ft_atoi(const char *str)
 	while ((*str >= '0' && *str <= '9') && *str)
 	{
 		i *= 10;
-		i += (*str - '0'); 
+		i += (*str - '0');
 		str++;
 	}
 	return (i * sign);

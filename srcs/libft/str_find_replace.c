@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   str_find_replace.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yraynen <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/08 15:55:19 by yraynen           #+#    #+#             */
+/*   Updated: 2023/09/08 15:55:22 by yraynen          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
-char	*str_find_replace(char *line, char *find,char *replace)
+char	*str_find_replace(char *line, char *find, char *replace)
 {
 	int		i;
 	int		k;

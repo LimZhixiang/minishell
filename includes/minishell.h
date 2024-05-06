@@ -86,7 +86,7 @@ void	ft_copy_letters(char *ret, char *new, int i);
 char	*mini_cpy_letters(char *new, int i);
 char	**ft_mini_split(char *new);
 void	check_syntax(t_mini *mini);
-int	tokenization(char *new, t_mini *mini);
+int		tokenization(char *new, t_mini *mini);
 
 //parsing_token_helpers.c
 int		operator_type(t_parse *node, int *CMD_FLAG);
@@ -134,7 +134,6 @@ void	signal_controller(void);
 int		pipe_present(t_parse *head);
 void	print_file(int fd);
 void	print_cmd_error(char *cmd, char *str);
-
 
 void	free_t_parse(t_parse *ptr);
 #endif

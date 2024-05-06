@@ -89,14 +89,17 @@ char	*replace_env(char *line, char *envp, char *envp_name, int index)
 	i = -1;
 	while (++i != index)
 		res[i] = line[i];
-	k = -1;
-	while (envp[++k])
+	k = 0;
+	while (envp && envp[k])
+	{
 		res[i + k] = envp[k];
+		k++;
+	}
 	k = i + k;
 	i = index + ft_strlen(envp_name);
 	while (line[i])
 		res[k++] = line[i++];
-	res[k] = 0;
+	res[k] = '\0';
 	free(line);
 	return (res);
 }

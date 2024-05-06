@@ -52,10 +52,9 @@ char	**ft_mini_split(char *new)
 
 	arg = 0;
 	i = 0;
-	if (wrd_count(new) == 0)
-		return (NULL);
-	result = malloc(sizeof(char *) * (wrd_count(new) + 1));
-	if (!result)
+	if (wrd_count(new) != 0)
+		result = malloc(sizeof(char *) * (wrd_count(new) + 1));
+	if (wrd_count(new) == 0 || !result)
 		return (NULL);
 	while (arg < wrd_count(new))
 	{
