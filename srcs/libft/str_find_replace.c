@@ -12,9 +12,6 @@
 
 #include "libft.h"
 
-<<<<<<< HEAD
-char	*str_find_replace(char *line, char *find, char *replace)
-=======
 static int	replace_word(char *line, char *replace)
 {
 	int	i;
@@ -73,7 +70,6 @@ static void	new_str(char *result, char *line, char *find, char *replace)
 }
 
 char	*str_find_replace(char *line, char *find,char *replace)
->>>>>>> refs/remotes/origin/main
 {
 	int		i;
 	size_t	k;
@@ -94,10 +90,5 @@ char	*str_find_replace(char *line, char *find,char *replace)
 			free (temp);
 		i = wrd_found(result, find);
 	}
-<<<<<<< HEAD
-	return (line);
-}
-=======
 	return (result);
 }
->>>>>>> refs/remotes/origin/main
