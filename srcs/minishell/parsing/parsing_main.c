@@ -51,10 +51,12 @@ void	ft_free_all(t_mini *mini, int state)
 	if (state == EXIT_SHELL)
 	{
 		free_t_env(mini->env);
+		free (mini->user_input);
 		free (mini);
 		return ;
 	}
 	free_t_parse(mini->input);
+	mini->input = NULL;
 }
 
 char	*ft_var_exp(char *new, t_mini *mini)
@@ -222,6 +224,11 @@ int	parsing(char *line, t_mini *mini)
 {
 	char	*new;
 
+	if (ft_quote(line, ft_strlen(line)) != 0)
+	{
+		ft_putstr_fd("quotes not closed properly, syntax error\n", 1);
+		return (0);
+	}
 	new = ft_alloc_space(line);
 	if (new == NULL)
 		return (0);

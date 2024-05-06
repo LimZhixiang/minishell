@@ -52,6 +52,8 @@ char	**ft_mini_split(char *new)
 
 	arg = 0;
 	i = 0;
+	if (wrd_count(new) == 0)
+		return (NULL);
 	result = malloc(sizeof(char *) * (wrd_count(new) + 1));
 	if (!result)
 		return (NULL);
@@ -120,19 +122,14 @@ void	check_syntax(t_mini *mini)
 	}
 }
 
-int	tokenization(char *new, t_mini *mini)
+int	init_input(char **split, t_mini *mini)
 {
-	char	**split;
 	t_parse	*temp;
 	int		cmd_flag;
 	int		i;
 
+	cmd_flag = 0;
 	i = 0;
-	cmd_flag = 1;
-	split = ft_mini_split(new);
-	free(new);
-	if (split == NULL)
-		return (0);
 	temp = ft_newnode(split[i++], NULL);
 	if (temp == NULL)
 		return (0);
@@ -144,13 +141,28 @@ int	tokenization(char *new, t_mini *mini)
 		temp->next = ft_newnode(split[i++], temp);
 		if (temp->next == NULL)
 		{
-			free_str_arr(split);
-			return(0);
+			ft_free_all(mini, RE_SHELL);
+			return (0);
 		}
 		temp->next->type = operator_type(temp->next, &cmd_flag);
 		temp = temp->next;
 	}
+	return (1);
+}
+
+int	tokenization(char *new, t_mini *mini)
+{
+	char	**split;
+
+	split = ft_mini_split(new);
+	free(new);
+	if (split == NULL)
+		return (0);
+	if (!init_input(split, mini))
+	{
+		free_str_arr(split);
+		return (0);
+	}
 	free_str_arr(split);
-	check_syntax(mini);
 	return (1);
 }

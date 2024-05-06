@@ -17,7 +17,7 @@ int	input_handler(char *input)
 	if (input == 0)
 	{
 		ft_putstr_fd("exit\n", 2);
-		exit(1);
+		return (1);
 	}
 	if (input || *input)
 		add_history(input);
@@ -74,6 +74,7 @@ t_mini	*innit_mini(char **envp)
 
 	mini = malloc(sizeof(t_mini));
 	init_mini_env(mini, envp);
+	mini->input = NULL;
 	mini->in = -1;
 	mini->out = -1;
 	mini->term_in = dup(0);
@@ -86,7 +87,7 @@ t_mini	*innit_mini(char **envp)
 int	main(int argc, char **argv, char **envp)
 {
 	t_mini	*mini;
-
+	// add syntax checker "" not added yet.
 	(void)argc;
 	(void)argv;
 	mini = innit_mini(envp);
@@ -110,7 +111,6 @@ int	main(int argc, char **argv, char **envp)
 		free(mini->user_input);
 		ft_free_all(mini, RE_SHELL);
 	}
-	free(mini->user_input);
 	return (0);
 }
 
