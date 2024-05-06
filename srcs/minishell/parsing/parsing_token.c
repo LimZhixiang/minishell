@@ -127,7 +127,7 @@ int	init_input(char **split, t_mini *mini)
 	int		cmd_flag;
 	int		i;
 
-	cmd_flag = 0;
+	cmd_flag = 1;
 	i = 0;
 	split[i] = ft_var_exp(split[i], mini);
 	temp = ft_newnode(split[i++], NULL);

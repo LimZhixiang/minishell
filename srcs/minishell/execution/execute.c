@@ -57,7 +57,7 @@ void	execute(t_mini *mini, t_parse *node, char **envp)
 	char	*cmdpath;
 	char	**cmdarg;
 
-	(void) mini;
+	(void)mini;
 	envpath = extract_path(envp);
 	cmdarg = get_command(node);
 	if (cmdarg == NULL)
@@ -66,8 +66,6 @@ void	execute(t_mini *mini, t_parse *node, char **envp)
 		free(envpath);
 		exit(0);
 	}
-	if (builtin_handler(mini, node, cmdarg))
-		exit(mini->status);
 	cmdpath = getcmdpath(cmdarg[0], envpath);
 	free(envpath);
 	if (execve(cmdpath, cmdarg, envp) == -1)
@@ -113,7 +111,8 @@ void	exec_handler(t_mini *mini, t_parse *node, char **env)
 		dup2(mini->in, 0);
 	if (mini->out != -1)
 		dup2(mini->out, 1);
-	get_execution(mini, node, env);
+	if (builtin_handler(mini, node) == 0)
+		get_execution(mini, node, env);
 	dup2(mini->term_in, 0);
 	dup2(mini->term_out, 1);
 	mini->in = -1;

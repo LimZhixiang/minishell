@@ -16,6 +16,8 @@
 # define RE_SHELL 1
 # define EXIT_SHELL 2
 
+#define PATH_MAX 4096
+
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <stdio.h>
@@ -56,8 +58,8 @@ typedef struct s_parse{
 
 typedef struct s_mini{
 	t_env	*env;
-	char	*user_input;
 	t_parse	*input;
+	char	*user_input;
 	int		in;
 	int		out;
 	int		term_in;
@@ -128,7 +130,14 @@ void	execute(t_mini *mini, t_parse *node, char **envp);
 void	exec_handler(t_mini *mini, t_parse *node, char **env);
 
 //./built_ins/builtin_main.c
-int		builtin_handler(t_mini *mini, t_parse *node, char **cmdarg);
+int		builtin_handler(t_mini *mini, t_parse *node);
+
+//./built_ins/directory.c
+int cd_handler(t_mini *mini, char **line);
+int	pwd_handler(t_mini *mini);
+
+//./built_ins/env_builtin.c
+int	env_builtin(t_mini *mini, char **cmdarg);
 
 //./signal/signal.c
 void	signal_controller(void);

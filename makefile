@@ -30,7 +30,7 @@ EXECUTE_FILES = \
 	execute.c cmdpath.c
 
 BUILT_INS_FILES = \
-	builtin_main.c
+	builtin_main.c directory.c env_builtin.c
 
 #files that check env in user input
 ENV_FUNC = input_env_check.c input_env_utils.c input_env.c
@@ -48,7 +48,7 @@ LIBFT = \
 	ft_itoa.c ft_strmapi.c ft_striteri.c ft_putchar_fd.c ft_putstr_fd.c \
 	ft_putendl_fd.c ft_putnbr_fd.c ft_atol.c ft_strcmp.c ft_atoi_base.c \
 	free_str_arr.c ft_isspace.c str_isdigit.c str_find_replace.c find_word.c \
-	get_next_line.c
+	strarr_len.c get_next_line.c
 
 LIBFTBONUS = \
 	ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c \

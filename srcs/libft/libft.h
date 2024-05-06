@@ -65,6 +65,7 @@ int		ft_atoi_base(char *str, char *base);
 int		str_isdigit(char *str);
 char	*str_find_replace(char *line, char *find, char *replace);
 int		find_word(char *line, char *wrd);
+int		strarr_len(char **strarr);
 
 t_list	*ft_lstnew(void *content);
 void	ft_lstadd_front(t_list **lst, t_list *new);
