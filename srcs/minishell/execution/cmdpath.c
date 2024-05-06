@@ -69,8 +69,10 @@ char	*getcmdpath(char *cmdarg, char *envpath)
 	char	**cmd;
 	char	*cmdpath;
 
+	cmdpath = NULL;
 	cmd = ft_split(cmdarg, ' ');
-	cmdpath = check_cmd(envpath, cmd[0]);
+	if (cmd[0] != NULL)
+		cmdpath = check_cmd(envpath, cmd[0]);
 	if (!cmdpath)
 	{
 		write(2, "Command not found: ", 19);
