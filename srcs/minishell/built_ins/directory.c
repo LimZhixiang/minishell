@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   directory.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yraynen <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/15 17:34:45 by yraynen           #+#    #+#             */
+/*   Updated: 2023/09/15 17:34:46 by yraynen          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../includes/minishell.h"
 
 //unsure if the mini->status is still needed
 
-int cd_handler(t_mini *mini, char **line)
+int	cd_handler(t_mini *mini, char **line)
 {
 	if (strarr_len(line) == 2)
 	{

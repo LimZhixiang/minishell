@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   modify_env.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yraynen <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/15 17:34:45 by yraynen           #+#    #+#             */
+/*   Updated: 2023/09/15 17:34:46 by yraynen          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../includes/minishell.h"
 
 t_env	*add_node(t_env *head, t_env *new)
@@ -19,7 +31,7 @@ t_env	*remove_node(t_env *head, t_env *del)
 	while (iter)
 	{
 		if (iter)
-		iter = iter->next;
+			iter = iter->next;
 	}
 }
 

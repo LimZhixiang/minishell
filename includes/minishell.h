@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zhilim <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/05 21:15:24 by zhilim            #+#    #+#             */
+/*   Updated: 2023/10/06 11:41:37 by zhilim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -16,7 +28,7 @@
 # define RE_SHELL 1
 # define EXIT_SHELL 2
 
-#define PATH_MAX 4096
+# define PATH_MAX 4096
 
 # include <sys/types.h>
 # include <sys/wait.h>
@@ -132,11 +144,11 @@ void	exec_handler(t_mini *mini, t_parse *node, char **env);
 int		builtin_handler(t_mini *mini, t_parse *node);
 
 //./built_ins/directory.c
-int cd_handler(t_mini *mini, char **line);
-int	pwd_handler(t_mini *mini);
+int		cd_handler(t_mini *mini, char **line);
+int		pwd_handler(t_mini *mini);
 
 //./built_ins/env_builtin.c
-int	env_builtin(t_mini *mini, char **cmdarg);
+int		env_builtin(t_mini *mini, char **cmdarg);
 
 //./signal/signal.c
 void	signal_controller(void);
@@ -156,7 +168,5 @@ int		check_syntax(t_mini *mini);
 
 int		check_quote_syntax(char *line);
 int		echo_handler(t_mini *mini, char **cmdarg);
-
-
 
 #endif

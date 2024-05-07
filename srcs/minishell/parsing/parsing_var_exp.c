@@ -14,14 +14,14 @@
 
 char	*get_status_code(char *line, t_mini *mini, int i)
 {
-	char *status_code;
+	char	*status_code;
 
 	status_code = ft_itoa(mini->status);
 	if (status_code == NULL)
 		return (NULL);
 	line = replace_env(line, status_code, "$?", i);
 	free(status_code);
-	return(line);
+	return (line);
 }
 
 char	*get_line_env(char *line, t_mini *mini, int i, int j)
@@ -43,12 +43,13 @@ char	*get_line_env(char *line, t_mini *mini, int i, int j)
 char	*ft_var_exp(char *arg, t_mini *mini)
 {
 	int	i;
-	int j;
+	int	j;
 
 	i = 0;
 	while (arg[i])
 	{
-		if (ft_quote(arg, i) != 1 && arg[i] == '$' && ft_valid_env(arg[i + 1]) != 0)
+		if (ft_quote(arg, i) != 1 && arg[i] == '$'
+			&& ft_valid_env(arg[i + 1]) != 0)
 		{
 			j = 1;
 			while (ft_valid_env(arg[i + j]) > 0)
@@ -68,7 +69,7 @@ char	*ft_var_exp(char *arg, t_mini *mini)
 
 char	**ft_split_var_exp(char **split, t_mini *mini)
 {
-	int 	i;
+	int	i;
 
 	i = 0;
 	while (split[i])

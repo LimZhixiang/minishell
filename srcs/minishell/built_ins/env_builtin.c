@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_builtin.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yraynen <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/15 17:34:45 by yraynen           #+#    #+#             */
+/*   Updated: 2023/09/15 17:34:46 by yraynen          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../includes/minishell.h"
 
-static void print_env(t_mini *mini, char **env)
+static void	print_env(t_mini *mini, char **env)
 {
 	int	i;
 

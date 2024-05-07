@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtinmain.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yraynen <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/15 17:34:45 by yraynen           #+#    #+#             */
+/*   Updated: 2023/09/15 17:34:46 by yraynen          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../includes/minishell.h"
 
 int	builtin_handler(t_mini *mini, t_parse *node)
 {
-	(void) mini;
 	int		status;
 	char	**cmdarg;
 
+	(void) mini;
 	status = 0;
 	cmdarg = get_command(node);
 	if (ft_strcmp(cmdarg[0], "cd"))
