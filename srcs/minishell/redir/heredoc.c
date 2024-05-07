@@ -31,7 +31,10 @@ void	heredoc(t_mini *mini, char *eof)
 			break ;
 		}
 		else
+		{
+			line = ft_var_exp(line, mini);
 			ft_putendl_fd(line, tmpfd);
+		}
 		free(line);
 	}
 	free(line);
