@@ -78,4 +78,3 @@ int	unset(t_mini *mini, char **cmdarg)
 	}
 	return (1);
 }
-

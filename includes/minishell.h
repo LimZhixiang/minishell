@@ -164,4 +164,16 @@ void	print_cmd_error(char *cmd, char *str);
 
 void	free_t_parse(t_parse *ptr);
 void	print_syntax_error(char *syntax);
+
+void	add_node(t_env *head, t_env *new);
+t_env	*del_curr_node(t_env *prev, t_env *del);
+t_env	*create_node(char *value);
+
+int		init_input(char **split, t_mini *mini);
+char	**ft_split_var_exp(char **split, t_mini *mini);
+char	*ft_var_exp(char *arg, t_mini *mini);
+int		check_syntax(t_mini *mini);
+
+int		check_quote_syntax(char *line);
+int		echo_handler(t_mini *mini, char **cmdarg);
 #endif
