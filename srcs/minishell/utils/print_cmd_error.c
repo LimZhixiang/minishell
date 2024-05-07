@@ -12,6 +12,13 @@
 
 #include "../../../includes/minishell.h"
 
+void	print_syntax_error(char *syntax)
+{
+	ft_putstr_fd("syntax error near unexpected token ", 2);
+	ft_putstr_fd(syntax, 2);
+	ft_putstr_fd("\n", 2);
+}
+
 void	print_cmd_error(char *cmd, char *str)
 {
 	ft_putstr_fd(cmd, 2);

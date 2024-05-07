@@ -148,4 +148,5 @@ void	print_file(int fd);
 void	print_cmd_error(char *cmd, char *str);
 
 void	free_t_parse(t_parse *ptr);
+void	print_syntax_error(char *syntax);
 #endif

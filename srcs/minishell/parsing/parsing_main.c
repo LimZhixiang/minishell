@@ -73,14 +73,19 @@ char	*ft_var_exp(char *new, t_mini *mini)
 			&& ft_valid_env(new[i + 1]) != 0)
 		{
 			j = 1;
-			while (ft_valid_env(new[i + j]) != 0)
+			while (ft_valid_env(new[i + j]) > 0)
 				j++;
-			name = ft_substr(new, i, j);
-			result = ft_get_env(name, mini);
-			new = replace_env(new, result, name, i);
-			i = 0;
-			free(name);
-			free(result);
+			if (ft_valid_env(new[i + j]) == -1 && j == 1)
+				new = replace_env(new, ft_itoa(mini->status), "$?", i);
+			else
+			{
+				name = ft_substr(new, i, j);
+				result = ft_get_env(name, mini);
+				new = replace_env(new, result, name, i);
+				i = 0;
+				free(name);
+				free(result);
+			}
 		}
 		else
 			i++;
@@ -236,11 +241,12 @@ int	parsing(char *line, t_mini *mini)
 	if (tokenization(new, mini) == 0)
 		return (0);
 	ft_rm_quotes(mini);
-	//[START DEL]testing rmb to rm
-	printf("\033[0;31mMINI->INPUT(AFT PARSING)\n\033[0m");
-	print_input(mini);
-	printf("USER INPUT: [%s]\n", line);
-	print_input_tgt(mini);
-	//[START DEL]testing rmb to rm
+	check_syntax(mini);
+	// [START DEL]testing rmb to rm
+	// printf("\033[0;31mMINI->INPUT(AFT PARSING)\n\033[0m");
+	// print_input(mini);
+	// printf("USER INPUT: [%s]\n", line);
+	// print_input_tgt(mini);
+	// [START DEL]testing rmb to rm
 	return (1);
 }

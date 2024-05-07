@@ -22,6 +22,8 @@ int	init_mini_env(t_mini *mini, char **env)
 	if (!mini_env)
 		return (1);
 	mini_env->value = ft_strdup(env[0]);
+	if (!mini_env->value)
+		return (1);
 	mini_env->next = NULL;
 	mini->env = mini_env;
 	i = 1;
@@ -114,5 +116,7 @@ int	ft_valid_env(char c)
 		return (1);
 	if (c >= 'A' && c <= 'Z')
 		return (1);
+	if (c == '?')
+		return (-1);
 	return (0);
 }

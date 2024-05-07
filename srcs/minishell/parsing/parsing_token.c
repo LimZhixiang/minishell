@@ -109,11 +109,11 @@ void	check_syntax(t_mini *mini)
 		if (error != 0)
 		{
 			if (error == 1)
-				printf("syntax error near \'%s\'", temp->arg);
+				print_syntax_error(temp->arg);
 			else if (error == 2)
-				printf("syntax error near \'newline\'");
+				print_syntax_error("newline");
 			else
-				printf("syntax error near \'%s\'", temp->next->arg);
+				print_syntax_error(temp->next->arg);
 			mini->status = 2;
 			return ;
 		}

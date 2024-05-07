@@ -74,8 +74,14 @@ t_mini	*innit_mini(char **envp)
 
 	mini = malloc(sizeof(t_mini));
 	if (!mini)
-		return (NULL);
-	init_mini_env(mini, envp);
+	{
+		print_cmd_error("malloc", "");
+		exit(errno);
+	}
+	if (init_mini_env(mini, envp))
+	{
+		free(mini);
+	}
 	mini->input = NULL;
 	mini->in = -1;
 	mini->out = -1;
@@ -93,11 +99,6 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	mini = innit_mini(envp);
-	if (mini == NULL)
-	{
-		printf("malloc failed\n");
-		return (0);
-	}
 	while (1)
 	{
 		signal_controller();
@@ -107,7 +108,7 @@ int	main(int argc, char **argv, char **envp)
 			ft_free_all(mini, EXIT_SHELL);
 			break ;
 		}
-		if (parsing(mini->user_input, mini) == 0 || mini->status == 2)
+		if (parsing(mini->user_input, mini) == 0)
 		{
 			ft_free_all(mini, RE_SHELL);
 			free(mini->user_input);

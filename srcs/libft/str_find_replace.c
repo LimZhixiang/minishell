@@ -25,7 +25,7 @@ static int	replace_word(char *line, char *replace)
 	return (i);
 }
 
-static int	cpy_words(char *result, char *line, int start, int	end)
+static int	cpy_words(char *result, char *line, int start, int end)
 {
 	while (line[start] && start < end)
 	{
@@ -57,8 +57,9 @@ static int	wrd_found(char *line, char *find)
 static void	new_str(char *result, char *line, char *find, char *replace)
 {
 	int	i;
-	int j;
+	int	j;
 	int	k;
+
 	j = wrd_found(line, find);
 	i = 0;
 	i += cpy_words(result, line, 0, j);
@@ -69,7 +70,7 @@ static void	new_str(char *result, char *line, char *find, char *replace)
 	result[k] = 0;
 }
 
-char	*str_find_replace(char *line, char *find,char *replace)
+char	*str_find_replace(char *line, char *find, char *replace)
 {
 	int		i;
 	size_t	k;
@@ -81,7 +82,7 @@ char	*str_find_replace(char *line, char *find,char *replace)
 	while (i != -1)
 	{
 		temp = result;
-		k = ft_strlen(result) - ft_strlen(find) +ft_strlen(replace);
+		k = ft_strlen(result) - ft_strlen(find) + ft_strlen(replace);
 		result = malloc(sizeof(char) * (k + 1));
 		if (!result)
 			return (NULL);

@@ -26,7 +26,8 @@ void	heredoc(t_mini *mini, char *eof)
 		if (line == 0 || ft_strcmp(line, eof))
 		{
 			if (line == 0)
-				print_cmd_error("here-document got end-of-file instead of", eof);
+				print_cmd_error
+					("here-document got end-of-file instead of", eof);
 			break ;
 		}
 		else
