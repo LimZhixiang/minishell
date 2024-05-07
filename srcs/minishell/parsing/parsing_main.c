@@ -241,7 +241,6 @@ int	parsing(char *line, t_mini *mini)
 	if (tokenization(new, mini) == 0)
 		return (0);
 	ft_rm_quotes(mini);
-	check_syntax(mini);
 	// [START DEL]testing rmb to rm
 	// printf("\033[0;31mMINI->INPUT(AFT PARSING)\n\033[0m");
 	// print_input(mini);
