@@ -1,11 +1,15 @@
 #include "../../../includes/minishell.h"
 
+//unsure if the mini->status is still needed
+
 int cd_handler(t_mini *mini, char **line)
 {
 	if (strarr_len(line) == 2)
 	{
 		if (chdir(line[1]) == -1)
 			print_cmd_error("cd", line[1]);
+		else
+			mini->status = 0;
 	}
 	else
 	{
@@ -13,7 +17,6 @@ int cd_handler(t_mini *mini, char **line)
 		mini->status = 1;
 		return (1);
 	}
-	mini->status = 0;
 	return (1);
 }
 

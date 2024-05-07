@@ -8,8 +8,6 @@ int	builtin_handler(t_mini *mini, t_parse *node)
 
 	status = 0;
 	cmdarg = get_command(node);
-	if(cmdarg == NULL)
-		return (0);
 	if (ft_strcmp(cmdarg[0], "cd"))
 		status = cd_handler(mini, cmdarg);
 	else if (ft_strcmp(cmdarg[0], "pwd"))
