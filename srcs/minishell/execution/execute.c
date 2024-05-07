@@ -51,29 +51,33 @@ char	**get_command(t_parse *input)
 	return (ret);
 }
 
-void	execute(t_mini *mini, t_parse *node, char **envp)
+void	execute(t_parse *node, char **envp)
 {
 	char	*envpath;
 	char	*cmdpath;
 	char	**cmdarg;
 
-	(void)mini;
-	envpath = extract_path(envp);
 	cmdarg = get_command(node);
-	if (cmdarg == NULL)
+	envpath = extract_path(envp);
+	cmdpath = NULL;
+	if (ft_strchr(cmdarg[0], '/') && cmdarg)
 	{
-		//add freeing of node list
-		free(envpath);
-		exit(0);
+		if (execve(cmdarg[0], cmdarg, NULL) == -1)
+			print_cmd_error("execve", cmdarg[0]);
 	}
-	cmdpath = getcmdpath(cmdarg[0], envpath);
-	free(envpath);
-	if (execve(cmdpath, cmdarg, envp) == -1)
+	else if (cmdarg && envpath)
 	{
+		cmdpath = getcmdpath(cmdarg[0], envpath);
+		if (execve(cmdpath, cmdarg, envp) == -1)
+			print_cmd_error("execve", "");
+	}
+	if (cmdpath)
 		free(cmdpath);
+	if (cmdarg)
 		free_str_arr(cmdarg);
-		// error_checker(3);
-	}
+	if (envpath)
+		free(envpath);
+	exit(errno);
 }
 
 void	get_execution(t_mini *mini, t_parse *node, char **envp)
@@ -85,22 +89,22 @@ void	get_execution(t_mini *mini, t_parse *node, char **envp)
 	if (pipe(fds) == -1)
 		return ;
 	pid = fork();
-	// if (pid == -1)
-		// error_checker(1);
 	if (pid == 0)
 	{
 		close(fds[0]);
 		dup2(fds[1], 1);
 		close(fds[1]);
-		execute(mini, node, envp);
+		execute(node, envp);
 	}
-	else
+	else if(pid > 0)
 	{
 		close(fds[1]);
 		print_file(fds[0]);
 		close(fds[0]);
 		wait(&status);
 	}
+	else
+		print_cmd_error("pipe", "");
 	mini->status = WEXITSTATUS(status);
 }
 

@@ -31,7 +31,7 @@ void	pipex(t_mini *mini, t_parse *node, char **envp)
 		close(fds[1]);
 		if (builtin_handler(mini, node))
 			exit(mini->status);
-		execute(mini, node, envp);
+		execute(node, envp);
 	}
 	else
 	{

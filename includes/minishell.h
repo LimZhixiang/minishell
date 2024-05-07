@@ -137,7 +137,7 @@ char	*getcmdpath(char *cmdarg, char *envpath);
 //./execution/execute.c
 int		cmd_word_count(t_parse *input);
 char	**get_command(t_parse *input);
-void	execute(t_mini *mini, t_parse *node, char **envp);
+void	execute(t_parse *node, char **envp);
 void	exec_handler(t_mini *mini, t_parse *node, char **env);
 
 //./built_ins/builtin_main.c
