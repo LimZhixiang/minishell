@@ -117,9 +117,9 @@ int	main(int argc, char **argv, char **envp)
 		mini->pipe = pipe_present(mini->input);
 		minishell(mini);
 		free(mini->user_input);
-		rl_clear_history();
 		ft_free_all(mini, RE_SHELL);
 	}
+	rl_clear_history();
 	return (0);
 }
 
