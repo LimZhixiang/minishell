@@ -12,85 +12,6 @@
 
 #include "../../../includes/minishell.h"
 
-void	free_t_parse(t_parse *ptr)
-{
-	t_parse	*current;
-	t_parse	*next;
-
-	if (ptr == NULL)
-		return ;
-	current = ptr;
-	while (current != NULL)
-	{
-		next = current->next;
-		free(current->arg);
-		free(current);
-		current = next;
-	}
-}
-
-void	free_t_env(t_env *ptr)
-{
-	t_env	*current;
-	t_env	*next;
-
-	if (ptr == NULL)
-		return ;
-	current = ptr;
-	while (current != NULL)
-	{
-		next = current->next;
-		free(current->value);
-		free(current);
-		current = next;
-	}
-}
-
-void	ft_free_all(t_mini *mini, int state)
-{
-	if (state == EXIT_SHELL)
-	{
-		free_t_env(mini->env);
-		free (mini->user_input);
-		free (mini);
-		return ;
-	}
-	free_t_parse(mini->input);
-	mini->input = NULL;
-}
-
-char	*ft_var_exp(char *new, t_mini *mini)
-{
-	int		i;
-	int		j;
-	char	*name;
-	char	*result;
-
-	i = -1;
-	while (new[++i])
-	{
-		if (ft_quote(new, i) != 1 && new[i] == '$' 
-			&& ft_valid_env(new[i + 1]) != 0)
-		{
-			j = 1;
-			while (ft_valid_env(new[i + j]) > 0)
-				j++;
-			if (ft_valid_env(new[i + j]) == -1 && j == 1)
-				new = replace_env(new, ft_itoa(mini->status), "$?", i);
-			else
-			{
-				name = ft_substr(new, i, j);
-				result = ft_get_env(name, mini);
-				new = replace_env(new, result, name, i);
-				i = 0;
-				free(name);
-				free(result);
-			}
-		}
-	}
-	return (new);
-}
-
 int	ft_space_line(char *new, char *line)
 {
 	int	i;
@@ -221,29 +142,53 @@ void	print_input_tgt(t_mini *mini)
 	}
 	printf("\n");
 }
-//[END DEL]testing rmb to rm
 
 int	parsing(char *line, t_mini *mini)
 {
-	char	*new;
+	char	*space_line;
+	char	**split;
 
-	if (ft_quote(line, ft_strlen(line)) != 0)
-	{
-		ft_putstr_fd("quotes not closed properly, syntax error\n", 1);
+	if (check_quote_syntax(line) == 0)
 		return (0);
-	}
-	new = ft_alloc_space(line);
-	if (new == NULL)
+	space_line = ft_alloc_space(line);
+	if (space_line == NULL)
 		return (0);
-	ft_space_line(new, line);
-	if (tokenization(new, mini) == 0)
+	ft_space_line(space_line, line);
+	free(space_line);
+	split = ft_mini_split(line);
+	if (split == NULL)
 		return (0);
-	ft_rm_quotes(mini);
-	// [START DEL]testing rmb to rm
-	// printf("\033[0;31mMINI->INPUT(AFT PARSING)\n\033[0m");
-	// print_input(mini);
-	// printf("USER INPUT: [%s]\n", line);
-	// print_input_tgt(mini);
-	// [START DEL]testing rmb to rm
+	split = ft_split_var_exp(split, mini);
+	if (split == NULL)
+		return (0);
+	if (init_input(split, mini) == 0)
+		return (0);
+	if (check_syntax(mini) == 2)
+		return (0);
 	return (1);
 }
+
+// int	parsing(char *line, t_mini *mini)
+// {
+// 	char	*new;
+
+// 	if (ft_quote(line, ft_strlen(line)) != 0)
+// 	{
+// 		ft_putstr_fd("quotes not closed properly, syntax error\n", 1);
+// 		return (0);
+// 	}
+// 	new = ft_alloc_space(line);
+// 	if (new == NULL)
+// 		return (0);
+// 	ft_space_line(new, line);
+// 	if (tokenization(new, mini) == 0)
+// 		return (0);
+// 	ft_rm_quotes(mini);
+// 	// [START DEL]testing rmb to rm
+// 	// printf("\033[0;31mMINI->INPUT(AFT PARSING)\n\033[0m");
+// 	// print_input(mini);
+// 	// printf("USER INPUT: [%s]\n", line);
+// 	// print_input_tgt(mini);
+// 	// [START DEL]testing rmb to rm
+// 	return (1);
+// }

@@ -14,8 +14,9 @@ SRC_FILES = \
 	main.c
 
 PARSING_FILES = \
-	parsing_main.c parsing_rm_quote.c parsing_token_utils.c \
-	parsing_token.c parsing_helpers.c
+	parsing_main.c parsing_helpers.c parsing_init_input.c\
+	parsing_mini_split.c parsing_rm_quote.c parsing_syntax_check.c\
+	parsing_tokenization.c parsing_var_exp.c
 
 SIGNAL_FILES = \
 	signal.c
@@ -36,7 +37,7 @@ BUILT_INS_FILES = \
 ENV_FUNC = input_env_check.c input_env_utils.c input_env.c
 
 UTILS_FILES = \
-	pipe_present.c print_file.c print_cmd_error.c
+	pipe_present.c print_file.c print_error.c free_mini.c
 
 #Libft files
 LIBFT = \

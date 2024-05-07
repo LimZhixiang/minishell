@@ -12,6 +12,52 @@
 
 #include "../../../includes/minishell.h"
 
+int	wrd_count(char *new)
+{
+	int	i;
+	int	word;
+
+	word = 0;
+	i = 0;
+	while (new[i])
+	{
+		if (new[i] != ' ' && ft_quote(new, i) == 0)
+		{
+			word++;
+			while (new[i] && (new[i] != ' ' || ft_quote(new, i) != 0))
+				i++;
+		}
+		else
+			i++;
+	}
+	return (word);
+}
+
+int	mini_letters(char *new, int i, int flag)
+{
+	int	quote;
+	int	count;
+
+	count = 0;
+	quote = 0;
+	while (new[i] && (new[i] != ' ' || quote != 0))
+	{
+		if ((new[i] == '\'' || new[i] == '\"'))
+		{
+			if (quote == 0)
+				quote = ft_quote_c(new[i]);
+			else if (quote == ft_quote_c(new[i]))
+				quote = 0;
+		}
+		count++;
+		i++;
+	}
+	if (flag == 1)
+		return (count);
+	else
+		return (i);
+}
+
 void	ft_copy_letters(char *ret, char *new, int i)
 {
 	int	j;
@@ -71,99 +117,4 @@ char	**ft_mini_split(char *new)
 	}
 	result[wrd_count(new)] = NULL;
 	return (result);
-}
-
-int	syntax_error_type(t_parse *input)
-{
-	int		error;
-	t_parse	*temp;
-
-	temp = input;
-	error = 0;
-	if (temp->type == PIPE)
-	{
-		if (temp->prev == NULL || temp->prev->type >= PIPE
-			|| temp->next == NULL || temp->next->type >= PIPE)
-			error = 1;
-	}
-	if (temp->type > PIPE)
-	{
-		if (temp->next == NULL)
-			error = 2;
-		else if (temp->next->type >= PIPE)
-			error = 3;
-	}
-	return (error);
-}
-
-int	check_syntax(t_mini *mini)
-{
-	t_parse	*temp;
-	int		error;
-
-	error = 0;
-	temp = mini->input;
-	while (temp && error == 0)
-	{
-		error = syntax_error_type(temp);
-		if (error != 0)
-		{
-			if (error == 1)
-				print_syntax_error(temp->arg);
-			else if (error == 2)
-				print_syntax_error("newline");
-			else
-				print_syntax_error(temp->next->arg);
-			mini->status = 2;
-			return (mini->status);
-		}
-		temp = temp->next;
-	}
-	return (0);
-}
-
-int	init_input(char **split, t_mini *mini)
-{
-	t_parse	*temp;
-	int		cmd_flag;
-	int		i;
-
-	cmd_flag = 1;
-	i = 0;
-	split[i] = ft_var_exp(split[i], mini);
-	temp = ft_newnode(split[i++], NULL);
-	if (temp == NULL)
-		return (0);
-	temp->type = operator_type(temp, &cmd_flag);
-	mini->input = temp;
-	while (split[i])
-	{
-		split[i] = ft_var_exp(split[i], mini);
-		temp->next = ft_newnode(split[i++], temp);
-		if (temp->next == NULL)
-		{
-			ft_free_all(mini, RE_SHELL);
-			return (0);
-		}
-		temp->next->type = operator_type(temp->next, &cmd_flag);
-		temp = temp->next;
-	}
-	return (1);
-}
-
-int	tokenization(char *new, t_mini *mini)
-{
-	char	**split;
-
-	split = ft_mini_split(new);
-	free(new);
-	if (split == NULL)
-		return (0);
-	if (!init_input(split, mini) || check_syntax(mini) == 2)
-	{
-		free_str_arr(split);
-		return (0);
-	}
-	free_str_arr(split);
-	return (1);
 }

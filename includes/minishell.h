@@ -88,10 +88,9 @@ void	ft_copy_letters(char *ret, char *new, int i);
 char	*mini_cpy_letters(char *new, int i);
 char	**ft_mini_split(char *new);
 int		check_syntax(t_mini *mini);
-int		tokenization(char *new, t_mini *mini);
+int		tokenization(t_parse *node, int *CMD_FLAG);
 
 //parsing_token_helpers.c
-int		operator_type(t_parse *node, int *CMD_FLAG);
 int		wrd_count(char *new);
 int		mini_letters(char *new, int i, int flag);
 t_parse	*ft_newnode(char *content, t_parse *prev);
@@ -149,4 +148,13 @@ void	print_cmd_error(char *cmd, char *str);
 
 void	free_t_parse(t_parse *ptr);
 void	print_syntax_error(char *syntax);
+
+int		init_input(char **split, t_mini *mini);
+char	**ft_split_var_exp(char **split, t_mini *mini);
+char	*ft_var_exp(char *arg, t_mini *mini);
+int		check_syntax(t_mini *mini);
+
+int		check_quote_syntax(char *line);
+
+
 #endif

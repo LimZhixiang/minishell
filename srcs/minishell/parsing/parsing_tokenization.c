@@ -30,7 +30,7 @@ int	redir_type(t_parse *node, int *type)
 	return (status);
 }
 
-int	operator_type(t_parse *node, int *CMD_FLAG)
+int	tokenization(t_parse *node, int *CMD_FLAG)
 {
 	int	type;
 
@@ -52,68 +52,4 @@ int	operator_type(t_parse *node, int *CMD_FLAG)
 	}
 	redir_type(node, &type);
 	return (type);
-}
-
-int	wrd_count(char *new)
-{
-	int	i;
-	int	word;
-
-	word = 0;
-	i = 0;
-	while (new[i])
-	{
-		if (new[i] != ' ' && ft_quote(new, i) == 0)
-		{
-			word++;
-			while (new[i] && (new[i] != ' ' || ft_quote(new, i) != 0))
-				i++;
-		}
-		else
-			i++;
-	}
-	return (word);
-}
-
-int	mini_letters(char *new, int i, int flag)
-{
-	int	quote;
-	int	count;
-
-	count = 0;
-	quote = 0;
-	while (new[i] && (new[i] != ' ' || quote != 0))
-	{
-		if ((new[i] == '\'' || new[i] == '\"'))
-		{
-			if (quote == 0)
-				quote = ft_quote_c(new[i]);
-			else if (quote == ft_quote_c(new[i]))
-				quote = 0;
-		}
-		count++;
-		i++;
-	}
-	if (flag == 1)
-		return (count);
-	else
-		return (i);
-}
-
-t_parse	*ft_newnode(char *content, t_parse *prev)
-{
-	t_parse	*new;
-
-	new = malloc(sizeof(t_parse));
-	if (!new)
-		return (NULL);
-	new->arg = ft_strdup(content);
-	if (new->arg == NULL)
-	{
-		free(new);
-		return (NULL);
-	}
-	new->prev = prev;
-	new->next = NULL;
-	return (new);
 }
