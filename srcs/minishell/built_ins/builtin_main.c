@@ -26,10 +26,10 @@ int	builtin_handler(t_mini *mini, t_parse *node)
 		status = pwd_handler(mini);
 	else if (ft_strcmp(cmdarg[0], "echo"))
 		status = echo_handler(mini, cmdarg);
-	// else if (ft_strcmp(cmdarg[0], "export"))
-	// 	;
-	// else if (ft_strcmp(cmdarg[0], "unset"))
-	// 	;
+	else if (ft_strcmp(cmdarg[0], "export"))
+		status = export(mini, cmdarg);
+	else if (ft_strcmp(cmdarg[0], "unset"))
+		status = unset(mini, cmdarg);
 	else if (ft_strcmp(cmdarg[0], "env"))
 		status = env_builtin(mini, cmdarg);
 	else if (ft_strcmp(cmdarg[0], "exit"))

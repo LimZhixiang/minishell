@@ -12,40 +12,70 @@
 
 #include "../../../includes/minishell.h"
 
-t_env	*add_node(t_env *head, t_env *new)
+int	valid_env_name(char *line)
 {
-	t_env	*temp;
+	int	i;
 
-	temp = head;
-	while (temp != NULL)
-		temp = temp->next;
-	temp = new;
-}
-
-t_env	*remove_node(t_env *head, t_env *del)
-{
-	t_env	*temp;
-	t_env	*iter;
-
-	iter = head;
-	while (iter)
+	i = 0;
+	if (!line)
+		return (-1);
+	if (ft_valid_env(line[0]) == 2 || ft_valid_env(line[0]) <= 0)
+		return (0);
+	while (line[i] && line[i] != '=')
 	{
-		if (iter)
-			iter = iter->next;
+		if (ft_valid_env(line[i] <= 0))
+			return (0);
+		i++;
 	}
+	return (1);
 }
 
-t_env	*create_node(char *value)
+int	export(t_mini *mini, char **cmdarg)
 {
 	t_env	*new;
+	int		i;
 
-	new = malloc(sizeof(t_env));
-	if (!new)
-		print_cmd_error("malloc", "");
-	else
+	i = 1;
+	while (cmdarg[i])
 	{
-		new->value = ft_strdup (value);
-		new->next = NULL;
+		if (!ft_strchr(cmdarg[i], '=') || !valid_env_name(cmdarg[i]))
+		{
+			i++;
+			continue ;
+		}
+		new = create_node(cmdarg[i]);
+		add_node(mini->env, new);
+		i++;
 	}
-	return (new);
+	return (1);
 }
+
+int	unset(t_mini *mini, char **cmdarg)
+{
+	t_env	*iter;
+	t_env	*temp;
+	char	*env;
+	int		i;
+
+	i = 1;
+	iter = mini->env;
+	temp = iter;
+	while (iter)
+	{
+		while (cmdarg[i])
+		{
+			env = get_envp_name(iter->value);
+			if (!env)
+				return (1);
+			if (ft_strcmp(env, cmdarg[i]))
+				iter = del_curr_node(temp, iter);
+			i++;
+			free(env);
+		}
+		i = 1;
+		temp = iter;
+			iter = iter->next;
+	}
+	return (1);
+}
+

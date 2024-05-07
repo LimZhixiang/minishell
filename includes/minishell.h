@@ -150,6 +150,10 @@ int		pwd_handler(t_mini *mini);
 //./built_ins/env_builtin.c
 int		env_builtin(t_mini *mini, char **cmdarg);
 
+//./built_ins/modifyenv.c
+int	export(t_mini *mini, char **cmdarg);
+int	unset(t_mini *mini, char **cmdarg);
+
 //./signal/signal.c
 void	signal_controller(void);
 
@@ -160,13 +164,4 @@ void	print_cmd_error(char *cmd, char *str);
 
 void	free_t_parse(t_parse *ptr);
 void	print_syntax_error(char *syntax);
-
-int		init_input(char **split, t_mini *mini);
-char	**ft_split_var_exp(char **split, t_mini *mini);
-char	*ft_var_exp(char *arg, t_mini *mini);
-int		check_syntax(t_mini *mini);
-
-int		check_quote_syntax(char *line);
-int		echo_handler(t_mini *mini, char **cmdarg);
-
 #endif

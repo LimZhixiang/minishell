@@ -31,13 +31,13 @@ EXECUTE_FILES = \
 	execute.c cmdpath.c
 
 BUILT_INS_FILES = \
-	builtin_main.c directory.c env_builtin.c echo.c
+	builtin_main.c directory.c env_builtin.c echo.c modify_env.c
 
 #files that check env in user input
 ENV_FUNC = input_env_check.c input_env_utils.c input_env.c
 
 UTILS_FILES = \
-	pipe_present.c print_file.c print_error.c free_mini.c
+	pipe_present.c print_file.c print_error.c env_node_utils.c free_mini.c
 
 #Libft files
 LIBFT = \

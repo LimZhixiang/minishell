@@ -40,20 +40,21 @@ char	*get_envp_name(char *str)
 	char	*res;
 
 	i = 0;
-	res = NULL;
 	while (str[i] != '=')
 		i++;
-	res = malloc(sizeof(char) * (i + 2));
+	res = malloc(sizeof(char) * (i + 1));
 	if (!res)
+	{
+		print_cmd_error("malloc", "");
 		return (NULL);
-	res[0] = '$';
+	}
 	i = 0;
 	while (str[i] != '=')
 	{
-		res[i + 1] = str[i];
+		res[i] = str[i];
 		i++;
 	}
-	res[i + 1] = 0;
+	res[i] = 0;
 	return (res);
 }
 
