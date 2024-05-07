@@ -27,8 +27,8 @@ int	echo_handler(t_mini *mini, char **cmdarg)
 
 	fd = check_mini_out(mini->out);
 	n_flag = 1;
-	i = 0;
-	while (cmdarg[++i])
+	i = 1;
+	while (cmdarg[i])
 	{
 		if (i == 1 && ft_strcmp(cmdarg[i], "-n") == 1)
 		{
@@ -40,6 +40,7 @@ int	echo_handler(t_mini *mini, char **cmdarg)
 			ft_putstr_fd(cmdarg[i], fd);
 			if (cmdarg[i + 1] != NULL)
 				ft_putstr_fd(" ", fd);
+			i++;
 		}
 	}
 	if (n_flag == 1)
