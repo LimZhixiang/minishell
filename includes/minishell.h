@@ -87,7 +87,7 @@ void	ft_rm_quotes(t_mini *mini);
 void	ft_copy_letters(char *ret, char *new, int i);
 char	*mini_cpy_letters(char *new, int i);
 char	**ft_mini_split(char *new);
-void	check_syntax(t_mini *mini);
+int		check_syntax(t_mini *mini);
 int		tokenization(char *new, t_mini *mini);
 
 //parsing_token_helpers.c

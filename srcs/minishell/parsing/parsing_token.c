@@ -96,7 +96,7 @@ int	syntax_error_type(t_parse *input)
 	return (error);
 }
 
-void	check_syntax(t_mini *mini)
+int	check_syntax(t_mini *mini)
 {
 	t_parse	*temp;
 	int		error;
@@ -115,10 +115,11 @@ void	check_syntax(t_mini *mini)
 			else
 				print_syntax_error(temp->next->arg);
 			mini->status = 2;
-			return ;
+			return (mini->status);
 		}
 		temp = temp->next;
 	}
+	return (0);
 }
 
 int	init_input(char **split, t_mini *mini)
@@ -158,7 +159,7 @@ int	tokenization(char *new, t_mini *mini)
 	free(new);
 	if (split == NULL)
 		return (0);
-	if (!init_input(split, mini))
+	if (!init_input(split, mini) || check_syntax(mini) == 2)
 	{
 		free_str_arr(split);
 		return (0);

@@ -66,10 +66,10 @@ char	*ft_var_exp(char *new, t_mini *mini)
 	char	*name;
 	char	*result;
 
-	i = 0;
-	while (new[i])
+	i = -1;
+	while (new[++i])
 	{
-		if (ft_quote(new, i) != 1 && new[i] == '$'
+		if (ft_quote(new, i) != 1 && new[i] == '$' 
 			&& ft_valid_env(new[i + 1]) != 0)
 		{
 			j = 1;
@@ -87,8 +87,6 @@ char	*ft_var_exp(char *new, t_mini *mini)
 				free(result);
 			}
 		}
-		else
-			i++;
 	}
 	return (new);
 }
