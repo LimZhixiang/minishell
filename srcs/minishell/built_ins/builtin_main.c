@@ -12,6 +12,8 @@ int	builtin_handler(t_mini *mini, t_parse *node)
 		status = cd_handler(mini, cmdarg);
 	else if (ft_strcmp(cmdarg[0], "pwd"))
 		status = pwd_handler(mini);
+	else if (ft_strcmp(cmdarg[0], "echo"))
+		status = echo_handler(mini, cmdarg);
 	// else if (ft_strcmp(cmdarg[0], "export"))
 	// 	;
 	// else if (ft_strcmp(cmdarg[0], "unset"))

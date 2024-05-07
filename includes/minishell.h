@@ -155,6 +155,8 @@ char	*ft_var_exp(char *arg, t_mini *mini);
 int		check_syntax(t_mini *mini);
 
 int		check_quote_syntax(char *line);
+int		echo_handler(t_mini *mini, char **cmdarg);
+
 
 
 #endif

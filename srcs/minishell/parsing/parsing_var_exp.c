@@ -51,7 +51,7 @@ char	*ft_var_exp(char *arg, t_mini *mini)
 		if (ft_quote(arg, i) != 1 && arg[i] == '$' && ft_valid_env(arg[i + 1]) != 0)
 		{
 			j = 1;
-			while (ft_valid_env(arg[i + j]) > 0 )
+			while (ft_valid_env(arg[i + j]) > 0)
 				j++;
 			if (ft_valid_env(arg[i + j]) == -1 && j == 1)
 				arg = get_status_code(arg, mini, i);
