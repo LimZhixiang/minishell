@@ -12,8 +12,9 @@
 
 #include "../../../includes/minishell.h"
 
-void	print_env_error(char *arg)
+void	print_env_error(char *arg, t_mini *mini, int error_code)
 {
+	mini->status = error_code;
 	ft_putstr_fd("export: \'", 2);
 	ft_putstr_fd(arg, 2);
 	ft_putstr_fd("\': not a valid identifier\n", 2);

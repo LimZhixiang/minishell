@@ -32,12 +32,11 @@ int	valid_env_name(char *line)
 
 int	is_current_env(char *arg, t_mini *mini, char *arg_name)
 {
-	int		val;
 	char	*env_name;
 	char	*replace;
 	t_env	*temp;
 
-	val = 0;
+	mini->status = 0;
 	temp = mini->env;
 	while (temp)
 	{
@@ -50,14 +49,14 @@ int	is_current_env(char *arg, t_mini *mini, char *arg_name)
 				print_cmd_error("malloc", "");
 			else
 				temp->value = replace;
-			val = 1;
+			mini->status = 1;
+			free(env_name);
 			break ;
 		}
 		temp = temp->next;
 		free(env_name);
 	}
-	free(env_name);
-	return (val);
+	return (mini->status);
 }
 
 int	export(t_mini *mini, char **cmdarg)
@@ -66,17 +65,14 @@ int	export(t_mini *mini, char **cmdarg)
 	int		i;
 	char	*arg_name;
 
-	i = 1;
 	mini->status = 0;
+	i = 1;
 	while (cmdarg[i])
 	{
 		if (!ft_strchr(cmdarg[i], '=') || !valid_env_name(cmdarg[i]))
 		{
 			if (!valid_env_name(cmdarg[i]))
-			{
-				print_env_error(cmdarg[i]);
-				mini->status = 1;
-			}
+				print_env_error(cmdarg[i], mini, 1);
 			i++;
 			continue ;
 		}

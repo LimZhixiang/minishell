@@ -59,3 +59,9 @@ void	pipe_handler(t_mini *mini, t_parse *node, char **envp)
 		dup2(mini->out, 1);
 	pipex(mini, node, envp);
 }
+
+
+//cat <"./test_files/infile" | echo hi
+//suppose to print hi but didnt print
+//echo <missing <"./test_files/infile" <missing
+//suppose to print only one missing hi
