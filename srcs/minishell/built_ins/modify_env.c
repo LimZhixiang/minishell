@@ -30,22 +30,58 @@ int	valid_env_name(char *line)
 	return (1);
 }
 
+int	is_current_env(char *arg, t_mini *mini, char *arg_name)
+{
+	int		val;
+	char	*env_name;
+	char	*replace;
+	t_env	*temp;
+
+	val = 0;
+	temp = mini->env;
+	while (temp)
+	{
+		env_name = get_envp_name(temp->value);
+		if (ft_strcmp(arg_name, env_name))
+		{
+			free(temp->value);
+			replace = ft_strdup(arg);
+			if (replace == NULL)
+				print_cmd_error("malloc", "");
+			else
+				temp->value = replace;
+			val = 1;
+			break ;
+		}
+		temp = temp->next;
+		free(env_name);
+	}
+	return (val);
+}
+
 int	export(t_mini *mini, char **cmdarg)
 {
 	t_env	*new;
 	int		i;
+	char	*arg_name;
 
 	i = 1;
 	while (cmdarg[i])
 	{
 		if (!ft_strchr(cmdarg[i], '=') || !valid_env_name(cmdarg[i]))
 		{
-			print_env_error(cmdarg[i]);
+			if (!valid_env_name(cmdarg[i]))
+				print_env_error(cmdarg[i]);
 			i++;
 			continue ;
 		}
-		new = create_node(cmdarg[i]);
-		add_node(mini->env, new);
+		arg_name = get_envp_name(cmdarg[i]);
+		if (is_current_env(cmdarg[i], mini, arg_name) == 0)
+		{
+			new = create_node(cmdarg[i]);
+			add_node(mini->env, new);
+		}
+		free(arg_name);
 		i++;
 	}
 	return (1);
@@ -75,7 +111,7 @@ int	unset(t_mini *mini, char **cmdarg)
 		}
 		i = 1;
 		temp = iter;
-			iter = iter->next;
+		iter = iter->next;
 	}
 	return (1);
 }

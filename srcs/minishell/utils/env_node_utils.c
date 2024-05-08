@@ -5,9 +5,11 @@ void	add_node(t_env *head, t_env *new)
 	t_env	*temp;
 
 	temp = head;
+	
 	while (temp->next != NULL)
 		temp = temp->next;
-	temp->next = new;
+	if (new != NULL)
+		temp->next = new;
 }
 
 t_env	*del_curr_node(t_env *prev, t_env *del)
