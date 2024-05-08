@@ -33,7 +33,7 @@ int	builtin_handler(t_mini *mini, t_parse *node)
 	else if (ft_strcmp(cmdarg[0], "env"))
 		status = env_builtin(mini, cmdarg);
 	else if (ft_strcmp(cmdarg[0], "exit"))
-		status = 1;
+		status = mini_exit(mini, cmdarg);
 	free_str_arr(cmdarg);
 	return (status);
 }

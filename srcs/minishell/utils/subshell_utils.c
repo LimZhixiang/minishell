@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*   subshell_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yraynen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -24,4 +24,24 @@ int	pipe_present(t_parse *head)
 		node = node->next;
 	}
 	return (0);
+}
+
+t_parse	*nxt_subshell(t_mini *mini, t_parse *node)
+{
+	t_parse	*nxt;
+
+	nxt = node->next;
+	while (nxt)
+	{
+		if (nxt->type == PIPE)
+		{
+			nxt = nxt->next;
+			break ;
+		}
+		nxt = nxt->next;
+	}
+	mini->pipe = pipe_present(node);
+	mini->in = -1;
+	mini->out = -1;
+	return (nxt);
 }

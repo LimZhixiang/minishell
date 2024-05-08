@@ -154,10 +154,14 @@ int		env_builtin(t_mini *mini, char **cmdarg);
 int	export(t_mini *mini, char **cmdarg);
 int	unset(t_mini *mini, char **cmdarg);
 
+//./built_ins/builtin_exit.c
+int	mini_exit(t_mini *mini, char **cmdarg);
+
 //./signal/signal.c
 void	signal_controller(void);
 
 //./utils
+t_parse	*nxt_subshell(t_mini *mini, t_parse *node);
 int		pipe_present(t_parse *head);
 void	print_file(int fd);
 void	print_cmd_error(char *cmd, char *str);
