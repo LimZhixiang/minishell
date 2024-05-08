@@ -172,6 +172,7 @@ void	print_syntax_error(char *syntax);
 void	add_node(t_env *head, t_env *new);
 t_env	*del_curr_node(t_env *prev, t_env *del);
 t_env	*create_node(char *value);
+void	replace_node(t_env *node, char *env_name, char *value);
 
 int		init_input(char **split, t_mini *mini);
 char	**ft_split_var_exp(char **split, t_mini *mini);

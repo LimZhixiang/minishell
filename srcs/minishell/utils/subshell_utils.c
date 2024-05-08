@@ -40,7 +40,7 @@ t_parse	*nxt_subshell(t_mini *mini, t_parse *node)
 		}
 		nxt = nxt->next;
 	}
-	mini->pipe = pipe_present(node);
+	mini->pipe = pipe_present(nxt);
 	mini->in = -1;
 	mini->out = -1;
 	return (nxt);
