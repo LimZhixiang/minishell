@@ -23,7 +23,7 @@ int	valid_env_name(char *line)
 		return (0);
 	while (line[i] && line[i] != '=')
 	{
-		if (ft_valid_env(line[i] <= 0))
+		if (ft_valid_env(line[i]) <= 0)
 			return (0);
 		i++;
 	}
@@ -66,12 +66,16 @@ int	export(t_mini *mini, char **cmdarg)
 	char	*arg_name;
 
 	i = 1;
+	mini->status = 0;
 	while (cmdarg[i])
 	{
 		if (!ft_strchr(cmdarg[i], '=') || !valid_env_name(cmdarg[i]))
 		{
 			if (!valid_env_name(cmdarg[i]))
+			{
 				print_env_error(cmdarg[i]);
+				mini->status = 1;
+			}
 			i++;
 			continue ;
 		}
@@ -97,6 +101,7 @@ int	unset(t_mini *mini, char **cmdarg)
 	i = 1;
 	iter = mini->env;
 	temp = iter;
+	mini->status = 0;
 	while (iter)
 	{
 		while (cmdarg[i])

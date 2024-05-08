@@ -45,5 +45,6 @@ int	echo_handler(t_mini *mini, char **cmdarg)
 	}
 	if (n_flag == 1)
 		ft_putstr_fd("\n", fd);
+	mini->status = 0;
 	return (1);
 }

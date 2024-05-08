@@ -42,6 +42,6 @@ int	pwd_handler(t_mini *mini)
 		ft_putendl_fd(getcwd(buffer, sizeof(buffer)), 1);
 	if (errno != 0)
 		print_cmd_error("pwd", "");
-	mini->status = errno;
+	mini->status = 0;
 	return (1);
 }

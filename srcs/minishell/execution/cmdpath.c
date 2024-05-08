@@ -21,7 +21,7 @@ char	*extract_path(char **env)
 
 	i = 0;
 	j = 0;
-	path = 0;
+	path = NULL;
 	pattern = "PATH=\0";
 	while (env[i])
 	{
@@ -36,8 +36,10 @@ char	*extract_path(char **env)
 		j = 0;
 		i++;
 	}
-	// if (!env[i] && !path)
-		// error_checker(5);
+	if (env[i] == NULL)
+		exit(127);
+	// if (!path)
+	// 	mallocerror
 	return (path);
 }
 
