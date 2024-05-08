@@ -176,4 +176,5 @@ int		check_syntax(t_mini *mini);
 
 int		check_quote_syntax(char *line);
 int		echo_handler(t_mini *mini, char **cmdarg);
+void	print_env_error(char *arg);
 #endif

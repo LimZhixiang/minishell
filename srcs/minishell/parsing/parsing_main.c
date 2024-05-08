@@ -165,6 +165,7 @@ int	parsing(char *line, t_mini *mini)
 		return (0);
 	if (check_syntax(mini) == 2)
 		return (0);
+	ft_rm_quotes(mini);
 	return (1);
 }
 

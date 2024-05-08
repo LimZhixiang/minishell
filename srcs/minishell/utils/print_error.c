@@ -12,6 +12,13 @@
 
 #include "../../../includes/minishell.h"
 
+void	print_env_error(char *arg)
+{
+	ft_putstr_fd("export: \'", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd("\': not a valid identifier\n", 2);
+}
+
 void	print_syntax_error(char *syntax)
 {
 	ft_putstr_fd("syntax error near unexpected token ", 2);

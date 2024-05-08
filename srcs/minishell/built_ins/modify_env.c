@@ -40,6 +40,7 @@ int	export(t_mini *mini, char **cmdarg)
 	{
 		if (!ft_strchr(cmdarg[i], '=') || !valid_env_name(cmdarg[i]))
 		{
+			print_env_error(cmdarg[i]);
 			i++;
 			continue ;
 		}
