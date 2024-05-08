@@ -61,22 +61,17 @@ void	execute(t_parse *node, char **envp)
 	envpath = extract_path(envp);
 	cmdpath = NULL;
 	if (ft_strchr(cmdarg[0], '/') && cmdarg)
-	{
-		if (execve(cmdarg[0], cmdarg, envp) == -1)
-			print_cmd_error("execve", cmdarg[0]);
-	}
+		execve(cmdarg[0], cmdarg, envp);
 	else if (cmdarg && envpath)
 	{
 		cmdpath = getcmdpath(cmdarg[0], envpath);
-		if (execve(cmdpath, cmdarg, envp) == -1)
-			print_cmd_error("execve", "");
+		execve(cmdpath, cmdarg, envp);
 	}
 	if (cmdpath)
 		free(cmdpath);
-	if (cmdarg)
-		free_str_arr(cmdarg);
-	if (envpath)
-		free(envpath);
+	if (errno)
+		print_cmd_error("execve", "");
+	exit(errno);
 }
 
 void	get_execution(t_mini *mini, t_parse *node, char **envp)
