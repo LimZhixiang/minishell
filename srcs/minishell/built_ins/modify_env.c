@@ -56,6 +56,7 @@ int	is_current_env(char *arg, t_mini *mini, char *arg_name)
 		temp = temp->next;
 		free(env_name);
 	}
+	free(env_name);
 	return (val);
 }
 
