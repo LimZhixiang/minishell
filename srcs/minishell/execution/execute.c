@@ -62,7 +62,7 @@ void	execute(t_parse *node, char **envp)
 	cmdpath = NULL;
 	if (ft_strchr(cmdarg[0], '/') && cmdarg)
 	{
-		if (execve(cmdarg[0], cmdarg, NULL) == -1)
+		if (execve(cmdarg[0], cmdarg, envp) == -1)
 			print_cmd_error("execve", cmdarg[0]);
 	}
 	else if (cmdarg && envpath)
@@ -77,7 +77,6 @@ void	execute(t_parse *node, char **envp)
 		free_str_arr(cmdarg);
 	if (envpath)
 		free(envpath);
-	exit(errno);
 }
 
 void	get_execution(t_mini *mini, t_parse *node, char **envp)
