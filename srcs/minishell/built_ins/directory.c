@@ -11,7 +11,10 @@ int cd_handler(t_mini *mini, char **line)
 	if (strarr_len(line) == 2)
 	{
 		if (chdir(line[1]) == -1)
+		{
 			print_cmd_error("cd", line[1]);
+			mini->status = 1;
+		}
 		else
 		{
 			replace_node(mini->env, "OLDPWD", oldpwd);

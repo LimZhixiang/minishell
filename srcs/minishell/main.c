@@ -12,6 +12,8 @@
 
 #include "../../includes/minishell.h"
 
+int	type;
+
 int	input_handler(char *input)
 {
 	if (input == 0)
