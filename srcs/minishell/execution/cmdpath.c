@@ -80,9 +80,7 @@ char	*getcmdpath(char *cmdarg, char *envpath)
 		cmdpath = check_cmd(envpath, cmd[0]);
 	if (!cmdpath)
 	{
-		write(2, "minishell: Command not found: ", 31);
-		write(2, cmd[0], ft_strlen(cmd[0]));
-		write(2, "\n", 1);
+		print_cmd_error(cmd[0], "command not found");
 		exit(127);
 	}
 	free(envpath);

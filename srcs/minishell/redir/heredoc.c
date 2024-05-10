@@ -23,7 +23,16 @@ void	heredoc(t_mini *mini, char *eof)
 	filehandler(".heredoctemp.tmp", &tmpfd, OUTPUT);
 	while (1)
 	{
+		// if (g_type != 3)
+		// {
 		line = readline("heredoc> ");
+		// 	i++;
+		// 	printf("%s,%i, %i\n", rl_prompt, i, g_type);
+		// }	
+		// if (g_type == 3)
+		// {
+		// 	break;
+		// }
 		if (line == 0 || ft_strcmp(line, eof))
 		{
 			if (line == 0)

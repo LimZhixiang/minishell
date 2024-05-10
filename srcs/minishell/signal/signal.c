@@ -14,12 +14,18 @@
 
 static void	signal_handler(int sig)
 {
-	if (sig == SIGINT && g_type == 0 )
+	if (sig == SIGINT && g_type == 0)
 	{
 		write(2, "\n", 1);
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
+	}
+	else if (g_type == 2)
+	{
+		g_type = 3;
+		rl_replace_line("\n", 0);
+		write(1, "\n", 1);
 	}
 	else
 		write(2, "\n", 1);
