@@ -19,6 +19,7 @@ void	heredoc(t_mini *mini, char *eof)
 
 	(void) mini;
 	tmpfd = -1;
+	g_type = 2;
 	filehandler(".heredoctemp.tmp", &tmpfd, OUTPUT);
 	while (1)
 	{

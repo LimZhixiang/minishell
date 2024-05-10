@@ -43,7 +43,8 @@ void	redir(t_mini *mini, t_parse *node)
 	if (node->type == HDOC)
 	{
 		heredoc(mini, node->next->arg);
-		filehandler(".heredoctemp.tmp", &mini->in, INPUT);
+		if (g_type == 3)
+			filehandler(".heredoctemp.tmp", &mini->in, INPUT);
 	}
 	if (node->next->type != FILENAME)
 		return ;
