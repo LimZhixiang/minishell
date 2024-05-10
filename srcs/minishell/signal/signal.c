@@ -14,7 +14,7 @@
 
 static void	signal_handler(int sig)
 {
-	if (sig == SIGINT && type == 0)
+	if (sig == SIGINT && g_type == 0)
 	{
 		write(2, "\n", 1);
 		rl_replace_line("", 0);
