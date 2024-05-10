@@ -38,9 +38,8 @@ int	echo_handler(t_mini *mini, char **cmdarg)
 		if (cmdarg[i] != NULL)
 		{
 			ft_putstr_fd(cmdarg[i], fd);
-			if (cmdarg[i + 1] != NULL)
+			if (cmdarg[(i++) + 1] != NULL)
 				ft_putstr_fd(" ", fd);
-			i++;
 		}
 	}
 	if (n_flag == 1)

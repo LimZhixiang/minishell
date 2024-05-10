@@ -82,7 +82,6 @@ void	get_execution(t_mini *mini, t_parse *node, char **envp)
 
 	if (pipe(fds) == -1)
 		return ;
-	g_type = 1;
 	pid = fork();
 	if (pid == 0)
 	{
@@ -97,7 +96,6 @@ void	get_execution(t_mini *mini, t_parse *node, char **envp)
 		print_file(fds[0]);
 		close(fds[0]);
 		wait(&status);
-		g_type = 0;
 	}
 	else
 		print_cmd_error("pipe", "");
@@ -112,7 +110,11 @@ void	exec_handler(t_mini *mini, t_parse *node, char **env)
 	if (mini->out != -1)
 		dup2(mini->out, 1);
 	if (builtin_handler(mini, node) == 0)
+	{
+		g_type = 1;
 		get_execution(mini, node, env);
+		g_type = 0;
+	}
 	dup2(mini->term_in, 0);
 	dup2(mini->term_out, 1);
 	mini->in = -1;
