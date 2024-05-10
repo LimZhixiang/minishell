@@ -106,9 +106,8 @@ int	unset(t_mini *mini, char **cmdarg)
 			env = get_envp_name(iter->value);
 			if (!env)
 				return (1);
-			if (ft_strcmp(env, cmdarg[i]))
+			if (ft_strcmp(env, cmdarg[i++]))
 				iter = del_curr_node(temp, iter);
-			i++;
 			free(env);
 		}
 		i = 1;

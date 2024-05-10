@@ -82,7 +82,7 @@ void	get_execution(t_mini *mini, t_parse *node, char **envp)
 
 	if (pipe(fds) == -1)
 		return ;
-	type = 1;
+	g_type = 1;
 	pid = fork();
 	if (pid == 0)
 	{
@@ -91,13 +91,13 @@ void	get_execution(t_mini *mini, t_parse *node, char **envp)
 		close(fds[1]);
 		execute(node, envp);
 	}
-	else if(pid > 0)
+	else if (pid > 0)
 	{
 		close(fds[1]);
 		print_file(fds[0]);
 		close(fds[0]);
 		wait(&status);
-		type = 0;
+		g_type = 0;
 	}
 	else
 		print_cmd_error("pipe", "");

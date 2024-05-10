@@ -45,8 +45,7 @@
 # include <errno.h>
 # include "../srcs/libft/libft.h"
 
-
-extern int type;
+extern int	g_type;
 //Input checkers
 int		env_found(char *line);
 char	*invalid_env(char *line);
@@ -153,11 +152,11 @@ int		pwd_handler(t_mini *mini);
 int		env_builtin(t_mini *mini, char **cmdarg);
 
 //./built_ins/modifyenv.c
-int	export(t_mini *mini, char **cmdarg);
-int	unset(t_mini *mini, char **cmdarg);
+int		export(t_mini *mini, char **cmdarg);
+int		unset(t_mini *mini, char **cmdarg);
 
 //./built_ins/builtin_exit.c
-int	mini_exit(t_mini *mini, char **cmdarg);
+int		mini_exit(t_mini *mini, char **cmdarg);
 
 //./signal/signal.c
 void	signal_controller(void);

@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   directory.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yraynen <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/09 18:09:11 by yraynen           #+#    #+#             */
+/*   Updated: 2023/09/09 18:10:40 by yraynen          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../includes/minishell.h"
 
 //unsure if the mini->status is needed
 
-int cd_handler(t_mini *mini, char **line)
+int	cd_handler(t_mini *mini, char **line)
 {
 	char	buffer[PATH_MAX];
 	char	*oldpwd;

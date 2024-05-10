@@ -68,7 +68,7 @@ int		find_word(char *line, char *wrd);
 int		strarr_len(char **strarr);
 int		str_check(int (func(int)), char *str);
 void	ft_putnbr(int nb, int base, char *basev);
-
+void	ft_putnbr_base(int nb, char *base);
 t_list	*ft_lstnew(void *content);
 void	ft_lstadd_front(t_list **lst, t_list *new);
 int		ft_lstsize(t_list *lst);
@@ -78,6 +78,7 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+char	*ft_convert_base(int nb, char *base);
 
 char	*get_next_line(int fd);
 #endif

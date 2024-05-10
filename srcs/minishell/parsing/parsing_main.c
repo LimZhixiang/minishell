@@ -77,72 +77,6 @@ char	*ft_alloc_space(char *line)
 	return (malloc_char(i + space));
 }
 
-//[START DEL]testing rmb to rm
-void	print_input(t_mini *mini)
-{
-	t_parse	*temp;
-	int		i;
-	char	*s;
-
-	i = 0;
-	temp = mini->input;
-	while (temp)
-	{
-		printf("[Node%i]\n", i++);
-		printf("Arg : [%s]\n", temp->arg);
-		if (temp->type == 1)
-			s = ft_strdup("CMD");
-		if (temp->type == 2)
-			s = ft_strdup("ARG");
-		if (temp->type == 3)
-			s = ft_strdup("DELIMITER");
-		if (temp->type == 4)
-			s = ft_strdup("FILENAME");
-		if (temp->type == 5)
-			s = ft_strdup("PIPE");
-		if (temp->type == 6)
-			s = ft_strdup("OUTPUT");
-		if (temp->type == 7)
-			s = ft_strdup("APPEND");
-		if (temp->type == 8)
-			s = ft_strdup("INPUT");
-		if (temp->type == 9)
-			s = ft_strdup("HDOC");
-		printf("Type: %s, %i\n", s, temp->type);
-		free(s);
-		temp = temp->next;
-		if (temp)
-		{
-			printf("   |\n");
-			printf("   V\n");
-		}
-	}
-	printf("\n");
-}
-
-void	print_input_tgt(t_mini *mini)
-{
-	t_parse	*temp;
-	int		i;
-
-	i = 0;
-	temp = mini->input;
-	printf("\033[0;32mMINI INPUT: ");
-	while (temp)
-	{
-		if (i == 0)
-			printf("[");
-		printf("%s", temp->arg);
-		if (temp->next)
-			printf(" ");
-		else
-			printf("]\n\033[0m");
-		i++;
-		temp = temp->next;
-	}
-	printf("\n");
-}
-
 int	parsing(char *line, t_mini *mini)
 {
 	char	*space_line;
@@ -192,4 +126,70 @@ int	parsing(char *line, t_mini *mini)
 // 	// print_input_tgt(mini);
 // 	// [START DEL]testing rmb to rm
 // 	return (1);
+// }
+
+// //[START DEL]testing rmb to rm
+// void	print_input(t_mini *mini)
+// {
+// 	t_parse	*temp;
+// 	int		i;
+// 	char	*s;
+
+// 	i = 0;
+// 	temp = mini->input;
+// 	while (temp)
+// 	{
+// 		printf("[Node%i]\n", i++);
+// 		printf("Arg : [%s]\n", temp->arg);
+// 		if (temp->type == 1)
+// 			s = ft_strdup("CMD");
+// 		if (temp->type == 2)
+// 			s = ft_strdup("ARG");
+// 		if (temp->type == 3)
+// 			s = ft_strdup("DELIMITER");
+// 		if (temp->type == 4)
+// 			s = ft_strdup("FILENAME");
+// 		if (temp->type == 5)
+// 			s = ft_strdup("PIPE");
+// 		if (temp->type == 6)
+// 			s = ft_strdup("OUTPUT");
+// 		if (temp->type == 7)
+// 			s = ft_strdup("APPEND");
+// 		if (temp->type == 8)
+// 			s = ft_strdup("INPUT");
+// 		if (temp->type == 9)
+// 			s = ft_strdup("HDOC");
+// 		printf("Type: %s, %i\n", s, temp->type);
+// 		free(s);
+// 		temp = temp->next;
+// 		if (temp)
+// 		{
+// 			printf("   |\n");
+// 			printf("   V\n");
+// 		}
+// 	}
+// 	printf("\n");
+// }
+
+// void	print_input_tgt(t_mini *mini)
+// {
+// 	t_parse	*temp;
+// 	int		i;
+
+// 	i = 0;
+// 	temp = mini->input;
+// 	printf("\033[0;32mMINI INPUT: ");
+// 	while (temp)
+// 	{
+// 		if (i == 0)
+// 			printf("[");
+// 		printf("%s", temp->arg);
+// 		if (temp->next)
+// 			printf(" ");
+// 		else
+// 			printf("]\n\033[0m");
+// 		i++;
+// 		temp = temp->next;
+// 	}
+// 	printf("\n");
 // }

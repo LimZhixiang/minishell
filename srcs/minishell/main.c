@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-int	type;
+int	g_type;
 
 int	input_handler(char *input)
 {
@@ -97,7 +97,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			ft_free_all(mini, RE_SHELL);
 			free(mini->user_input);
-			continue;
+			continue ;
 		}
 		minishell(mini);
 		free(mini->user_input);
