@@ -39,6 +39,7 @@
 # include <signal.h>
 # include <dirent.h>
 # include <term.h>
+# include <termios.h>
 # include <curses.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -57,19 +58,22 @@ int		find_env(char *line, char *wrd);
 char	*get_envp_name(char *str);
 char	*get_envp_value(char *str);
 
-typedef struct s_env{
+typedef struct s_env
+{
 	char			*value;
 	struct s_env	*next;
 }	t_env;
 
-typedef struct s_parse{
+typedef struct s_parse
+{
 	char			*arg;
 	int				type;
 	struct s_parse	*next;
 	struct s_parse	*prev;
 }	t_parse;
 
-typedef struct s_mini{
+typedef struct s_mini
+{
 	t_env	*env;
 	t_parse	*input;
 	char	*user_input;
@@ -124,10 +128,9 @@ int		env_node_count(t_env *env);
 char	**get_env_arr(t_mini *mini);
 
 //./redir/
-void	fd_handler(t_mini *mini, t_parse *head);
-void	filehandler(char *filename, int *fd, int flag);
-void	heredoc(t_mini *mini, char *eof);
-void	pipex(t_mini *mini, t_parse *node, char **envp);
+int		fd_handler(t_mini *mini, t_parse *head);
+int		filehandler(char *filename, int *fd, int flag);
+void	heredoc_controller(t_mini *mini, char *eof, int fd);
 void	pipe_handler(t_mini *mini, t_parse *node, char **envp);
 
 //./execution/cmdpaths.c
@@ -136,10 +139,12 @@ char	*check_cmd(char *envpath, char *cmd);
 char	*getcmdpath(char *cmdarg, char *envpath);
 
 //./execution/execute.c
-int		cmd_word_count(t_parse *input);
 char	**get_command(t_parse *input);
 void	execute(t_parse *node, char **envp);
 void	exec_handler(t_mini *mini, t_parse *node, char **env);
+
+//./execution/getcmd.c
+char	**get_command(t_parse *input);
 
 //./built_ins/builtin_main.c
 int		builtin_handler(t_mini *mini, t_parse *node);

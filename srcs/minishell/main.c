@@ -47,10 +47,12 @@ void	minishell(t_mini *mini)
 	input_cpy = mini->input;
 	env = get_env_arr(mini);
 	mini->pipe = pipe_present(mini->input);
+	g_type = 1;
 	if (mini->pipe == 1)
 		subshell(mini, input_cpy, env);
 	else
 		exec_handler(mini, input_cpy, env);
+	g_type = 0;
 	if (access(".heredoctemp.tmp", F_OK) == 0)
 		unlink(".heredoctemp.tmp");
 	free_str_arr(env);
@@ -74,10 +76,24 @@ t_mini	*innit_mini(int argc, char **argv, char **envp)
 	mini->exit = 0;
 	mini->in = -1;
 	mini->out = -1;
+	// int	i;
+	// i = 0;
+	// struct termios term;
+	// while (i <= 9484)
+	// {
+	// 	if (isatty(i))
+	// 	{
+	// 		printf("%s\n", ttyname(i));
+	// 		printf("%d connected\n", i);
+
+	// 		tcgetattr(i, &term);
+	// 	}
+	// 	i++;
+	// }
 	mini->term_in = dup(0);
 	mini->term_out = dup(1);
-	mini->status = 0;
 	mini->pipe = 0;
+	mini->status = 0;
 	return (mini);
 }
 

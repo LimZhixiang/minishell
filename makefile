@@ -28,7 +28,7 @@ REDIR_FILES = \
 	fd_handler.c heredoc.c pipex.c
 
 EXECUTE_FILES = \
-	execute.c cmdpath.c
+	execute.c cmdpath.c getcmd.c
 
 BUILT_INS_FILES = \
 	builtin_main.c directory.c env_builtin.c echo.c modify_env.c builtin_exit.c

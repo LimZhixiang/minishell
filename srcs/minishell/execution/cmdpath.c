@@ -36,8 +36,6 @@ char	*extract_path(char **env)
 		j = 0;
 		i++;
 	}
-	// if (env[i] == NULL)
-	// 	exit(127);
 	if (!path)
 		print_cmd_error("malloc", "");
 	return (path);
@@ -80,6 +78,7 @@ char	*getcmdpath(char *cmdarg, char *envpath)
 		cmdpath = check_cmd(envpath, cmd[0]);
 	if (!cmdpath)
 	{
+		errno = 0;
 		print_cmd_error(cmd[0], "command not found");
 		exit(127);
 	}

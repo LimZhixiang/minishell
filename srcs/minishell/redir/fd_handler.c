@@ -12,13 +12,10 @@
 
 #include "../../../includes/minishell.h"
 
-void	filehandler(char *filename, int *fd, int flag)
+int	filehandler(char *filename, int *fd, int flag)
 {
 	if (*fd != -1)
-	{
-		// printf("closed %d fd\n", *fd);
 		close(*fd);
-	}
 	if (flag == INPUT)
 		*fd = open(filename, O_RDONLY);
 	else if (flag == OUTPUT)
@@ -26,36 +23,37 @@ void	filehandler(char *filename, int *fd, int flag)
 	else if (flag == APPEND)
 		*fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (*fd == -1)
-	{
-		ft_putstr_fd(strerror(errno), 2);
-		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(filename, 2);
-		ft_putstr_fd("\n", 2);
-	}
-	// printf("%d fd assigned\n", *fd);
+		print_cmd_error("", filename);
+	return (errno);
 }
 
-void	redir(t_mini *mini, t_parse *node)
+int	redir(t_mini *mini, t_parse *node)
 {
 	char	*nxtarg;
+	int		herefd;
 
+	herefd = -1;
 	nxtarg = node->next->arg;
 	if (node->type == HDOC)
 	{
-		heredoc(mini, node->next->arg);
-		filehandler(".heredoctemp.tmp", &mini->in, INPUT);
+		mini->status = filehandler(".heredoctemp.tmp", &herefd, OUTPUT);
+		heredoc_controller(mini, node->next->arg, herefd);
+		if (mini->status == 0)
+			mini->status = filehandler(".heredoctemp.tmp", &mini->in, INPUT);
 	}
-	if (node->next->type != FILENAME)
-		return ;
-	if (node->type == INPUT)
-		filehandler(nxtarg, &mini->in, INPUT);
+	else if (node->type == INPUT)
+		mini->status = filehandler(nxtarg, &mini->in, INPUT);
 	else if (node->type == OUTPUT)
-		filehandler(nxtarg, &mini->out, OUTPUT);
+		mini->status = filehandler(nxtarg, &mini->out, OUTPUT);
 	else if (node->type == APPEND)
-		filehandler(nxtarg, &mini->out, APPEND);
+		mini->status = filehandler(nxtarg, &mini->out, APPEND);
+	if (mini->status)
+		return (0);
+	else
+		return (1);
 }
 
-void	fd_handler(t_mini *mini, t_parse *head)
+int	fd_handler(t_mini *mini, t_parse *head)
 {
 	t_parse	*node;
 
@@ -63,10 +61,12 @@ void	fd_handler(t_mini *mini, t_parse *head)
 	while (node != NULL && node->type != PIPE)
 	{
 		if (node->type >= 6 && node->type <= 9)
-			redir(mini, node);
-		mini->status = errno;
-		if (mini->status == -1)
-			break ;
+			if (!redir(mini, node))
+				break ;
 		node = node->next;
 	}
+	if (node != NULL && node->type != PIPE)
+		return (0);
+	else
+		return (1);
 }

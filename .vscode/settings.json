@@ -12,6 +12,8 @@
 		"stdlib.h": "c",
 		"minishell.h": "c",
 		"errno.h": "c",
-		"typeinfo": "c"
+		"typeinfo": "c",
+		"ostream": "c",
+		"system_error": "c"
 	}
 }

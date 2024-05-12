@@ -12,43 +12,21 @@
 
 #include "../../../includes/minishell.h"
 
-int	cmd_word_count(t_parse *input)
+static void	processes(int fds[2], t_parse *node, char **envp, pid_t pid)
 {
-	t_parse	*temp;
-	int		word;
-
-	word = 0;
-	temp = input;
-	while (temp != NULL && temp->type != PIPE)
+	if (pid == 0)
 	{
-		if (temp->type <= ARG)
-			word++;
-		temp = temp->next;
+		close(fds[0]);
+		dup2(fds[1], dup(1));
+		execute(node, envp);
+		close(fds[1]);
 	}
-	return (word);
-}
-
-char	**get_command(t_parse *input)
-{
-	char	**ret;
-	t_parse	*temp;
-	int		i;
-	int		count;
-
-	temp = input;
-	i = 0;
-	count = cmd_word_count(input);
-	ret = malloc(sizeof(char *) * (count + 1));
-	if (!ret)
-		return (NULL);
-	while (temp != NULL && temp->type != PIPE)
+	else
 	{
-		if (temp->type <= ARG)
-			ret[i++] = ft_strdup(temp->arg);
-		temp = temp->next;
+		close(fds[1]);
+		print_file(fds[0]);
+		close(fds[0]);
 	}
-	ret[count] = NULL;
-	return (ret);
 }
 
 void	execute(t_parse *node, char **envp)
@@ -61,7 +39,12 @@ void	execute(t_parse *node, char **envp)
 	envpath = extract_path(envp);
 	cmdpath = NULL;
 	if (ft_strchr(cmdarg[0], '/') && cmdarg)
-		execve(cmdarg[0], cmdarg, envp);
+	{
+		if (access(cmdarg[0], F_OK | X_OK) == 0)
+			execve(cmdarg[0], cmdarg, envp);
+		else
+			print_cmd_error(cmdarg[0], "");
+	}
 	else if (cmdarg && envpath)
 	{
 		cmdpath = getcmdpath(cmdarg[0], envpath);
@@ -69,8 +52,6 @@ void	execute(t_parse *node, char **envp)
 	}
 	if (cmdpath)
 		free(cmdpath);
-	if (errno)
-		print_cmd_error("execve", "");
 	exit(errno);
 }
 
@@ -81,40 +62,34 @@ void	get_execution(t_mini *mini, t_parse *node, char **envp)
 	int		status;
 
 	if (pipe(fds) == -1)
+	{
+		print_cmd_error("pipe", "");
+		mini->status = 1;
 		return ;
+	}
 	pid = fork();
 	if (pid == 0)
-	{
-		close(fds[0]);
-		dup2(fds[1], 1);
-		close(fds[1]);
-		execute(node, envp);
-	}
+		processes(fds, node, envp, pid);
 	else if (pid > 0)
 	{
-		close(fds[1]);
-		print_file(fds[0]);
-		close(fds[0]);
+		processes(fds, node, envp, pid);
 		wait(&status);
 	}
 	else
-		print_cmd_error("pipe", "");
+		print_cmd_error("fork", "");
 	mini->status = WEXITSTATUS(status);
 }
 
 void	exec_handler(t_mini *mini, t_parse *node, char **env)
 {
-	fd_handler(mini, node);
+	if (!fd_handler(mini, node))
+		return ;
 	if (mini->in != -1)
 		dup2(mini->in, 0);
 	if (mini->out != -1)
 		dup2(mini->out, 1);
 	if (builtin_handler(mini, node) == 0)
-	{
-		g_type = 1;
 		get_execution(mini, node, env);
-		g_type = 0;
-	}
 	dup2(mini->term_in, 0);
 	dup2(mini->term_out, 1);
 	mini->in = -1;

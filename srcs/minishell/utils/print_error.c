@@ -29,8 +29,11 @@ void	print_syntax_error(char *syntax)
 
 void	print_cmd_error(char *cmd, char *str)
 {
-	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(": ", 2);
+	if (*cmd)
+	{
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": ", 2);
+	}
 	if (errno)
 	{
 		ft_putstr_fd(strerror(errno), 2);

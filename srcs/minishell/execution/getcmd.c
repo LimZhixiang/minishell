@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*     pipex.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yraynen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -9,28 +9,43 @@
 /*   Updated: 2023/09/15 17:10:26 by yraynen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "../../../includes/minishell.h"
 
-static void	signal_handler(int sig)
+static int	cmd_word_count(t_parse *input)
 {
-	(void)sig;
-	if (g_type == 0)
+	t_parse	*temp;
+	int		word;
+
+	word = 0;
+	temp = input;
+	while (temp != NULL && temp->type != PIPE)
 	{
-		write(2, "\n", 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
+		if (temp->type <= ARG)
+			word++;
+		temp = temp->next;
 	}
-	else if (g_type != 2)
-	{
-		rl_redisplay();
-		write(2, "\n", 1);
-	}
+	return (word);
 }
 
-void	signal_controller(void)
+char	**get_command(t_parse *input)
 {
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, SIG_IGN);
+	char	**ret;
+	t_parse	*temp;
+	int		i;
+	int		count;
+
+	temp = input;
+	i = 0;
+	count = cmd_word_count(input);
+	ret = malloc(sizeof(char *) * (count + 1));
+	if (!ret)
+		return (NULL);
+	while (temp != NULL && temp->type != PIPE)
+	{
+		if (temp->type <= ARG)
+			ret[i++] = ft_strdup(temp->arg);
+		temp = temp->next;
+	}
+	ret[count] = NULL;
+	return (ret);
 }
