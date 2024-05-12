@@ -29,8 +29,8 @@ void	subshell(t_mini *mini, t_parse *node, char **env)
 {
 	while (node)
 	{
-		fd_handler(mini, node);
-		pipe_handler(mini, node, env);
+		if (fd_handler(mini, node))
+			pipe_handler(mini, node, env);
 		node = nxt_subshell(mini, node);
 	}
 	mini->in = -1;
