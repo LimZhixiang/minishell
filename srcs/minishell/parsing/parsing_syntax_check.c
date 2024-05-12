@@ -22,7 +22,7 @@ int	syntax_error_type(t_parse *input)
 	if (temp->type == PIPE)
 	{
 		if (temp->prev == NULL || temp->prev->type >= PIPE
-			|| temp->next == NULL || temp->next->type >= PIPE)
+			|| temp->next == NULL)
 			error = 1;
 	}
 	if (temp->type > PIPE)
