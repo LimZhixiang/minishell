@@ -51,6 +51,7 @@ void	heredoc_controller(t_mini *mini, char *eof, int fd)
 	int		status;
 
 	g_type = 2;
+	dup2(mini->term_out, 0);
 	pid = fork();
 	if (pid == 0)
 	{
