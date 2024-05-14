@@ -110,7 +110,6 @@ int	main(int argc, char **argv, char **envp)
 		if (parsing(mini->user_input, mini) == 0)
 		{
 			ft_free_all(mini, RE_SHELL);
-			free(mini->user_input);
 			continue ;
 		}
 		minishell(mini);

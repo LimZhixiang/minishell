@@ -88,13 +88,14 @@ int	parsing(char *line, t_mini *mini)
 	if (space_line == NULL)
 		return (0);
 	ft_space_line(space_line, line);
+	space_line = ft_var_exp(space_line, mini);
 	split = ft_mini_split(space_line);
 	free(space_line);
 	if (split == NULL)
 		return (0);
-	split = ft_split_var_exp(split, mini);
-	if (split == NULL)
-		return (0);
+	// split = ft_split_var_exp(split, mini);
+	// if (split == NULL)
+	// 	return (0);
 	if (init_input(split, mini) == 0)
 		return (0);
 	if (check_syntax(mini) == 2)
