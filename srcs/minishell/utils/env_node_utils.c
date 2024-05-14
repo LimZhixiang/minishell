@@ -53,6 +53,7 @@ void	replace_node(t_env *node, char *env_name, char *value)
 t_env	*del_curr_node(t_env *prev, t_env *del)
 {
 	prev->next = del->next;
+	free(del->value);
 	free(del);
 	return (prev);
 }
