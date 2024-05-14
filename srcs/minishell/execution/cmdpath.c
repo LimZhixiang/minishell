@@ -69,20 +69,20 @@ char	*check_cmd(char *envpath, char *cmd)
 
 char	*getcmdpath(char *cmdarg, char *envpath)
 {
-	char	**cmd;
+	// char	**cmd;
 	char	*cmdpath;
 
 	cmdpath = NULL;
-	cmd = ft_split(cmdarg, ' ');
-	if (cmd[0] != NULL)
-		cmdpath = check_cmd(envpath, cmd[0]);
+	// cmd = ft_split(cmdarg, ' ');
+	if (cmdarg != NULL)
+		cmdpath = check_cmd(envpath, cmdarg);
 	if (!cmdpath)
 	{
 		errno = 0;
-		print_cmd_error(cmd[0], "command not found");
+		print_cmd_error(cmdarg, "command not found");
 		exit(127);
 	}
 	free(envpath);
-	free_str_arr(cmd);
+	// free_str_arr(cmd);
 	return (cmdpath);
 }
