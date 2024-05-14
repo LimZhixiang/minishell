@@ -116,7 +116,6 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		minishell(mini);
-		free(mini->user_input);
 		ft_free_all(mini, RE_SHELL);
 	}
 	status = mini->status;
