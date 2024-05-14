@@ -55,6 +55,8 @@ void	ft_free_all(t_mini *mini, int state)
 		free (mini);
 		return ;
 	}
+	if (mini->exit == 0)
+		free(mini->user_input);
 	free_t_parse(mini->input);
 	mini->input = NULL;
 }

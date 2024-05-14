@@ -20,8 +20,6 @@ int	input_handler(char *input)
 		return (1);
 	if (input || *input)
 		add_history(input);
-	if (ft_strcmp(input, "exit"))
-		return (1);
 	return (0);
 }
 

@@ -56,9 +56,11 @@ int	mini_exit(t_mini *mini, char **cmdarg)
 		mini->status = 1;
 		print_cmd_error("exit", "too many arguments");
 	}
-	else if (strarr_len(cmdarg) == 2)
+	else if (strarr_len(cmdarg) <= 2)
 	{
-		if (exit_str_check(&ft_isdigit, cmdarg[1]))
+		if (strarr_len(cmdarg) == 1)
+			mini->status = 0;
+		else if (exit_str_check(&ft_isdigit, cmdarg[1]))
 			mini->status = get_exit_status(cmdarg[1]);
 		else
 		{
