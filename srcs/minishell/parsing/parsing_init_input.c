@@ -39,6 +39,7 @@ int	init_input(char **split, t_mini *mini)
 	cmd_flag = 1;
 	i = 0;
 	temp = ft_newnode(split[i++], NULL);
+	temp->arg = ft_var_exp(temp->arg, mini, 0);
 	if (temp == NULL)
 		return (0);
 	temp->type = tokenization(temp, &cmd_flag);
@@ -46,6 +47,7 @@ int	init_input(char **split, t_mini *mini)
 	while (split[i])
 	{
 		temp->next = ft_newnode(split[i++], temp);
+		temp->next->arg = ft_var_exp(temp->next->arg, mini, 0);
 		if (temp->next == NULL)
 		{
 			free_str_arr(split);
