@@ -14,7 +14,7 @@
 
 static void	processes(int fds[2], t_parse *node, char **envp, t_mini *mini)
 {
-	dup2(fds[1], 1);
+	dup2(fds[1], dup(1));
 	close(fds[0]);
 	close(fds[1]);
 	if (builtin_handler(mini, node))
@@ -28,6 +28,7 @@ static void	pipex(t_mini *mini, t_parse *node, char **envp, int fds[2])
 	int		status;
 
 	pid = fork();
+	pipe_signal(pid);
 	if (pid == 0)
 		processes(fds, node, envp, mini);
 	else if (pid > 0)

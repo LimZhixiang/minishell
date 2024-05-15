@@ -50,6 +50,14 @@ void	ft_free_all(t_mini *mini, int state)
 {
 	if (state == EXIT_SHELL)
 	{
+		close(mini->term_in);
+		close(mini->term_out);
+		if (mini->in != -1)
+			close(mini->in);
+		if (mini->out != -1)
+			close(mini->out);
+		close(0);
+		close(1);
 		free_t_env(mini->env);
 		free (mini->user_input);
 		free (mini);

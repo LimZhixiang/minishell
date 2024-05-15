@@ -18,8 +18,8 @@ static void	processes(int fds[2], t_parse *node, char **envp, pid_t pid)
 	{
 		close(fds[0]);
 		dup2(fds[1], dup(1));
-		execute(node, envp);
 		close(fds[1]);
+		execute(node, envp);
 	}
 	else
 	{
@@ -68,6 +68,7 @@ void	get_execution(t_mini *mini, t_parse *node, char **envp)
 		return ;
 	}
 	pid = fork();
+	pipe_signal(pid);
 	if (pid == 0)
 		processes(fds, node, envp, pid);
 	else if (pid > 0)
@@ -90,6 +91,10 @@ void	exec_handler(t_mini *mini, t_parse *node, char **env)
 		dup2(mini->out, 1);
 	if (builtin_handler(mini, node) == 0)
 		get_execution(mini, node, env);
+	if (mini->in != -1)
+		close(mini->in);
+	if (mini->out != -1)
+		close(mini->out);
 	dup2(mini->term_in, 0);
 	dup2(mini->term_out, 1);
 	mini->in = -1;

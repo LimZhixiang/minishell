@@ -34,3 +34,17 @@ void	signal_controller(void)
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 }
+
+void	pipe_signal(pid_t pid)
+{
+	if (pid == 0)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+	}
+	else
+	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+	}
+}

@@ -17,6 +17,7 @@ static void	heredoc_signal(int sig)
 	if (sig == SIGINT)
 	{
 		write(2, "\n", 1);
+		kill(0, SIGINT);
 		exit(130);
 	}
 }
