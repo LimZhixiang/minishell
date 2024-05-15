@@ -88,7 +88,7 @@ int	parsing(char *line, t_mini *mini)
 	if (space_line == NULL)
 		return (0);
 	ft_space_line(space_line, line);
-	space_line = ft_var_exp(space_line, mini);
+	space_line = ft_var_exp(space_line, mini, 1);
 	split = ft_mini_split(space_line);
 	free(space_line);
 	if (split == NULL)

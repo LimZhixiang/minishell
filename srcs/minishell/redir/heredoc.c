@@ -37,7 +37,7 @@ void	heredoc(t_mini *mini, char *eof, int fd)
 		}
 		else
 		{
-			line = ft_var_exp(line, mini);
+			// line = ft_var_exp(line, mini);
 			ft_putendl_fd(line, fd);
 		}
 		free(line);
