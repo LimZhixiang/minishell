@@ -88,7 +88,7 @@ typedef struct s_mini
 
 //parsing
 //parsing_main.c
-char	*ft_var_exp(char *new, t_mini *mini);
+char	*ft_var_exp(char *arg, t_mini *mini, int flag);
 int		ft_space_line(char *new, char *line);
 char	*ft_alloc_space(char *line);
 int		parsing(char *line, t_mini *mini);
@@ -183,7 +183,6 @@ void	replace_node(t_env *node, char *env_name, char *value);
 
 int		init_input(char **split, t_mini *mini);
 char	**ft_split_var_exp(char **split, t_mini *mini);
-char	*ft_var_exp(char *arg, t_mini *mini);
 int		check_syntax(t_mini *mini);
 
 int		check_quote_syntax(char *line);
