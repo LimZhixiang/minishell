@@ -17,8 +17,21 @@ static void	heredoc_signal(int sig)
 	if (sig == SIGINT)
 	{
 		write(2, "\n", 1);
-		kill(0, SIGINT);
 		exit(130);
+	}
+}
+
+static void	heredoc_signal_controller(pid_t pid)
+{
+	if (pid == 0)
+	{
+		signal(SIGINT, heredoc_signal);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else
+	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
 	}
 }
 
@@ -51,18 +64,18 @@ void	heredoc_controller(t_mini *mini, char *eof, int fd)
 	pid_t	pid;
 	int		status;
 
-	g_type = 2;
 	dup2(mini->term_out, 0);
 	pid = fork();
 	if (pid == 0)
 	{
-		signal(SIGINT, heredoc_signal);
+		heredoc_signal_controller(pid);
 		heredoc(mini, eof, fd);
 		close(fd);
 		exit(0);
 	}
 	else if (pid > 0)
 	{
+		heredoc_signal_controller(pid);
 		wait(&status);
 		mini->status = WEXITSTATUS(status);
 		close(fd);

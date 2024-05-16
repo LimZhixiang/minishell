@@ -166,6 +166,7 @@ int		mini_exit(t_mini *mini, char **cmdarg);
 //./signal/signal.c
 void	signal_controller(void);
 void	pipe_signal(pid_t pid);
+int		get_signal_status(int status);
 
 //./utils
 t_parse	*nxt_subshell(t_mini *mini, t_parse *node);

@@ -28,13 +28,19 @@ void	subshell(t_mini *mini, t_parse *node, char **env)
 	while (node)
 	{
 		if (fd_handler(mini, node))
+		{
+			if (mini->in != -1)
+				dup2(mini->in, 0);
+			if (mini->out != -1)
+				dup2(mini->out, 1);
 			pipe_handler(mini, node, env);
+		}
 		node = nxt_subshell(mini, node);
 	}
-	mini->in = -1;
-	mini->out = -1;
-	dup2(mini->term_in, 0);
-	dup2(mini->term_out, 1);
+	if (mini->in != -1)
+		close(mini->in);
+	if (mini->out != -1)
+		close(mini->out);
 }
 
 void	minishell(t_mini *mini)
@@ -45,14 +51,16 @@ void	minishell(t_mini *mini)
 	input_cpy = mini->input;
 	env = get_env_arr(mini);
 	mini->pipe = pipe_present(mini->input);
-	g_type = 1;
 	if (mini->pipe == 1)
 		subshell(mini, input_cpy, env);
 	else
 		exec_handler(mini, input_cpy, env);
-	g_type = 0;
 	if (access(".heredoctemp.tmp", F_OK) == 0)
 		unlink(".heredoctemp.tmp");
+	mini->in = -1;
+	mini->out = -1;
+	dup2(mini->term_in, 0);
+	dup2(mini->term_out, 1);
 	free_str_arr(env);
 }
 

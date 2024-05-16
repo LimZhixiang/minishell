@@ -14,7 +14,7 @@
 
 static void	processes(int fds[2], t_parse *node, char **envp, t_mini *mini)
 {
-	dup2(fds[1], dup(1));
+	dup2(fds[1], 1);
 	close(fds[0]);
 	close(fds[1]);
 	if (builtin_handler(mini, node))
@@ -22,7 +22,7 @@ static void	processes(int fds[2], t_parse *node, char **envp, t_mini *mini)
 	execute(node, envp);
 }
 
-static void	pipex(t_mini *mini, t_parse *node, char **envp, int fds[2])
+static int	pipex(t_mini *mini, t_parse *node, char **envp, int fds[2])
 {
 	pid_t	pid;
 	int		status;
@@ -44,16 +44,17 @@ static void	pipex(t_mini *mini, t_parse *node, char **envp, int fds[2])
 			print_file(fds[0]);
 		}
 		close(fds[0]);
-		wait(&status);
+		waitpid(pid, &status, 0);
 	}
 	else
 		print_cmd_error("fork", "");
-	mini->status = WEXITSTATUS(status);
+	return (status);
 }
 
 void	pipe_handler(t_mini *mini, t_parse *node, char **envp)
 {
 	int		fds[2];
+	int		status;
 
 	if (pipe(fds) == -1)
 	{
@@ -61,11 +62,11 @@ void	pipe_handler(t_mini *mini, t_parse *node, char **envp)
 		mini->status = errno;
 		return ;
 	}
-	if (mini->in != -1)
-		dup2(mini->in, 0);
-	if (mini->out != -1)
-		dup2(mini->out, 1);
-	pipex(mini, node, envp, fds);
+	status = pipex(mini, node, envp, fds);
+	if (WIFSIGNALED(status))
+		mini->status = get_signal_status(status);
+	else
+		mini->status = WEXITSTATUS(status);
 }
 
 //cat <"./test_files/infile" | echo hi

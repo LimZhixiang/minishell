@@ -47,8 +47,6 @@ int	redir(t_mini *mini, t_parse *node)
 		mini->status = filehandler(nxtarg, &mini->out, OUTPUT);
 	else if (node->type == APPEND)
 		mini->status = filehandler(nxtarg, &mini->out, APPEND);
-	// if (herefd != -1)
-	// 	close(herefd);
 	if (mini->status)
 		return (0);
 	else

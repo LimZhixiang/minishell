@@ -12,26 +12,20 @@
 
 #include "../../../includes/minishell.h"
 
-static void	signal_handler(int sig)
+static void	interactive(int sig)
 {
-	(void)sig;
-	if (g_type == 0)
+	if (sig == SIGINT)
 	{
 		write(2, "\n", 1);
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
 	}
-	else if (g_type != 2)
-	{
-		rl_redisplay();
-		write(2, "\n", 1);
-	}
 }
 
 void	signal_controller(void)
 {
-	signal(SIGINT, signal_handler);
+	signal(SIGINT, interactive);
 	signal(SIGQUIT, SIG_IGN);
 }
 
@@ -47,4 +41,23 @@ void	pipe_signal(pid_t pid)
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
 	}
+}
+
+int	get_signal_status(int status)
+{
+	int	sig;
+
+	sig = WTERMSIG(status);
+	if (sig == 2)
+	{
+		write(2, "\n", 2);
+		rl_redisplay();
+		return (130);
+	}
+	else if (sig == 3)
+	{
+		ft_putstr_fd("Quit (core dumped)\n", 2);
+		return (131);
+	}
+	return (0);
 }
