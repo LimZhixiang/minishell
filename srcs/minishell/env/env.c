@@ -18,27 +18,26 @@ int	init_mini_env(t_mini *mini, char **env)
 	t_env	*new;
 	int		i;
 
-	mini_env = malloc(sizeof(t_env));
+	if (!env[0])
+	{
+		mini_env = create_node("SHELL=./minishell");
+		mini->env = mini_env;
+		return (1);
+	}
+	mini_env = create_node(env[0]);
 	if (!mini_env)
-		return (1);
-	mini_env->value = ft_strdup(env[0]);
-	if (!mini_env->value)
-		return (1);
-	mini_env->next = NULL;
+		return (0);
 	mini->env = mini_env;
 	i = 1;
 	while (env[i])
 	{
-		new = malloc(sizeof(t_env));
+		new = create_node(env[i++]);
 		if (!new)
-			return (1);
-		new->value = ft_strdup(env[i]);
-		new->next = NULL;
+			return (0);
 		mini_env->next = new;
 		mini_env = mini_env->next;
-		i++;
 	}
-	return (0);
+	return (1);
 }
 
 int	env_compare(char *env, char *name)
