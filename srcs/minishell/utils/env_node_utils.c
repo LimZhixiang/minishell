@@ -83,7 +83,7 @@ t_env	*create_node(char *value)
 		if (new->value == NULL)
 		{
 			free(new);
-			print_cmd_error("malloc", "");
+			print_cmd_error("malloc Error", 0, "");
 			return (NULL);
 		}
 		new->next = NULL;
