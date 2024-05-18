@@ -17,6 +17,8 @@ void	add_node(t_env *head, t_env *new)
 	t_env	*temp;
 
 	temp = head;
+	if (!head)
+		head = new;
 	while (temp->next != NULL)
 		temp = temp->next;
 	if (new != NULL)
@@ -50,9 +52,19 @@ void	replace_node(t_env *node, char *env_name, char *value)
 	}
 }
 
-t_env	*del_curr_node(t_env *prev, t_env *del)
+t_env	*del_curr_node(t_env *prev, t_env *del, t_mini *mini)
 {
+	t_env	*head;
+
 	prev->next = del->next;
+	if (prev == del)
+	{
+		head = del->next;
+		free(del->value);
+		free(del);
+		mini->env = head;
+		return (head);
+	}
 	free(del->value);
 	free(del);
 	return (prev);
@@ -68,6 +80,12 @@ t_env	*create_node(char *value)
 	else
 	{
 		new->value = ft_strdup (value);
+		if (new->value == NULL)
+		{
+			free(new);
+			print_cmd_error("malloc", "");
+			return (NULL);
+		}
 		new->next = NULL;
 	}
 	return (new);
