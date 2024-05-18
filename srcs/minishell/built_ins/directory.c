@@ -24,7 +24,7 @@ int	cd_handler(t_mini *mini, char **line)
 	{
 		if (chdir(line[1]) == -1)
 		{
-			print_cmd_error("cd", line[1]);
+			print_cmd_error("cd Error", 0, line[1]);
 			mini->status = 1;
 		}
 		else
@@ -36,7 +36,7 @@ int	cd_handler(t_mini *mini, char **line)
 	}
 	else
 	{
-		print_cmd_error("cd", "Invalid number of argument");
+		print_cmd_error("cd", 0, "Invalid number of argument");
 		mini->status = 1;
 	}
 	return (1);
@@ -45,13 +45,19 @@ int	cd_handler(t_mini *mini, char **line)
 int	pwd_handler(t_mini *mini)
 {
 	char	buffer[PATH_MAX];
+	char	*directory;
 
-	if (mini->out != -1)
-		ft_putendl_fd(getcwd(buffer, sizeof(buffer)), mini->out);
+	directory = getcwd(buffer, sizeof(buffer));
+	if (mini->out != -1 && directory)
+		ft_putendl_fd(directory, mini->out);
+	else if (directory)
+		ft_putendl_fd(directory, 1);
+	if (directory == NULL)
+	{
+		print_cmd_error("pwd Error", 0, "");
+		mini->status = 1;
+	}
 	else
-		ft_putendl_fd(getcwd(buffer, sizeof(buffer)), 1);
-	if (errno != 0)
-		print_cmd_error("pwd", "");
-	mini->status = 0;
+		mini->status = 0;
 	return (1);
 }

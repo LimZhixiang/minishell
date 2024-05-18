@@ -24,14 +24,24 @@ void	execute(t_parse *node, char **envp)
 	if (ft_strchr(cmdarg[0], '/') && cmdarg)
 	{
 		if (access(cmdarg[0], F_OK | X_OK) == 0)
-			execve(cmdarg[0], cmdarg, envp);
+		{
+			if (execve(cmdarg[0], cmdarg, envp) == -1)
+			{
+				print_cmd_error("execve error", 0, "");
+				exit(1);
+			}
+		}
 		else
-			print_cmd_error(cmdarg[0], "");
+			print_cmd_error(cmdarg[0], 0, "");
 	}
 	else if (cmdarg && envpath)
 	{
 		cmdpath = getcmdpath(cmdarg[0], envpath);
-		execve(cmdpath, cmdarg, envp);
+		if (execve(cmdpath, cmdarg, envp) == -1)
+		{
+			print_cmd_error("execve error", 0, "");
+			exit(1);
+		}
 	}
 	if (cmdpath)
 		free(cmdpath);
@@ -49,7 +59,7 @@ void	get_execution(t_mini *mini, t_parse *node, char **envp)
 	else if (pid > 0)
 		waitpid(pid, &status, 0);
 	else
-		print_cmd_error("fork", "");
+		print_cmd_error("fork Error", 0, "");
 	if (WIFSIGNALED(status))
 		mini->status = get_signal_status(status);
 	else

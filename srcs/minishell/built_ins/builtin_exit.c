@@ -54,7 +54,7 @@ int	mini_exit(t_mini *mini, char **cmdarg)
 	if (strarr_len(cmdarg) > 2)
 	{
 		mini->status = 1;
-		print_cmd_error("exit", "too many arguments");
+		print_cmd_error("exit", 0, "too many arguments");
 	}
 	else if (strarr_len(cmdarg) <= 2)
 	{
@@ -65,7 +65,7 @@ int	mini_exit(t_mini *mini, char **cmdarg)
 		else
 		{
 			mini->status = 2;
-			print_cmd_error("exit", "numeric argument required");
+			print_cmd_error("exit", 0, "numeric argument required");
 		}
 		mini->exit = 1;
 	}

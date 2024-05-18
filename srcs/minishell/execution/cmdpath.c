@@ -37,7 +37,7 @@ char	*extract_path(char **env)
 		i++;
 	}
 	if (!path)
-		print_cmd_error("malloc", "");
+		print_cmd_error("malloc Error", 0, "");
 	return (path);
 }
 
@@ -51,7 +51,7 @@ char	*check_cmd(char *envpath, char *cmd)
 	path = NULL;
 	paths = ft_split(envpath, ':');
 	if (paths == NULL)
-		print_cmd_error("malloc", "");
+		print_cmd_error("malloc Error", 0, "");
 	i = -1;
 	while (paths && paths[++i])
 	{
@@ -76,8 +76,7 @@ char	*getcmdpath(char *cmdarg, char *envpath)
 		cmdpath = check_cmd(envpath, cmdarg);
 	if (!cmdpath)
 	{
-		errno = 0;
-		print_cmd_error(cmdarg, "command not found");
+		print_cmd_error(cmdarg, 0, "command not found");
 		exit(127);
 	}
 	free(envpath);

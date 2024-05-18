@@ -76,7 +76,7 @@ t_env	*create_node(char *value)
 
 	new = malloc(sizeof(t_env));
 	if (!new)
-		print_cmd_error("malloc", "");
+		print_cmd_error("malloc Error", 0, "");
 	else
 	{
 		new->value = ft_strdup (value);

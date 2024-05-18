@@ -12,8 +12,6 @@
 
 #include "../../includes/minishell.h"
 
-int	g_type;
-
 int	input_handler(char *input)
 {
 	if (input == 0)
@@ -73,8 +71,8 @@ t_mini	*innit_mini(int argc, char **argv, char **envp)
 	mini = malloc(sizeof(t_mini));
 	if (!mini)
 	{
-		print_cmd_error("malloc", "");
-		exit(errno);
+		print_cmd_error("malloc", 0, "");
+		exit(1);
 	}
 	if (!init_mini_env(mini, envp))
 		free(mini);

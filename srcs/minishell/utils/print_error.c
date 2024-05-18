@@ -27,19 +27,36 @@ void	print_syntax_error(char *syntax)
 	ft_putstr_fd("\n", 2);
 }
 
-void	print_cmd_error(char *cmd, char *str)
+void	print_cmd_error(char *cmd, int code, char *str)
 {
 	if (*cmd)
 	{
 		ft_putstr_fd(cmd, 2);
 		ft_putstr_fd(": ", 2);
 	}
-	if (errno)
+	if (code)
 	{
-		ft_putstr_fd(strerror(errno), 2);
+		ft_putstr_fd(strerror(code), 2);
 		if (*str)
 			ft_putstr_fd(": ", 2);
 	}
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd("\n", 2);
 }
+
+// void	print_cmd_error(char *cmd, char *str)
+// {
+// 	if (*cmd)
+// 	{
+// 		ft_putstr_fd(cmd, 2);
+// 		ft_putstr_fd(": ", 2);
+// 	}
+// 	if (errno)
+// 	{
+// 		ft_putstr_fd(strerror(errno), 2);
+// 		if (*str)
+// 			ft_putstr_fd(": ", 2);
+// 	}
+// 	ft_putstr_fd(str, 2);
+// 	ft_putstr_fd("\n", 2);
+// }

@@ -45,7 +45,7 @@ char	*get_envp_name(char *str)
 	res = malloc(sizeof(char) * (i + 1));
 	if (!res)
 	{
-		print_cmd_error("malloc", "");
+		print_cmd_error("malloc Error", 0, "");
 		return (NULL);
 	}
 	i = 0;

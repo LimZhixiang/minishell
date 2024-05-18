@@ -14,8 +14,8 @@
 
 static void	processes(int fds[2], t_parse *node, char **envp, t_mini *mini)
 {
-	dup2(fds[1], 1);
 	close(fds[0]);
+	dup2(fds[1], 1);
 	close(fds[1]);
 	if (builtin_handler(mini, node))
 		exit(mini->status);
@@ -33,8 +33,8 @@ static int	pipex(t_mini *mini, t_parse *node, char **envp, int fds[2])
 		processes(fds, node, envp, mini);
 	else if (pid > 0)
 	{
-		dup2(fds[0], 0);
 		close(fds[1]);
+		dup2(fds[0], 0);
 		if (mini->pipe == 0)
 		{
 			if (mini->out != -1)
@@ -47,7 +47,7 @@ static int	pipex(t_mini *mini, t_parse *node, char **envp, int fds[2])
 		waitpid(pid, &status, 0);
 	}
 	else
-		print_cmd_error("fork", "");
+		print_cmd_error("Fork Error", 0, "");
 	return (status);
 }
 
@@ -58,8 +58,8 @@ void	pipe_handler(t_mini *mini, t_parse *node, char **envp)
 
 	if (pipe(fds) == -1)
 	{
-		print_cmd_error("pipe", "");
-		mini->status = errno;
+		print_cmd_error("Pipe Error", 0, "");
+		mini->status = 1;
 		return ;
 	}
 	status = pipex(mini, node, envp, fds);

@@ -46,7 +46,6 @@
 # include <errno.h>
 # include "../srcs/libft/libft.h"
 
-extern int	g_type;
 //Input checkers
 int		env_found(char *line);
 char	*invalid_env(char *line);
@@ -174,7 +173,7 @@ int		get_signal_status(int status);
 t_parse	*nxt_subshell(t_mini *mini, t_parse *node);
 int		pipe_present(t_parse *head);
 void	print_file(int fd);
-void	print_cmd_error(char *cmd, char *str);
+void	print_cmd_error(char *cmd, int code, char *str);
 
 void	free_t_parse(t_parse *ptr);
 void	print_syntax_error(char *syntax);

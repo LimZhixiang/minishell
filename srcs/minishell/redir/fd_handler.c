@@ -14,6 +14,9 @@
 
 int	filehandler(char *filename, int *fd, int flag)
 {
+	int	status;
+
+	status = 0;
 	if (*fd != -1)
 		close(*fd);
 	if (flag == INPUT)
@@ -23,8 +26,16 @@ int	filehandler(char *filename, int *fd, int flag)
 	else if (flag == APPEND)
 		*fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (*fd == -1)
-		print_cmd_error("", filename);
-	return (errno);
+	{
+		if (access(filename, F_OK) == -1)
+			print_cmd_error("", ENOENT, filename);
+		else if (access(filename, F_OK & R_OK) == -1 && flag == INPUT)
+			print_cmd_error("", EACCES, filename);
+		else if (access(filename, F_OK & R_OK & W_OK) == -1 && flag == OUTPUT)
+			print_cmd_error("", EACCES, filename);
+		status = 1;
+	}
+	return (status);
 }
 
 int	redir(t_mini *mini, t_parse *node)

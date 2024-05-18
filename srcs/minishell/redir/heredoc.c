@@ -88,7 +88,7 @@ void	heredoc(t_mini *mini, char *eof, int fd)
 		{
 			if (line == 0)
 				print_cmd_error
-					("here-document got end-of-file instead of", eof);
+					("here-document got end-of-file instead of", 0, eof);
 			break ;
 		}
 		else
@@ -123,7 +123,7 @@ void	heredoc_controller(t_mini *mini, char *eof, int fd)
 		close(fd);
 	}
 	else
-		print_cmd_error("fork", "");
+		print_cmd_error("fork Error", 0, "");
 }
 // void	heredoc(t_mini *mini, char *eof)
 // {

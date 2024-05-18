@@ -40,8 +40,8 @@ int	env_builtin(t_mini *mini, char **cmdarg)
 		env = get_env_arr(mini);
 		if (env == NULL)
 		{
-			print_cmd_error("malloc", "");
-			mini->status = errno;
+			print_cmd_error("malloc", 0, "");
+			mini->status = 1;
 		}
 		print_env(mini, env);
 	}

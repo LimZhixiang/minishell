@@ -46,7 +46,7 @@ int	is_current_env(char *arg, t_mini *mini, char *arg_name)
 			free(temp->value);
 			replace = ft_strdup(arg);
 			if (replace == NULL)
-				print_cmd_error("malloc", "");
+				print_cmd_error("malloc Error", 0, "");
 			else
 				temp->value = replace;
 			mini->status = 1;
