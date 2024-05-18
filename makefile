@@ -49,7 +49,7 @@ LIBFT = \
 	ft_itoa.c ft_strmapi.c ft_striteri.c ft_putchar_fd.c ft_putstr_fd.c \
 	ft_putendl_fd.c ft_putnbr_fd.c ft_atol.c ft_strcmp.c ft_atoi_base.c \
 	free_str_arr.c ft_isspace.c str_isdigit.c str_find_replace.c find_word.c \
-	strarr_len.c get_next_line.c ft_putnbr_base.c convert_base.c
+	strarr_len.c get_next_line.c ft_putnbr_base.c convert_base.c join_split.c
 
 LIBFTBONUS = \
 	ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c \

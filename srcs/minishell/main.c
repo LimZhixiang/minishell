@@ -76,26 +76,12 @@ t_mini	*innit_mini(int argc, char **argv, char **envp)
 		print_cmd_error("malloc", "");
 		exit(errno);
 	}
-	if (init_mini_env(mini, envp))
+	if (!init_mini_env(mini, envp))
 		free(mini);
 	mini->input = NULL;
 	mini->exit = 0;
 	mini->in = -1;
 	mini->out = -1;
-	// int	i;
-	// i = 0;
-	// struct termios term;
-	// while (i <= 9484)
-	// {
-	// 	if (isatty(i))
-	// 	{
-	// 		printf("%s\n", ttyname(i));
-	// 		printf("%d connected\n", i);
-
-	// 		tcgetattr(i, &term);
-	// 	}
-	// 	i++;
-	// }
 	mini->term_in = dup(0);
 	mini->term_out = dup(1);
 	mini->pipe = 0;
@@ -164,3 +150,18 @@ int	main(int argc, char **argv, char **envp)
 		// 	}	
 		// 	free(cmd);
 		// }
+
+			// int	i;
+	// i = 0;
+	// struct termios term;
+	// while (i <= 9484)
+	// {
+	// 	if (isatty(i))
+	// 	{
+	// 		printf("%s\n", ttyname(i));
+	// 		printf("%d connected\n", i);
+
+	// 		tcgetattr(i, &term);
+	// 	}
+	// 	i++;
+	// }

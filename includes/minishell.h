@@ -116,6 +116,8 @@ t_parse	*ft_newnode(char *content, t_parse *prev);
 int		is_sep(char c);
 int		ft_quote_c(char c);
 int		ft_quote(char *line, int i);
+char	*get_line_env(char *line, t_mini *mini, int i, int j);
+char	*get_status_code(char *line, t_mini *mini, int i);
 
 //./env/get_env.c
 int		init_mini_env(t_mini *mini, char **env);
@@ -178,7 +180,7 @@ void	free_t_parse(t_parse *ptr);
 void	print_syntax_error(char *syntax);
 
 void	add_node(t_env *head, t_env *new);
-t_env	*del_curr_node(t_env *prev, t_env *del);
+t_env	*del_curr_node(t_env *prev, t_env *del, t_mini *mini);
 t_env	*create_node(char *value);
 void	replace_node(t_env *node, char *env_name, char *value);
 

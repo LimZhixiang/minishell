@@ -69,11 +69,9 @@ char	*check_cmd(char *envpath, char *cmd)
 
 char	*getcmdpath(char *cmdarg, char *envpath)
 {
-	// char	**cmd;
 	char	*cmdpath;
 
 	cmdpath = NULL;
-	// cmd = ft_split(cmdarg, ' ');
 	if (cmdarg != NULL)
 		cmdpath = check_cmd(envpath, cmdarg);
 	if (!cmdpath)
@@ -83,6 +81,5 @@ char	*getcmdpath(char *cmdarg, char *envpath)
 		exit(127);
 	}
 	free(envpath);
-	// free_str_arr(cmd);
 	return (cmdpath);
 }
