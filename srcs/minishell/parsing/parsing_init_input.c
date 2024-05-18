@@ -30,6 +30,18 @@ t_parse	*ft_newnode(char *content, t_parse *prev)
 	return (new);
 }
 
+t_parse	*init_node(char *split, t_parse *prev, t_mini *mini, int *cmd_flag)
+{
+	t_parse	*temp;
+
+	temp = ft_newnode(split, prev);
+	if (temp == NULL)
+		return (NULL);
+	temp->arg = ft_var_exp(temp->arg, mini, 0);
+	temp->type = tokenization(temp, cmd_flag);
+	return (temp);
+}
+
 int	init_input(char **split, t_mini *mini)
 {
 	t_parse	*temp;
@@ -38,23 +50,19 @@ int	init_input(char **split, t_mini *mini)
 
 	cmd_flag = 1;
 	i = 0;
-	temp = ft_newnode(split[i++], NULL);
-	temp->arg = ft_var_exp(temp->arg, mini, 0);
+	temp = init_node(split[i++], NULL, mini, &cmd_flag);
 	if (temp == NULL)
 		return (0);
-	temp->type = tokenization(temp, &cmd_flag);
 	mini->input = temp;
 	while (split[i])
 	{
-		temp->next = ft_newnode(split[i++], temp);
-		temp->next->arg = ft_var_exp(temp->next->arg, mini, 0);
+		temp->next = init_node(split[i++], temp, mini, &cmd_flag);
 		if (temp->next == NULL)
 		{
 			free_str_arr(split);
 			ft_free_all(mini, RE_SHELL);
 			return (0);
 		}
-		temp->next->type = tokenization(temp->next, &cmd_flag);
 		temp = temp->next;
 	}
 	free_str_arr(split);

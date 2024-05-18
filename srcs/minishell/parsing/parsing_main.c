@@ -93,9 +93,6 @@ int	parsing(char *line, t_mini *mini)
 	free(space_line);
 	if (split == NULL)
 		return (0);
-	// split = ft_split_var_exp(split, mini);
-	// if (split == NULL)
-	// 	return (0);
 	if (init_input(split, mini) == 0)
 		return (0);
 	if (check_syntax(mini) == 2)
