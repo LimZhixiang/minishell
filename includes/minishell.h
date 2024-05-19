@@ -181,6 +181,7 @@ void	print_cmd_error(char *cmd, int code, char *str);
 
 void	free_t_parse(t_parse *ptr);
 void	print_syntax_error(char *syntax);
+int		is_direct(char *path);
 
 void	add_node(t_env *head, t_env *new);
 t_env	*del_curr_node(t_env *prev, t_env *del, t_mini *mini);

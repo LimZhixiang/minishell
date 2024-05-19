@@ -23,7 +23,7 @@ int	input_handler(char *input)
 
 void	subshell(t_mini *mini, t_parse *node, char **env)
 {
-	while (node)
+	while (node && mini->status != 130)
 	{
 		if (fd_handler(mini, node))
 		{
