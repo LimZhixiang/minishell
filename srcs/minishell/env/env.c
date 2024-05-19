@@ -45,9 +45,11 @@ int	env_compare(char *env, char *name)
 	int	i;
 
 	i = 0;
-	while (name[i + 1])
+	if (name[0] == '$')
+		name++;
+	while (name[i])
 	{
-		if (env[i] && env[i] == name[i + 1])
+		if (env[i] && env[i] == name[i])
 			i++;
 		else
 			return (0);
@@ -75,7 +77,7 @@ char	*ft_get_env(char *name, t_mini *mini)
 			i++;
 			return (ft_strdup(temp->value + i));
 		}
-	}
+	}i = 1;
 	return (NULL);
 }
 

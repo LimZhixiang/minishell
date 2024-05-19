@@ -12,8 +12,6 @@
 
 #include "../../../includes/minishell.h"
 
-//unsure if the mini->status is needed
-
 int	cd_handler(t_mini *mini, char **line)
 {
 	char	buffer[PATH_MAX];
