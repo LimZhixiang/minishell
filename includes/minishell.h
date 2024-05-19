@@ -46,6 +46,8 @@
 # include <errno.h>
 # include "../srcs/libft/libft.h"
 
+
+
 //Input checkers
 int		env_found(char *line);
 char	*invalid_env(char *line);
@@ -84,6 +86,8 @@ typedef struct s_mini
 	int		pipe;
 	int		exit;
 }	t_mini;
+
+void	subshell2(t_mini *mini, t_parse *node, char **env);
 
 //parsing
 //parsing_main.c
