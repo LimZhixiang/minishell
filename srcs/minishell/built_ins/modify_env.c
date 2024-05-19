@@ -112,7 +112,8 @@ int	unset(t_mini *mini, char **cmdarg)
 		}
 		i = 1;
 		temp = iter;
-		iter = iter->next;
+		if (iter)
+			iter = iter->next;
 	}
 	return (1);
 }
