@@ -12,6 +12,29 @@
 
 #include "../../../includes/minishell.h"
 
+int	error_file_handler(char *filename, int flag)
+{
+	int	status;
+
+	status = 0;
+	if (access(filename, F_OK) == -1)
+	{
+		print_cmd_error("", ENOENT, filename);
+		status = 127;
+	}
+	else if (access(filename, F_OK & R_OK) == -1 && flag == INPUT)
+	{
+		print_cmd_error("", EACCES, filename);
+		status = 1;
+	}
+	else if (access(filename, F_OK & R_OK & W_OK) == -1 && flag == OUTPUT)
+	{
+		print_cmd_error("", EACCES, filename);
+		status = 1;
+	}
+	return (status);
+}
+
 int	filehandler(char *filename, int *fd, int flag)
 {
 	int	status;
@@ -26,15 +49,7 @@ int	filehandler(char *filename, int *fd, int flag)
 	else if (flag == APPEND)
 		*fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (*fd == -1)
-	{
-		if (access(filename, F_OK) == -1)
-			print_cmd_error("", ENOENT, filename);
-		else if (access(filename, F_OK & R_OK) == -1 && flag == INPUT)
-			print_cmd_error("", EACCES, filename);
-		else if (access(filename, F_OK & R_OK & W_OK) == -1 && flag == OUTPUT)
-			print_cmd_error("", EACCES, filename);
-		status = 1;
-	}
+		status = error_file_handler(filename, flag);
 	return (status);
 }
 

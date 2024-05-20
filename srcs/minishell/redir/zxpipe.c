@@ -13,8 +13,11 @@ void	subshell_recus(t_mini *mini, t_parse *current, int cmd, int index, int inpu
     }
 	fd_handler(mini, current);
 	pid_t pid = fork();
+	pipe_signal(pid);
 	if (pid == 0)
 	{
+		if (mini->status != 0)
+			exit(mini->status);
 		if (input_fd != -1)
 		{
 			dup2(input_fd, STDIN_FILENO);
@@ -40,6 +43,7 @@ void	subshell_recus(t_mini *mini, t_parse *current, int cmd, int index, int inpu
 	}
 	else
 	{
+		mini->status = 0;
 		if (input_fd != -1)
 			close(input_fd);
 		if (index < cmd - 1)
