@@ -59,6 +59,8 @@ int		find_env(char *line, char *wrd);
 char	*get_envp_name(char *str);
 char	*get_envp_value(char *str);
 
+
+
 typedef struct s_env
 {
 	char			*value;
@@ -72,6 +74,13 @@ typedef struct s_parse
 	struct s_parse	*next;
 	struct s_parse	*prev;
 }	t_parse;
+
+typedef struct s_pipe{
+	char	**env;
+	t_parse	*next;
+	int		input_fd;
+	int		*pipefd;
+}	t_pipe;
 
 typedef struct s_mini
 {
@@ -88,7 +97,7 @@ typedef struct s_mini
 }	t_mini;
 
 void	subshell2(t_mini *mini, t_parse *node, char **env);
-
+void	subshell_recus(t_mini *mini, t_parse *current, int input_fd, char **env);
 //parsing
 //parsing_main.c
 char	*ft_var_exp(char *arg, t_mini *mini, int flag);
