@@ -65,9 +65,9 @@ char	*ft_get_env(char *name, t_mini *mini)
 	t_env	*temp;
 
 	temp = mini->env;
-	i = 0;
 	while (temp != NULL)
 	{
+		i = 0;
 		if (env_compare(temp->value, name) == 0)
 			temp = temp->next;
 		else
@@ -77,7 +77,7 @@ char	*ft_get_env(char *name, t_mini *mini)
 			i++;
 			return (ft_strdup(temp->value + i));
 		}
-	}i = 1;
+	}
 	return (NULL);
 }
 

@@ -70,12 +70,13 @@ void	subshell_recus(t_mini *mini, t_parse *current, int input_fd, char **env)
 	int		status;
 	t_parse	*next;
 	t_pipe	info;
+	pid_t	pid;
 
 	next = nxt_subshell(mini, current);
 	info = subshell_var(next, pipefd, env, input_fd);
 	if (create_pipe(next, pipefd, mini) == 0)
 		return ;
-	pid_t	pid = fork();
+	pid = fork();
 	pipe_signal(pid);
 	if (pid == 0)
 	{	
