@@ -37,7 +37,7 @@ BUILT_INS_FILES = \
 ENV_FUNC = input_env_check.c input_env_utils.c input_env.c
 
 UTILS_FILES = \
-	subshell_utils.c print_file.c print_error.c env_node_utils.c free_mini.c is_directory.c
+	subshell_utils.c print_file.c print_error.c env_node_utils.c free_mini.c is_directory.c str_empty.c
 
 #Libft files
 LIBFT = \

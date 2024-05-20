@@ -76,14 +76,15 @@ void	subshell_recus(t_mini *mini, t_parse *current, int input_fd, char **env)
 	info = subshell_var(next, pipefd, env, input_fd);
 	if (create_pipe(next, pipefd, mini) == 0)
 		return ;
+	fd_handler(mini, current);
 	pid = fork();
 	pipe_signal(pid);
 	if (pid == 0)
 	{	
-		fd_handler(mini, current);
 		if (mini->status)
 			exit(mini->status);
 		subshell_child(mini, next, input_fd, pipefd);
+		wait(NULL);
 		execute(current, env);
 	}
 	else
