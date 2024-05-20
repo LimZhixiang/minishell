@@ -50,8 +50,8 @@ void	minishell(t_mini *mini)
 	env = get_env_arr(mini);
 	mini->pipe = pipe_present(mini->input);
 	if (mini->pipe == 1)
-		subshell2(mini, input_cpy, env);
-		// subshell(mini, input_cpy, env);
+		// subshell2(mini, input_cpy, env);
+		subshell(mini, input_cpy, env);
 	else
 		exec_handler(mini, input_cpy, env);
 	if (access(".heredoctemp.tmp", F_OK) == 0)

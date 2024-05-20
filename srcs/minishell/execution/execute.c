@@ -17,9 +17,14 @@ int	exec_path_check(char *path)
 	int	status;
 
 	status = 0;
-	if (access(path, F_OK | X_OK) == 0)
+	if (access(path, F_OK) == 0)
 	{
-		if (is_direct(path) == 1)
+		if (access(path, F_OK | X_OK) == -1)
+		{
+			print_cmd_error(path, EACCES, "");
+			status = 126;
+		}
+		else if (is_direct(path) == 1)
 		{
 			print_cmd_error(path, EISDIR, "");
 			status = 126;

@@ -20,14 +20,15 @@ int	error_file_handler(char *filename, int flag)
 	if (access(filename, F_OK) == -1)
 	{
 		print_cmd_error("", ENOENT, filename);
-		status = 127;
+		status = 1;
 	}
-	else if (access(filename, F_OK & R_OK) == -1 && flag == INPUT)
+	else if (access(filename, F_OK | R_OK) == -1 && flag == INPUT)
 	{
 		print_cmd_error("", EACCES, filename);
 		status = 1;
 	}
-	else if (access(filename, F_OK & R_OK & W_OK) == -1 && flag == OUTPUT)
+	else if (access(filename, R_OK | W_OK) == -1
+		&& (flag == OUTPUT || flag == APPEND))
 	{
 		print_cmd_error("", EACCES, filename);
 		status = 1;

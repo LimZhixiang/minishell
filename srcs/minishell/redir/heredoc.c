@@ -118,7 +118,7 @@ void	heredoc_controller(t_mini *mini, char *eof, int fd)
 	else if (pid > 0)
 	{
 		heredoc_signal_controller(pid);
-		wait(&status);
+		waitpid(-1, &status, 0);
 		mini->status = WEXITSTATUS(status);
 		close(fd);
 	}

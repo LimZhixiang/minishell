@@ -44,7 +44,7 @@ int	env_builtin(t_mini *mini, char **cmdarg)
 			mini->status = 1;
 		}
 		print_env(mini, env);
+		free_str_arr(env);
 	}
-	free_str_arr(env);
 	return (1);
 }

@@ -19,6 +19,8 @@ int	check_mini_out(int fd)
 	return (fd);
 }
 
+int n_checker()
+
 int	echo_handler(t_mini *mini, char **cmdarg)
 {
 	int	i;
@@ -32,6 +34,7 @@ int	echo_handler(t_mini *mini, char **cmdarg)
 	{
 		if (i == 1 && ft_strcmp(cmdarg[i], "-n") == 1)
 		{
+			while ()
 			n_flag = 0;
 			i++;
 		}
