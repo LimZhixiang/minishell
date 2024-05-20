@@ -19,7 +19,28 @@ int	check_mini_out(int fd)
 	return (fd);
 }
 
-int n_checker()
+int n_checker(char **cmdarg, int i)
+{
+	int j;
+
+	while (cmdarg[i])
+	{
+		j = 0;
+		if (cmdarg[i][j] == '-')
+			j++;
+		else
+			return (i);
+		while (cmdarg[i][j])
+		{
+			if (cmdarg[i][j] == 'n')
+				j++;
+			else
+				return (i);
+		}
+		i++;
+	}
+	return (i);
+}
 
 int	echo_handler(t_mini *mini, char **cmdarg)
 {
@@ -32,11 +53,10 @@ int	echo_handler(t_mini *mini, char **cmdarg)
 	i = 1;
 	while (cmdarg[i])
 	{
-		if (i == 1 && ft_strcmp(cmdarg[i], "-n") == 1)
+		if (i == 1 && n_checker(cmdarg, i) != 1)
 		{
-			while ()
-			n_flag = 0;
-			i++;
+			n_flag = 1;
+			i = n_checker(cmdarg, i);
 		}
 		if (cmdarg[i] != NULL)
 		{
