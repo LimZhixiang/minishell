@@ -80,6 +80,7 @@ typedef struct s_pipe{
 	t_parse	*next;
 	int		input_fd;
 	int		*pipefd;
+	int		*status;
 }	t_pipe;
 
 typedef struct s_mini
@@ -97,7 +98,7 @@ typedef struct s_mini
 }	t_mini;
 
 void	subshell2(t_mini *mini, t_parse *node, char **env);
-void	subshell_recus(t_mini *mini, t_parse *current, int input_fd, char **env);
+int		subshell_recus(t_mini *mini, t_parse *current, int input_fd, char **env);
 //parsing
 //parsing_main.c
 char	*ft_var_exp(char *arg, t_mini *mini, int flag);

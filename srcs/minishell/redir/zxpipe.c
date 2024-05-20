@@ -9,22 +9,22 @@ void	subshell_child(t_mini *mini, t_parse *next, int input_fd, int *pipefd)
 		dup2(input_fd, STDIN_FILENO);
 		close(input_fd);
 	}
-	if (mini->in != -1)
-	{
-		dup2(mini->in, STDIN_FILENO);
-		close(mini->in);
-	}
+	// if (mini->in != -1)
+	// {
+	// 	dup2(mini->in, STDIN_FILENO);
+	// 	close(mini->in);
+	// }
 	if (next != NULL)
 	{
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
 		close(pipefd[0]);
 	}
-	if (mini->out != -1)
-	{
-		dup2(mini->out, STDOUT_FILENO);
-		close(mini->out);
-	}
+	// if (mini->out != -1)
+	// {
+	// 	dup2(mini->out, STDOUT_FILENO);
+	// 	close(mini->out);
+	// }
 }
 
 int	create_pipe(t_parse *next, int *pipefd, t_mini *mini)
@@ -44,11 +44,14 @@ int	create_pipe(t_parse *next, int *pipefd, t_mini *mini)
 t_pipe	subshell_var(t_parse *next_cmd, int *pipe, char **envs, int fd_input)
 {
 	t_pipe	ret;
+	int		i;
 
+	i = 0;
 	ret.next = next_cmd;
 	ret.pipefd = pipe;
 	ret.env = envs;
 	ret.input_fd = fd_input;
+	ret.status = &i;
 	return (ret);
 }
 
@@ -60,11 +63,11 @@ void	subshell_parent(t_pipe info, t_mini *mini)
 	if (info.next != NULL)
 	{
 		close(info.pipefd[1]);
-		subshell_recus(mini, info.next, info.pipefd[0], info.env);
+		*(info.status) = subshell_recus(mini, info.next, info.pipefd[0], info.env);
 	}
 }
 
-void	subshell_recus(t_mini *mini, t_parse *current, int input_fd, char **env)
+int	subshell_recus(t_mini *mini, t_parse *current, int input_fd, char **env)
 {
 	int		pipefd[2];
 	int		status;
@@ -76,7 +79,7 @@ void	subshell_recus(t_mini *mini, t_parse *current, int input_fd, char **env)
 	next = nxt_subshell(mini, current);
 	info = subshell_var(next, pipefd, env, input_fd);
 	if (create_pipe(next, pipefd, mini) == 0)
-		return ;
+		return (-1);
 	fd_status = fd_handler(mini, current);
 	pid = fork();
 	pipe_signal(pid);
@@ -95,12 +98,16 @@ void	subshell_recus(t_mini *mini, t_parse *current, int input_fd, char **env)
 	{
 		// waitpid(pid, &status, 0);
 		subshell_parent(info, mini);
-		waitpid(-1, &status, 0);
-		if (WIFSIGNALED(status))
-			mini->status = get_signal_status(status);
-		else
-			mini->status = WEXITSTATUS(status);
+		waitpid(pid, &status, 0);
+		if (next == NULL)
+		{
+			if (WIFSIGNALED(status))
+				*(info.status) = get_signal_status(status);
+			else
+				*(info.status) = WEXITSTATUS(status);
+		}
 	}
+	return (*(info.status));
 }
 
 int	no_of_pipe(t_parse *input)
@@ -125,5 +132,5 @@ void	subshell2(t_mini *mini, t_parse *node, char **env)
 
 	tmp = mini->input;
 	tmp = node;
-	subshell_recus(mini, tmp, -1, env);
+	mini->status = subshell_recus(mini, tmp, -1, env);
 }
