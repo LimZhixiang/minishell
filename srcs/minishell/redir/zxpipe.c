@@ -68,6 +68,7 @@ void	subshell_recus(t_mini *mini, t_parse *current, int input_fd, char **env)
 {
 	int		pipefd[2];
 	int		status;
+	int		fd_status;
 	t_parse	*next;
 	t_pipe	info;
 	pid_t	pid;
@@ -76,8 +77,7 @@ void	subshell_recus(t_mini *mini, t_parse *current, int input_fd, char **env)
 	info = subshell_var(next, pipefd, env, input_fd);
 	if (create_pipe(next, pipefd, mini) == 0)
 		return ;
-	if (!fd_handler(mini, current))
-		return ;
+	fd_status = fd_handler(mini, current);
 	pid = fork();
 	pipe_signal(pid);
 	if (pid == 0)
@@ -86,7 +86,10 @@ void	subshell_recus(t_mini *mini, t_parse *current, int input_fd, char **env)
 			exit(mini->status);
 		subshell_child(mini, next, input_fd, pipefd);
 		wait(NULL);
-		execute(current, env);
+		if (fd_status)
+			execute(current, env);
+		else
+			exit(mini->status);
 	}
 	else
 	{
