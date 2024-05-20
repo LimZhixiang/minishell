@@ -55,7 +55,7 @@ int	echo_handler(t_mini *mini, char **cmdarg)
 	{
 		if (i == 1 && n_checker(cmdarg, i) != 1)
 		{
-			n_flag = 1;
+			n_flag = 0;
 			i = n_checker(cmdarg, i);
 		}
 		if (cmdarg[i] != NULL)
