@@ -62,6 +62,7 @@ int	is_current_env(char *arg, t_mini *mini, char *arg_name)
 int	export_handler(t_mini *mini, char **cmdarg)
 {
 	t_env	*new;
+	t_export	export;
 	int		i;
 	char	*arg_name;
 
@@ -73,6 +74,10 @@ int	export_handler(t_mini *mini, char **cmdarg)
 		{
 			print_env_error(cmdarg[i++], mini, 1);
 			continue ;
+		}
+		if (!ft_strchr(cmdarg[i], '='))
+		{
+			
 		}
 		arg_name = get_envp_name(cmdarg[i]);
 		if (is_current_env(cmdarg[i], mini, arg_name) == 0)
@@ -90,16 +95,23 @@ int	export(t_mini *mini, char *env)
 {
 	t_env	*new;
 	char	*arg_name;
+	int		status;
 
+	status = 1;
 	if (!valid_env_name(env))
 	{
 		print_env_error(env, mini, 1);
+		return (1);
 	}
 	arg_name = get_envp_name(env);
-	if (is_current_env(env, mini, arg_name) == 0)
+	if (!arg_name)
+		status = 0;
+	if (is_current_env(env, mini, arg_name) == 0 && status)
 	{
 		new = create_node(env);
 		mini->env = add_node(mini->env, new);
+		if (!new)
+			status = 0;
 	}
 	free(arg_name);
 	return (1);

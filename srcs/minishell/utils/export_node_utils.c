@@ -53,25 +53,7 @@ void	replace_export_node(t_export *node, char *env_name, char *value)
 	}
 }
 
-// t_export	*del_curr_node(t_export *prev, t_export *del, t_mini *mini)
-// {
-// 	t_export	*head;
-
-// 	prev->next = del->next;
-// 	if (prev == del)
-// 	{
-// 		head = del->next;
-// 		free(del->value);
-// 		free(del);
-// 		mini->env = head;
-// 		return (head);
-// 	}
-// 	free(del->value);
-// 	free(del);
-// 	return (prev);
-// }
-
-t_export	*create_export_node(char *value)
+t_export	*create_export_node(char *name, char *value)
 {
 	t_export	*new;
 
@@ -80,9 +62,16 @@ t_export	*create_export_node(char *value)
 		print_cmd_error("malloc Error", 0, "");
 	else
 	{
-		new->value = ft_strdup(value);
-		if (new->value == NULL)
+		if (name)
+			new->name = ft_strdup(name);
+		if (value)
+			new->value = ft_strdup(value);
+		if ((!new->value && value) || (!new->name && name))
 		{
+			if (name)
+				free(new->name);
+			if (value);
+				free(new->value);
 			free(new);
 			print_cmd_error("malloc Error", 0, "");
 			return (NULL);

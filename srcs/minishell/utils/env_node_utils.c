@@ -17,6 +17,8 @@ t_env	*add_node(t_env *head, t_env *new)
 	t_env	*temp;
 
 	temp = head;
+	if (!new)
+		return (NULL);
 	if (!head)
 		return (new);
 	while (temp->next != NULL)

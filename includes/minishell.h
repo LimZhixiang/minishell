@@ -92,16 +92,17 @@ typedef struct s_pipe{
 
 typedef struct s_mini
 {
-	t_env	*env;
-	t_parse	*input;
-	char	*user_input;
-	int		in;
-	int		out;
-	int		term_in;
-	int		term_out;
-	int		status;
-	int		pipe;
-	int		exit;
+	t_env		*env;
+	t_parse		*input;
+	t_export	*list;
+	char		*user_input;
+	int			in;
+	int			out;
+	int			term_in;
+	int			term_out;
+	int			status;
+	int			pipe;
+	int			exit;
 }	t_mini;
 
 void	subshell2(t_mini *mini, t_parse *node, char **env);
