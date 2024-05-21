@@ -12,16 +12,58 @@
 
 #include "../../../includes/minishell.h"
 
+char	*sandwich_join(char *bread1, char *jam, char *bread2)
+{
+	char	*temp;
+	char	*result;
+	int		status;
+
+	status = 0;
+	if (!bread1 || !jam || !bread2)
+		return (NULL);
+	temp = ft_strjoin(bread1, jam);
+	if (!temp)
+		status = 1;
+	result = ft_strjoin(temp, bread2);
+	if (!result)
+		status = 1;
+	if (status)
+		return (NULL);
+	free(temp);
+	return (result);
+}
+
+int	dfl_env(t_mini *mini)
+{
+	char	*pwd;
+	char	*temp;
+
+	temp = getcwd(NULL, 0);
+	pwd = ft_strjoin("PWD=", temp);
+	if (!pwd || !temp)
+	{
+		free(pwd);
+		free(temp);
+		return (0);
+	}
+	export(mini, pwd);
+	export(mini, "SHLVL=1");
+	free(pwd);
+	free(temp);
+	return (1);
+}
+
 int	init_mini_env(t_mini *mini, char **env)
 {
 	t_env	*mini_env;
 	t_env	*new;
 	int		i;
 
+	mini->env = NULL;
 	if (!env[0])
 	{
-		mini_env = create_node("SHELL=./minishell");
-		mini->env = mini_env;
+		if (!dfl_env(mini))
+			return (0);
 		return (1);
 	}
 	mini_env = create_node(env[0]);

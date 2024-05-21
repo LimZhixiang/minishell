@@ -59,7 +59,7 @@ int	is_current_env(char *arg, t_mini *mini, char *arg_name)
 	return (mini->status);
 }
 
-int	export(t_mini *mini, char **cmdarg)
+int	export_handler(t_mini *mini, char **cmdarg)
 {
 	t_env	*new;
 	int		i;
@@ -71,20 +71,37 @@ int	export(t_mini *mini, char **cmdarg)
 	{
 		if (!ft_strchr(cmdarg[i], '=') || !valid_env_name(cmdarg[i]))
 		{
-			if (!valid_env_name(cmdarg[i]))
-				print_env_error(cmdarg[i], mini, 1);
-			i++;
+			print_env_error(cmdarg[i++], mini, 1);
 			continue ;
 		}
 		arg_name = get_envp_name(cmdarg[i]);
 		if (is_current_env(cmdarg[i], mini, arg_name) == 0)
 		{
 			new = create_node(cmdarg[i]);
-			add_node(mini->env, new);
+			mini->env = add_node(mini->env, new);
 		}
 		free(arg_name);
 		i++;
 	}
+	return (1);
+}
+
+int	export(t_mini *mini, char *env)
+{
+	t_env	*new;
+	char	*arg_name;
+
+	if (!valid_env_name(env))
+	{
+		print_env_error(env, mini, 1);
+	}
+	arg_name = get_envp_name(env);
+	if (is_current_env(env, mini, arg_name) == 0)
+	{
+		new = create_node(env);
+		mini->env = add_node(mini->env, new);
+	}
+	free(arg_name);
 	return (1);
 }
 

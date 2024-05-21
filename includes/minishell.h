@@ -67,6 +67,13 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+typedef struct s_export
+{
+	char			*name;
+	char			*value;
+	struct s_export	*next;
+}	t_export;
+
 typedef struct s_parse
 {
 	char			*arg;
@@ -172,7 +179,8 @@ int		pwd_handler(t_mini *mini);
 int		env_builtin(t_mini *mini, char **cmdarg);
 
 //./built_ins/modifyenv.c
-int		export(t_mini *mini, char **cmdarg);
+int		export_handler(t_mini *mini, char **cmdarg);
+int		export(t_mini *mini, char *env);
 int		unset(t_mini *mini, char **cmdarg);
 
 //./built_ins/builtin_exit.c
@@ -193,7 +201,7 @@ void	free_t_parse(t_parse *ptr);
 void	print_syntax_error(char *syntax);
 int		is_direct(char *path);
 
-void	add_node(t_env *head, t_env *new);
+t_env	*add_node(t_env *head, t_env *new);
 t_env	*del_curr_node(t_env *prev, t_env *del, t_mini *mini);
 t_env	*create_node(char *value);
 void	replace_node(t_env *node, char *env_name, char *value);

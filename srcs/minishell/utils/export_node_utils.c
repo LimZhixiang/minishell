@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_node_utils.c                                   :+:      :+:    :+:   */
+/*   export_node_utils.c           	                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yraynen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,9 +12,9 @@
 
 #include "../../../includes/minishell.h"
 
-t_env	*add_node(t_env *head, t_env *new)
+t_export	*add_export_node(t_export *head, t_export *new)
 {
-	t_env	*temp;
+	t_export	*temp;
 
 	temp = head;
 	if (!head)
@@ -26,9 +26,9 @@ t_env	*add_node(t_env *head, t_env *new)
 	return (head);
 }
 
-void	replace_node(t_env *node, char *env_name, char *value)
+void	replace_export_node(t_export *node, char *env_name, char *value)
 {
-	t_env	*temp;
+	t_export	*temp;
 	char	*name;
 	char	*holder;
 
@@ -53,9 +53,9 @@ void	replace_node(t_env *node, char *env_name, char *value)
 	}
 }
 
-// t_env	*del_curr_node(t_env *prev, t_env *del, t_mini *mini)
+// t_export	*del_curr_node(t_export *prev, t_export *del, t_mini *mini)
 // {
-// 	t_env	*head;
+// 	t_export	*head;
 
 // 	prev->next = del->next;
 // 	if (prev == del)
@@ -71,11 +71,11 @@ void	replace_node(t_env *node, char *env_name, char *value)
 // 	return (prev);
 // }
 
-t_env	*create_node(char *value)
+t_export	*create_export_node(char *value)
 {
-	t_env	*new;
+	t_export	*new;
 
-	new = malloc(sizeof(t_env));
+	new = malloc(sizeof(t_export));
 	if (!new)
 		print_cmd_error("malloc Error", 0, "");
 	else
@@ -92,7 +92,7 @@ t_env	*create_node(char *value)
 	return (new);
 }
 
-t_env	*del_curr_node(t_env *prev, t_env *del, t_mini *mini)
+t_export	*del_export_node(t_export *prev, t_export *del, t_mini *mini)
 {
 	if (del == prev)
 	{

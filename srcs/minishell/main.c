@@ -16,7 +16,7 @@ int	input_handler(char *input)
 {
 	if (input == 0)
 		return (1);
-	if (input && !str_empty(input))
+	if (input || *input)
 		add_history(input);
 	return (0);
 }

@@ -27,7 +27,7 @@ int	builtin_handler(t_mini *mini, t_parse *node)
 	else if (ft_strcmp(cmdarg[0], "echo"))
 		status = echo_handler(mini, cmdarg);
 	else if (ft_strcmp(cmdarg[0], "export"))
-		status = export(mini, cmdarg);
+		status = export_handler(mini, cmdarg);
 	else if (ft_strcmp(cmdarg[0], "unset"))
 		status = unset(mini, cmdarg);
 	else if (ft_strcmp(cmdarg[0], "env"))
