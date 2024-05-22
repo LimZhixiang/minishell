@@ -12,7 +12,7 @@
 
 #include "../../../includes/minishell.h"
 
-int	wrd_count(char *new)
+static int	wrd_count(char *new)
 {
 	int	i;
 	int	word;
@@ -33,7 +33,7 @@ int	wrd_count(char *new)
 	return (word);
 }
 
-int	mini_letters(char *new, int i, int flag)
+static int	mini_letters(char *new, int i, int flag)
 {
 	int	quote;
 	int	count;
@@ -58,7 +58,7 @@ int	mini_letters(char *new, int i, int flag)
 		return (i);
 }
 
-void	ft_copy_letters(char *ret, char *new, int i)
+static void	ft_copy_letters(char *ret, char *new, int i)
 {
 	int	j;
 	int	quote;
@@ -79,7 +79,7 @@ void	ft_copy_letters(char *ret, char *new, int i)
 	ret[j] = '\0';
 }
 
-char	*mini_cpy_letters(char *new, int i)
+static char	*mini_cpy_letters(char *new, int i)
 {
 	char	*ret;
 

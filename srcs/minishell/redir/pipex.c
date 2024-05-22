@@ -1,75 +1,94 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*     pipex.c                                          :+:      :+:    :+:   */
+/*   zxpipe.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yraynen <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: zhilim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/15 17:10:25 by yraynen           #+#    #+#             */
-/*   Updated: 2023/09/15 17:10:26 by yraynen          ###   ########.fr       */
+/*   Created: 2023/10/05 21:15:24 by zhilim            #+#    #+#             */
+/*   Updated: 2023/10/06 11:41:37 by zhilim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static void	processes(int fds[2], t_parse *node, char **envp, t_mini *mini)
+static void	subshell_child_fd(t_mini *mini, t_parse *next,
+	int input_fd, int *pipefd)
 {
-	close(fds[0]);
-	dup2(fds[1], 1);
-	close(fds[1]);
-	if (builtin_handler(mini, node))
+	if (mini->status != 0)
 		exit(mini->status);
-	execute(node, envp);
+	if (input_fd != -1)
+	{
+		dup2(input_fd, STDIN_FILENO);
+		close(input_fd);
+	}
+	if (mini->in != -1)
+	{
+		dup2(mini->in, STDIN_FILENO);
+		close(mini->in);
+	}
+	if (next != NULL)
+	{
+		dup2(pipefd[1], STDOUT_FILENO);
+		close(pipefd[1]);
+		close(pipefd[0]);
+	}
+	if (mini->out != -1)
+	{
+		dup2(mini->out, STDOUT_FILENO);
+		close(mini->out);
+	}
 }
 
-static int	pipex(t_mini *mini, t_parse *node, char **envp, int fds[2])
+static void	subshell_parent(t_pipe info, t_mini *mini)
 {
+	mini->status = 0;
+	if (info.input_fd != -1)
+		close(info.input_fd);
+	if (info.next != NULL)
+	{
+		close(info.pipefd[1]);
+		*(info.status) = subshell_recus(mini, info.next, info.pipefd[0],
+				info.env);
+	}
+}
+
+static void	subshell_child_process(t_mini *mini, t_pipe info, t_parse *current)
+{
+	if (mini->status)
+		exit(mini->status);
+	subshell_child_fd(mini, info.next, info.input_fd, info.pipefd);
+	if (info.fd_status)
+		execute(current, info.env);
+	else
+		exit(mini->status);
+}
+
+int	subshell_recus(t_mini *mini, t_parse *current, int input_fd, char **env)
+{
+	int		pipefd[2];
+	int		status;
+	t_pipe	info;
 	pid_t	pid;
-	int		status;
 
+	info = subshell_var(nxt_subshell(mini, current), pipefd, env, input_fd);
+	if (create_pipe(info.next, pipefd, mini) == 0)
+		return (-1);
+	info.fd_status = fd_handler(mini, current);
 	pid = fork();
-	pipe_signal(pid);
 	if (pid == 0)
-		processes(fds, node, envp, mini);
-	else if (pid > 0)
+		subshell_child_process(mini, info, current);
+	else
 	{
-		close(fds[1]);
-		dup2(fds[0], 0);
-		if (mini->pipe == 0)
-		{
-			if (mini->out != -1)
-				dup2(fds[0], mini->out);
-			else
-				dup2(mini->term_out, 1);
-			print_file(fds[0]);
-		}
-		close(fds[0]);
+		subshell_parent(info, mini);
 		waitpid(pid, &status, 0);
+		if (info.next == NULL)
+		{
+			if (WIFSIGNALED(status))
+				*(info.status) = get_signal_status(status);
+			else
+				*(info.status) = WEXITSTATUS(status);
+		}
 	}
-	else
-		print_cmd_error("Fork Error", 0, "");
-	return (status);
+	return (*(info.status));
 }
-
-void	pipe_handler(t_mini *mini, t_parse *node, char **envp)
-{
-	int		fds[2];
-	int		status;
-
-	if (pipe(fds) == -1)
-	{
-		print_cmd_error("Pipe Error", 0, "");
-		mini->status = 1;
-		return ;
-	}
-	status = pipex(mini, node, envp, fds);
-	if (WIFSIGNALED(status))
-		mini->status = get_signal_status(status);
-	else
-		mini->status = WEXITSTATUS(status);
-}
-
-//cat <"./test_files/infile" | echo hi
-//suppose to print hi but didnt print
-//echo <missing <"./test_files/infile" <missing
-//suppose to print only one missing hi

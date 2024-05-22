@@ -12,7 +12,7 @@
 
 #include "../../../includes/minishell.h"
 
-void	cpy_rm_quote(char *result, char *current)
+static void	cpy_rm_quote(char *result, char *current)
 {
 	int	quote;
 	int	i;
@@ -39,7 +39,7 @@ void	cpy_rm_quote(char *result, char *current)
 	result[j] = '\0';
 }
 
-int	rm_quote_letters(char *new)
+static int	rm_quote_letters(char *new)
 {
 	int	quote;
 	int	count;
@@ -66,7 +66,7 @@ int	rm_quote_letters(char *new)
 	return (count);
 }
 
-char	*rm_node_quote(char *current)
+static char	*rm_node_quote(char *current)
 {
 	char	*result;
 

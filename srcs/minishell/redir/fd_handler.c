@@ -12,7 +12,7 @@
 
 #include "../../../includes/minishell.h"
 
-int	error_file_handler(char *filename, int flag)
+static int	error_file_handler(char *filename, int flag)
 {
 	int	status;
 
@@ -54,20 +54,13 @@ int	filehandler(char *filename, int *fd, int flag)
 	return (status);
 }
 
-int	redir(t_mini *mini, t_parse *node)
+static int	redir(t_mini *mini, t_parse *node)
 {
 	char	*nxtarg;
-	int		herefd;
 
-	herefd = -1;
 	nxtarg = node->next->arg;
 	if (node->type == HDOC)
-	{
-		mini->status = filehandler(".heredoctemp.tmp", &herefd, OUTPUT);
-		heredoc_controller(mini, node->next->arg, herefd);
-		if (mini->status == 0)
-			mini->status = filehandler(".heredoctemp.tmp", &mini->in, INPUT);
-	}
+		mini->status = filehandler(node->heredoc, &mini->in, INPUT);
 	else if (node->type == INPUT)
 		mini->status = filehandler(nxtarg, &mini->in, INPUT);
 	else if (node->type == OUTPUT)

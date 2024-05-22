@@ -12,7 +12,7 @@
 
 #include "../../../includes/minishell.h"
 
-int	valid_env_name(char *line)
+static int	valid_env_name(char *line)
 {
 	int	i;
 
@@ -30,7 +30,7 @@ int	valid_env_name(char *line)
 	return (1);
 }
 
-int	is_current_env(char *arg, t_mini *mini, char *arg_name)
+static int	is_current_env(char *arg, t_mini *mini, char *arg_name)
 {
 	char	*env_name;
 	char	*replace;

@@ -25,7 +25,7 @@ ENV_FILES = \
 	env.c get_env_arr.c
 
 REDIR_FILES = \
-	fd_handler.c heredoc.c pipex.c zxpipe.c
+	fd_handler.c heredoc.c pipex.c heredoc_handler.c
 
 EXECUTE_FILES = \
 	execute.c cmdpath.c getcmd.c
@@ -34,10 +34,11 @@ BUILT_INS_FILES = \
 	builtin_main.c directory.c env_builtin.c echo.c modify_env.c builtin_exit.c
 
 #files that check env in user input
-ENV_FUNC = input_env_check.c input_env_utils.c input_env.c
+ENV_FUNC = input_env_check.c input_env_utils.c
 
 UTILS_FILES = \
-	subshell_utils.c print_file.c print_error.c env_node_utils.c free_mini.c is_directory.c str_empty.c
+	subshell_utils.c print_error.c env_node_utils.c free_mini.c is_directory.c str_empty.c \
+	heredoc_utils.c
 
 #Libft files
 LIBFT = \

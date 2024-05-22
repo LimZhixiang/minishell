@@ -41,7 +41,7 @@ char	*extract_path(char **env)
 	return (path);
 }
 
-char	*check_cmd(char *envpath, char *cmd)
+static char	*check_cmd(char *envpath, char *cmd)
 {
 	char	*addslash;
 	char	*path;	

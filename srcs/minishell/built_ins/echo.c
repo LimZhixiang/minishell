@@ -12,16 +12,16 @@
 
 #include "../../../includes/minishell.h"
 
-int	check_mini_out(int fd)
+static int	check_mini_out(int fd)
 {
 	if (fd == -1)
 		return (1);
 	return (fd);
 }
 
-int n_checker(char **cmdarg, int i)
+static int	n_checker(char **cmdarg, int i)
 {
-	int j;
+	int	j;
 
 	while (cmdarg[i])
 	{

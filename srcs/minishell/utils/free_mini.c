@@ -12,7 +12,7 @@
 
 #include "../../../includes/minishell.h"
 
-void	free_t_parse(t_parse *ptr)
+static void	free_t_parse(t_parse *ptr)
 {
 	t_parse	*current;
 	t_parse	*next;
@@ -23,13 +23,16 @@ void	free_t_parse(t_parse *ptr)
 	while (current != NULL)
 	{
 		next = current->next;
+		if (access(current->heredoc, F_OK) == 0)
+			unlink(current->heredoc);
+		free(current->heredoc);
 		free(current->arg);
 		free(current);
 		current = next;
 	}
 }
 
-void	free_t_env(t_env *ptr)
+static void	free_t_env(t_env *ptr)
 {
 	t_env	*current;
 	t_env	*next;

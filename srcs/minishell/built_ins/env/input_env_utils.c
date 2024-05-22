@@ -57,24 +57,3 @@ char	*get_envp_name(char *str)
 	res[i] = 0;
 	return (res);
 }
-
-char	*get_envp_value(char *str)
-{
-	int		i;
-	int		l;
-	char	*res;
-
-	i = 0;
-	res = NULL;
-	while (str[i] != '=')
-		i++;
-	l = ft_strlen(str);
-	res = malloc(sizeof(char) * (l - i));
-	if (!res)
-		return (NULL);
-	l = 0;
-	while (str[++i])
-		res[l++] = str[i];
-	res[l] = 0;
-	return (res);
-}

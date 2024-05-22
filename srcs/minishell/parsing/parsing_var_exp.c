@@ -24,7 +24,7 @@ char	*get_status_code(char *line, t_mini *mini, int i)
 	return (line);
 }
 
-char	*quote_mal_cpy(char *temp)
+static char	*quote_mal_cpy(char *temp)
 {
 	char	*ret;
 	int		i;
@@ -45,7 +45,7 @@ char	*quote_mal_cpy(char *temp)
 	return (ret);
 }
 
-char	*ft_add_quotes(char *env_result)
+static char	*ft_add_quotes(char *env_result)
 {
 	char	**temp;
 	int		i;

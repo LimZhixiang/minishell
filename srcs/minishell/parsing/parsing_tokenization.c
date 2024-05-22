@@ -12,7 +12,7 @@
 
 #include "../../../includes/minishell.h"
 
-int	redir_type(t_parse *node, int *type)
+static int	redir_type(t_parse *node, int *type)
 {
 	int	status;
 

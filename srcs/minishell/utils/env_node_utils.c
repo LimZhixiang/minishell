@@ -52,24 +52,6 @@ void	replace_node(t_env *node, char *env_name, char *value)
 	}
 }
 
-// t_env	*del_curr_node(t_env *prev, t_env *del, t_mini *mini)
-// {
-// 	t_env	*head;
-
-// 	prev->next = del->next;
-// 	if (prev == del)
-// 	{
-// 		head = del->next;
-// 		free(del->value);
-// 		free(del);
-// 		mini->env = head;
-// 		return (head);
-// 	}
-// 	free(del->value);
-// 	free(del);
-// 	return (prev);
-// }
-
 t_env	*create_node(char *value)
 {
 	t_env	*new;

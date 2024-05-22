@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zhilim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,37 +12,44 @@
 
 #include "../../../includes/minishell.h"
 
-static int	env_node_count(t_env *env)
+static char	*get_line_env_heredoc(char *line, t_mini *mini, int i, int j)
 {
-	t_env	*temp;
-	int		i;
+	char	*env_name;
+	char	*env_result;
 
-	temp = env;
-	i = 0;
-	while (temp != NULL)
-	{
-		i++;
-		temp = temp->next;
-	}
-	return (i);
+	env_name = ft_substr(line, i, j);
+	if (env_name == NULL)
+		return (NULL);
+	env_result = ft_get_env(env_name, mini);
+	line = replace_env(line, env_result, env_name, i);
+	free(env_name);
+	if (env_result != NULL)
+		free(env_result);
+	return (line);
 }
 
-char	**get_env_arr(t_mini *mini)
+char	*here_doc_exp(char *arg, t_mini *mini)
 {
-	t_env	*temp;
-	char	**ret;
-	int		i;
+	int	i;
+	int	j;
 
-	temp = mini->env;
 	i = 0;
-	ret = malloc(sizeof(char *) * (env_node_count(temp) + 1));
-	if (!ret)
-		return (NULL);
-	while (temp != NULL)
+	while (arg[i])
 	{
-		ret[i++] = ft_strdup(temp->value);
-		temp = temp->next;
+		if (arg[i] == '$' && ft_valid_env(arg[i + 1]) != 0)
+		{
+			j = 1;
+			while (ft_valid_env(arg[i + j]) > 0)
+				j++;
+			if (ft_valid_env(arg[i + j]) == -1 && j == 1)
+				arg = get_status_code(arg, mini, i);
+			else
+				arg = get_line_env_heredoc(arg, mini, i, j);
+			if (arg == NULL)
+				return (NULL);
+			i = -1;
+		}
+		i++;
 	}
-	ret[i] = NULL;
-	return (ret);
+	return (arg);
 }

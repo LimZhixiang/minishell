@@ -12,7 +12,7 @@
 
 #include "../../../includes/minishell.h"
 
-int	exec_path_check(char *path)
+static int	exec_path_check(char *path)
 {
 	int	status;
 
@@ -66,7 +66,7 @@ void	execute(t_parse *node, char **envp)
 	exit(1);
 }
 
-void	get_execution(t_mini *mini, t_parse *node, char **envp)
+static void	get_execution(t_mini *mini, t_parse *node, char **envp)
 {
 	pid_t	pid;
 	int		status;

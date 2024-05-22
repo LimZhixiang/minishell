@@ -12,7 +12,7 @@
 
 #include "../../../includes/minishell.h"
 
-t_parse	*ft_newnode(char *content, t_parse *prev)
+static t_parse	*ft_newnode(char *content, t_parse *prev)
 {
 	t_parse	*new;
 
@@ -25,12 +25,14 @@ t_parse	*ft_newnode(char *content, t_parse *prev)
 		free(new);
 		return (NULL);
 	}
+	new->heredoc = NULL;
 	new->prev = prev;
 	new->next = NULL;
 	return (new);
 }
 
-t_parse	*init_node(char *split, t_parse *prev, t_mini *mini, int *cmd_flag)
+static t_parse	*init_node(char *split, t_parse *prev, t_mini *mini,
+		int *cmd_flag)
 {
 	t_parse	*temp;
 

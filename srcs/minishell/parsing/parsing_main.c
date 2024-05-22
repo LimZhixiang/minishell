@@ -12,7 +12,7 @@
 
 #include "../../../includes/minishell.h"
 
-int	ft_space_line(char *new, char *line)
+static int	ft_space_line(char *new, char *line)
 {
 	int	i;
 	int	j;
@@ -41,7 +41,7 @@ int	ft_space_line(char *new, char *line)
 	return (1);
 }
 
-char	*malloc_char(int size)
+static char	*malloc_char(int size)
 {
 	char	*new;
 
@@ -51,7 +51,7 @@ char	*malloc_char(int size)
 	return (new);
 }
 
-char	*ft_alloc_space(char *line)
+static char	*ft_alloc_space(char *line)
 {
 	int		i;
 	int		space;
@@ -100,94 +100,3 @@ int	parsing(char *line, t_mini *mini)
 	ft_rm_quotes(mini);
 	return (1);
 }
-
-// int	parsing(char *line, t_mini *mini)
-// {
-// 	char	*new;
-
-// 	if (ft_quote(line, ft_strlen(line)) != 0)
-// 	{
-// 		ft_putstr_fd("quotes not closed properly, syntax error\n", 1);
-// 		return (0);
-// 	}
-// 	new = ft_alloc_space(line);
-// 	if (new == NULL)
-// 		return (0);
-// 	ft_space_line(new, line);
-// 	if (tokenization(new, mini) == 0)
-// 		return (0);
-// 	ft_rm_quotes(mini);
-// 	// [START DEL]testing rmb to rm
-// 	// printf("\033[0;31mMINI->INPUT(AFT PARSING)\n\033[0m");
-// 	// print_input(mini);
-// 	// printf("USER INPUT: [%s]\n", line);
-// 	// print_input_tgt(mini);
-// 	// [START DEL]testing rmb to rm
-// 	return (1);
-// }
-
-// //[START DEL]testing rmb to rm
-// void	print_input(t_mini *mini)
-// {
-// 	t_parse	*temp;
-// 	int		i;
-// 	char	*s;
-
-// 	i = 0;
-// 	temp = mini->input;
-// 	while (temp)
-// 	{
-// 		printf("[Node%i]\n", i++);
-// 		printf("Arg : [%s]\n", temp->arg);
-// 		if (temp->type == 1)
-// 			s = ft_strdup("CMD");
-// 		if (temp->type == 2)
-// 			s = ft_strdup("ARG");
-// 		if (temp->type == 3)
-// 			s = ft_strdup("DELIMITER");
-// 		if (temp->type == 4)
-// 			s = ft_strdup("FILENAME");
-// 		if (temp->type == 5)
-// 			s = ft_strdup("PIPE");
-// 		if (temp->type == 6)
-// 			s = ft_strdup("OUTPUT");
-// 		if (temp->type == 7)
-// 			s = ft_strdup("APPEND");
-// 		if (temp->type == 8)
-// 			s = ft_strdup("INPUT");
-// 		if (temp->type == 9)
-// 			s = ft_strdup("HDOC");
-// 		printf("Type: %s, %i\n", s, temp->type);
-// 		free(s);
-// 		temp = temp->next;
-// 		if (temp)
-// 		{
-// 			printf("   |\n");
-// 			printf("   V\n");
-// 		}
-// 	}
-// 	printf("\n");
-// }
-
-// void	print_input_tgt(t_mini *mini)
-// {
-// 	t_parse	*temp;
-// 	int		i;
-
-// 	i = 0;
-// 	temp = mini->input;
-// 	printf("\033[0;32mMINI INPUT: ");
-// 	while (temp)
-// 	{
-// 		if (i == 0)
-// 			printf("[");
-// 		printf("%s", temp->arg);
-// 		if (temp->next)
-// 			printf(" ");
-// 		else
-// 			printf("]\n\033[0m");
-// 		i++;
-// 		temp = temp->next;
-// 	}
-// 	printf("\n");
-// }

@@ -12,7 +12,7 @@
 
 #include "../../../includes/minishell.h"
 
-int	exit_str_check(int (func(int)), char *str)
+static int	exit_str_check(int (func(int)), char *str)
 {
 	int	i;
 	int	status;
@@ -34,7 +34,7 @@ int	exit_str_check(int (func(int)), char *str)
 	return (status);
 }
 
-int	get_exit_status(char *cmdarg)
+static int	get_exit_status(char *cmdarg)
 {
 	int	ret;
 

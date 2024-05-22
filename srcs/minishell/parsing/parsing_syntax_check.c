@@ -12,7 +12,7 @@
 
 #include "../../../includes/minishell.h"
 
-int	syntax_error_type(t_parse *input)
+static int	syntax_error_type(t_parse *input)
 {
 	int		error;
 	t_parse	*temp;
