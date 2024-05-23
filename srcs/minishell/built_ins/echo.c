@@ -12,12 +12,12 @@
 
 #include "../../../includes/minishell.h"
 
-static int	check_mini_out(int fd)
-{
-	if (fd == -1)
-		return (1);
-	return (fd);
-}
+// static int	check_mini_out(int fd)
+// {
+// 	if (fd == -1)
+// 		return (1);
+// 	return (fd);
+// }
 
 static int	n_checker(char **cmdarg, int i)
 {
@@ -46,9 +46,9 @@ int	echo_handler(t_mini *mini, char **cmdarg)
 {
 	int	i;
 	int	n_flag;
-	int	fd;
+	// int	fd;
 
-	fd = check_mini_out(mini->out);
+	// fd = check_mini_out(mini->out);
 	n_flag = 1;
 	i = 1;
 	while (cmdarg[i])
@@ -60,13 +60,13 @@ int	echo_handler(t_mini *mini, char **cmdarg)
 		}
 		if (cmdarg[i] != NULL)
 		{
-			ft_putstr_fd(cmdarg[i], fd);
+			ft_putstr_fd(cmdarg[i], 1);
 			if (cmdarg[(i++) + 1] != NULL)
-				ft_putstr_fd(" ", fd);
+				ft_putstr_fd(" ", 1);
 		}
 	}
 	if (n_flag == 1)
-		ft_putstr_fd("\n", fd);
+		ft_putstr_fd("\n", 1);
 	mini->status = 0;
 	return (1);
 }

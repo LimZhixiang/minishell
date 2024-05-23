@@ -64,6 +64,7 @@ typedef struct s_parse
 	char			*arg;
 	int				type;
 	char			*heredoc;
+	int				heredoc_fd;
 	struct s_parse	*next;
 	struct s_parse	*prev;
 }	t_parse;

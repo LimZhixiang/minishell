@@ -63,5 +63,7 @@ int	heredoc_handler(t_mini *mini)
 			break ;
 		node = node->next;
 	}
+	if (mini->in != -1)
+		close(mini->in);
 	return (i);
 }
