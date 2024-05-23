@@ -99,6 +99,7 @@ char	*invalid_env(char *line);
 //./built_ins/env/input_env_utils.c
 int		find_env(char *line, char *wrd);
 char	*get_envp_name(char *str);
+char	*get_envp_value(char *str);
 
 //./built_ins/builtin_exit.c
 int		mini_exit(t_mini *mini, char **cmdarg);
@@ -112,7 +113,8 @@ int		echo_handler(t_mini *mini, char **cmdarg);
 //./built_ins/env_builtin.c
 int		env_builtin(t_mini *mini, char **cmdarg);
 //./built_ins/env_modify_env.c
-int		export(t_mini *mini, char **cmdarg);
+int		export_handler(t_mini *mini, char **cmdarg);
+int		export(t_mini *mini, char *env);
 int		unset(t_mini *mini, char **cmdarg);
 
 //./env/env.c
@@ -154,11 +156,6 @@ int		tokenization(t_parse *node, int *CMD_FLAG);
 char	*get_status_code(char *line, t_mini *mini, int i);
 char	*get_line_env(char *line, t_mini *mini, int i, int j);
 char	*ft_var_exp(char *arg, t_mini *mini, int flag);
-
-//./built_ins/modifyenv.c
-int		export_handler(t_mini *mini, char **cmdarg);
-int		export(t_mini *mini, char *env);
-int		unset(t_mini *mini, char **cmdarg);
 
 int		export_exist(t_mini *mini, char *name);
 void	export_list(t_mini *mini, char *env);
