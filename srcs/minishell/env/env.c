@@ -48,8 +48,8 @@ int	init_mini_env(t_mini *mini, char **env)
 		mini->env = add_node(mini->env, create_node(env[i]));
 		name = get_envp_name(env[i]);
 		value = get_envp_value(env[i]);
-		mini->list =
-		add_export_node(mini->list, create_export_node(name, value));
+		mini->list = add_export_node(mini->list,
+				create_export_node(name, value));
 		if (!mini->list || !mini->env || !name || !value)
 			exit(1);
 		free(name);
@@ -123,19 +123,4 @@ char	*replace_env(char *line, char *envp, char *envp_name, int index)
 	res[k] = '\0';
 	free(line);
 	return (res);
-}
-
-int	ft_valid_env(char c)
-{
-	if (c >= '0' && c <= '9')
-		return (2);
-	if (c == '_')
-		return (1);
-	if (c >= 'a' && c <= 'z')
-		return (1);
-	if (c >= 'A' && c <= 'Z')
-		return (1);
-	if (c == '?')
-		return (-1);
-	return (0);
 }

@@ -44,12 +44,13 @@ t_export	*rmv_list(t_export *list, char *name)
 		if (iter)
 			iter = iter->next;
 	}
-	return(list);
+	return (list);
 }
 
 void	rplace_export_value(t_mini *mini, char *arg, char *arg_name)
 {
 	t_export	*iter;
+
 	iter = mini->list;
 	while (iter)
 	{
@@ -68,7 +69,7 @@ void	print_export_lst(t_mini *mini)
 	t_export	*iter;
 
 	iter = mini->list;
-	while(iter)
+	while (iter)
 	{
 		ft_putstr_fd("declare -x ", 1);
 		ft_putstr_fd(iter->name, 1);
@@ -76,7 +77,7 @@ void	print_export_lst(t_mini *mini)
 		{
 			ft_putstr_fd("=\"", 1);
 			ft_putstr_fd(iter->value, 1);
-			ft_putstr_fd("\"",1);
+			ft_putstr_fd("\"", 1);
 		}
 		ft_putchar_fd('\n', 1);
 		iter = iter->next;
@@ -85,7 +86,7 @@ void	print_export_lst(t_mini *mini)
 
 void	export_list(t_mini *mini, char *env)
 {
-	t_export 	*result;
+	t_export	*result;
 	char		*value;
 
 	if (ft_strchr(env, '='))

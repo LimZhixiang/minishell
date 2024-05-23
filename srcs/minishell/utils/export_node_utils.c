@@ -31,8 +31,8 @@ t_export	*add_export_node(t_export *head, t_export *new)
 void	replace_export_node(t_export *node, char *env_name, char *value)
 {
 	t_export	*temp;
-	char	*name;
-	char	*holder;
+	char		*name;
+	char		*holder;
 
 	temp = node;
 	while (temp)

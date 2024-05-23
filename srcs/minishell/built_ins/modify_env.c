@@ -98,7 +98,7 @@ int	export_handler(t_mini *mini, char **cmdarg)
 		else
 		{
 			arg_name = get_envp_name(cmdarg[i]);
-			if (is_current_env(mini, cmdarg[i],arg_name) == 0)
+			if (is_current_env(mini, cmdarg[i], arg_name) == 0)
 				new_env_var(mini, cmdarg[i]);
 			free(arg_name);
 		}
