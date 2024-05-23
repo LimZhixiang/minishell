@@ -12,30 +12,49 @@
 
 #include "../../../includes/minishell.h"
 
+int	dfl_env(t_mini *mini)
+{
+	char	*pwd;
+	char	*temp;
+
+	temp = getcwd(NULL, 0);
+	pwd = ft_strjoin("PWD=", temp);
+	if (!pwd || !temp)
+		exit (1);
+	export(mini, pwd);
+	export(mini, "SHLVL=1");
+	mini->list = add_export_node(mini->list, create_export_node("SHLVL", "1"));
+	mini->list = add_export_node(mini->list, create_export_node("PWD", pwd));
+	if (!mini->list)
+		exit (1);
+	free(pwd);
+	free(temp);
+	return (1);
+}
+
 int	init_mini_env(t_mini *mini, char **env)
 {
-	t_env	*mini_env;
-	t_env	*new;
+	char	*name;
+	char	*value;
 	int		i;
 
-	if (!env[0])
-	{
-		mini_env = create_node("SHELL=./minishell");
-		mini->env = mini_env;
-		return (1);
-	}
-	mini_env = create_node(env[0]);
-	if (!mini_env)
-		return (0);
-	mini->env = mini_env;
-	i = 1;
+	mini->env = NULL;
+	mini->list = NULL;
+	i = 0;
+	if (!env[i])
+		dfl_env(mini);
 	while (env[i])
 	{
-		new = create_node(env[i++]);
-		if (!new)
-			return (0);
-		mini_env->next = new;
-		mini_env = mini_env->next;
+		mini->env = add_node(mini->env, create_node(env[i]));
+		name = get_envp_name(env[i]);
+		value = get_envp_value(env[i]);
+		mini->list =
+		add_export_node(mini->list, create_export_node(name, value));
+		if (!mini->list || !mini->env || !name || !value)
+			exit(1);
+		free(name);
+		free(value);
+		i++;
 	}
 	return (1);
 }
@@ -47,12 +66,11 @@ int	env_compare(char *env, char *name)
 	i = 0;
 	if (name[0] == '$')
 		name++;
-	while (name[i])
+	while (name[i] && env[i])
 	{
-		if (env[i] && env[i] == name[i])
-			i++;
-		else
+		if (env[i] != name[i])
 			return (0);
+		i++;
 	}
 	if (env[i] != '=')
 		return (0);

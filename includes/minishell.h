@@ -52,6 +52,13 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+typedef struct s_export
+{
+	char			*name;
+	char			*value;
+	struct s_export	*next;
+}	t_export;
+
 typedef struct s_parse
 {
 	char			*arg;
@@ -72,16 +79,17 @@ typedef struct s_pipe{
 
 typedef struct s_mini
 {
-	t_env	*env;
-	t_parse	*input;
-	char	*user_input;
-	int		in;
-	int		out;
-	int		term_in;
-	int		term_out;
-	int		status;
-	int		pipe;
-	int		exit;
+	t_env		*env;
+	t_parse		*input;
+	t_export	*list;
+	char		*user_input;
+	int			in;
+	int			out;
+	int			term_in;
+	int			term_out;
+	int			status;
+	int			pipe;
+	int			exit;
 }	t_mini;
 
 //start
@@ -147,6 +155,19 @@ char	*get_status_code(char *line, t_mini *mini, int i);
 char	*get_line_env(char *line, t_mini *mini, int i, int j);
 char	*ft_var_exp(char *arg, t_mini *mini, int flag);
 
+//./built_ins/modifyenv.c
+int		export_handler(t_mini *mini, char **cmdarg);
+int		export(t_mini *mini, char *env);
+int		unset(t_mini *mini, char **cmdarg);
+
+int		export_exist(t_mini *mini, char *name);
+void	export_list(t_mini *mini, char *env);
+void	print_export_lst(t_mini *mini);
+void	rplace_export_value(t_mini *mini, char *arg, char *arg_name);
+t_export	*rmv_list(t_export *list, char *name);
+
+//./built_ins/builtin_exit.c
+int		mini_exit(t_mini *mini, char **cmdarg);
 //./redir/fd_handler.c
 int		filehandler(char *filename, int *fd, int flag);
 int		fd_handler(t_mini *mini, t_parse *head);
@@ -164,12 +185,17 @@ void	pipe_signal(pid_t pid);
 int		get_signal_status(int status);
 
 //./utils/env_node_utils.c
-void	add_node(t_env *head, t_env *new);
+t_env	*add_node(t_env *head, t_env *new);
 void	replace_node(t_env *node, char *env_name, char *value);
 t_env	*create_node(char *value);
 t_env	*del_curr_node(t_env *prev, t_env *del, t_mini *mini);
 
 void	ft_free_all(t_mini *mini, int state);
+
+t_export	*add_export_node(t_export *head, t_export *new);
+void	replace_export_node(t_export *node, char *env_name, char *value);
+t_export	*create_export_node(char *name, char *value);
+t_export	*del_export_node(t_export *prev, t_export *del);
 
 char	*here_doc_exp(char *arg, t_mini *mini);
 

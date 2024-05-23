@@ -16,7 +16,7 @@ int	input_handler(char *input)
 {
 	if (input == 0)
 		return (1);
-	if (input && !str_empty(input))
+	if (input || *input)
 		add_history(input);
 	return (0);
 }
@@ -56,7 +56,10 @@ t_mini	*innit_mini(int argc, char **argv, char **envp)
 		exit(1);
 	}
 	if (!init_mini_env(mini, envp))
+	{
 		free(mini);
+		exit(1);
+	}
 	mini->input = NULL;
 	mini->exit = 0;
 	mini->in = -1;
