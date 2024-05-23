@@ -31,13 +31,13 @@ EXECUTE_FILES = \
 	execute.c cmdpath.c getcmd.c
 
 BUILT_INS_FILES = \
-	builtin_main.c directory.c env_builtin.c echo.c modify_env.c builtin_exit.c
+	builtin_main.c directory.c env_builtin.c echo.c modify_env.c builtin_exit.c export_list.c
 
 #files that check env in user input
 ENV_FUNC = input_env_check.c input_env_utils.c input_env.c
 
 UTILS_FILES = \
-	subshell_utils.c print_file.c print_error.c env_node_utils.c free_mini.c is_directory.c str_empty.c
+	subshell_utils.c print_file.c print_error.c env_node_utils.c free_mini.c is_directory.c str_empty.c export_node_utils.c
 
 #Libft files
 LIBFT = \
@@ -49,7 +49,7 @@ LIBFT = \
 	ft_itoa.c ft_strmapi.c ft_striteri.c ft_putchar_fd.c ft_putstr_fd.c \
 	ft_putendl_fd.c ft_putnbr_fd.c ft_atol.c ft_strcmp.c ft_atoi_base.c \
 	free_str_arr.c ft_isspace.c str_isdigit.c str_find_replace.c find_word.c \
-	strarr_len.c get_next_line.c ft_putnbr_base.c join_split.c
+	strarr_len.c get_next_line.c ft_putnbr_base.c join_split.c sandwich_join.c
 
 LIBFTBONUS = \
 	ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c \

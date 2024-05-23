@@ -46,6 +46,24 @@ void	free_t_env(t_env *ptr)
 	}
 }
 
+void	free_t_export(t_export *list)
+{
+	t_export	*current;
+	t_export	*next;
+
+	if (list == NULL)
+		return ;
+	current = list;
+	while (current != NULL)
+	{
+		next = current->next;
+		free(current->name);
+		free(current->value);
+		free(current);
+		current = next;
+	}
+}
+
 void	ft_free_all(t_mini *mini, int state)
 {
 	if (state == EXIT_SHELL)
@@ -59,6 +77,7 @@ void	ft_free_all(t_mini *mini, int state)
 		close(0);
 		close(1);
 		free_t_env(mini->env);
+		free_t_export(mini->list);
 		free (mini->user_input);
 		free (mini);
 		return ;
