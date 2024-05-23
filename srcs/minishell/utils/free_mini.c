@@ -23,9 +23,12 @@ static void	free_t_parse(t_parse *ptr)
 	while (current != NULL)
 	{
 		next = current->next;
-		if (access(current->heredoc, F_OK) == 0)
-			unlink(current->heredoc);
-		free(current->heredoc);
+		if (current->heredoc != NULL)
+		{
+			if (access(current->heredoc, F_OK) == 0)
+				unlink(current->heredoc);
+			free(current->heredoc);
+		}
 		free(current->arg);
 		free(current);
 		current = next;
