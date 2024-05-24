@@ -38,8 +38,10 @@ static void	subshell_child_fd(t_mini *mini, t_parse *next,
 	}
 }
 
-static void	subshell_parent(t_pipe info, t_mini *mini, int *status, pid_t pid)
+static void	subshell_parent(t_pipe info, t_mini *mini, pid_t pid)
 {
+	int	status;
+
 	if (mini->in != -1)
 		close(mini->in);
 	if (mini->out != -1)
@@ -52,19 +54,20 @@ static void	subshell_parent(t_pipe info, t_mini *mini, int *status, pid_t pid)
 		*(info.status) = subshell_recus(mini, info.next, info.pipefd[0],
 				info.env);
 	}
-	waitpid(pid, status, 0);
+	waitpid(pid, &status, 0);
 	if (info.next == NULL)
 	{
-		if (WIFSIGNALED(*status))
-			*(info.status) = get_signal_status(*status);
+		if (WIFSIGNALED(status))
+			*(info.status) = get_signal_status(status);
 		else
-			*(info.status) = WEXITSTATUS(*status);
+			*(info.status) = WEXITSTATUS(status);
 	}
 }
 
 static void	subshell_child_process(t_mini *mini, t_pipe info, t_parse *current)
 {
 	subshell_child_fd(mini, info.next, info.input_fd, info.pipefd);
+	create_error_file(current);
 	if (info.fd_status)
 	{
 		if (!builtin_handler(mini, current))
@@ -79,7 +82,6 @@ static void	subshell_child_process(t_mini *mini, t_pipe info, t_parse *current)
 int	subshell_recus(t_mini *mini, t_parse *current, int input_fd, char **env)
 {
 	int		pipefd[2];
-	int		status;
 	t_pipe	info;
 	pid_t	pid;
 
@@ -93,6 +95,6 @@ int	subshell_recus(t_mini *mini, t_parse *current, int input_fd, char **env)
 	if (pid == 0)
 		subshell_child_process(mini, info, current);
 	else
-		subshell_parent(info, mini, &status, pid);
+		subshell_parent(info, mini, pid);
 	return (*(info.status));
 }

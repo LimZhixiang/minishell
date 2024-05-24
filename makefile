@@ -38,7 +38,7 @@ ENV_FUNC = input_env_check.c input_env_utils.c
 
 UTILS_FILES = \
 	subshell_utils.c print_error.c env_node_utils.c free_mini.c is_directory.c str_empty.c \
-	heredoc_utils.c export_node_utils.c
+	heredoc_utils.c export_node_utils.c subshell_error.c
 
 #Libft files
 LIBFT = \
