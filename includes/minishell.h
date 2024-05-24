@@ -69,7 +69,8 @@ typedef struct s_parse
 	struct s_parse	*prev;
 }	t_parse;
 
-typedef struct s_pipe{
+typedef struct s_pipe
+{
 	char	**env;
 	t_parse	*next;
 	int		fd_status;
