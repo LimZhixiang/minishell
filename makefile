@@ -31,7 +31,7 @@ EXECUTE_FILES = \
 	execute.c cmdpath.c getcmd.c
 
 BUILT_INS_FILES = \
-	builtin_main.c directory.c env_builtin.c echo.c modify_env.c builtin_exit.c export_list.c
+	builtin_main.c directory.c env_builtin.c echo.c modify_env.c builtin_exit.c export_list.c export.c unset.c
 
 #files that check env in user input
 ENV_FUNC = input_env_check.c input_env_utils.c

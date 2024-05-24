@@ -119,6 +119,8 @@ int			env_builtin(t_mini *mini, char **cmdarg);
 int			export_handler(t_mini *mini, char **cmdarg);
 int			export(t_mini *mini, char *env);
 int			unset(t_mini *mini, char **cmdarg);
+int			valid_env_name(char *line);
+int			is_current_env(t_mini *mini, char *arg, char *arg_name);
 
 //./env/env.c
 int			init_mini_env(t_mini *mini, char **env);

@@ -16,8 +16,8 @@ int	cd_home(t_mini	*mini, char **line)
 {
 	char	*home;
 
-	if(strarr_len(line) == 1)
-	{	
+	if (strarr_len(line) == 1)
+	{
 		home = ft_get_env("HOME", mini);
 		if (!home)
 			return (0);
