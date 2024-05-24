@@ -46,9 +46,7 @@ int	echo_handler(t_mini *mini, char **cmdarg)
 {
 	int	i;
 	int	n_flag;
-	// int	fd;
 
-	// fd = check_mini_out(mini->out);
 	n_flag = 1;
 	i = 1;
 	while (cmdarg[i])
