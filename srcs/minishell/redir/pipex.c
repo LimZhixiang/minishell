@@ -15,8 +15,6 @@
 static void	subshell_child_fd(t_mini *mini, t_parse *next,
 	int input_fd, int *pipefd)
 {
-	if (mini->status != 0)
-		exit(mini->status);
 	if (input_fd != -1)
 	{
 		dup2(input_fd, STDIN_FILENO);
@@ -46,7 +44,6 @@ static void	subshell_parent(t_pipe info, t_mini *mini, int *status, pid_t pid)
 		close(mini->in);
 	if (mini->out != -1)
 		close(mini->out);
-	mini->status = 0;
 	if (info.input_fd != -1)
 		close(info.input_fd);
 	if (info.next != NULL)
@@ -67,8 +64,6 @@ static void	subshell_parent(t_pipe info, t_mini *mini, int *status, pid_t pid)
 
 static void	subshell_child_process(t_mini *mini, t_pipe info, t_parse *current)
 {
-	if (mini->status)
-		exit(mini->status);
 	subshell_child_fd(mini, info.next, info.input_fd, info.pipefd);
 	if (info.fd_status)
 	{
