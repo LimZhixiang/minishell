@@ -56,6 +56,7 @@ void	print_error_file(t_mini *mini)
 	int		fd;
 	char	*filename;
 
+	fd = -1;
 	tmp = mini->input;
 	i = 1;
 	while (tmp)

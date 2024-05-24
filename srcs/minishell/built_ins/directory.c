@@ -20,10 +20,16 @@ int	cd_home(t_mini	*mini, char **line)
 	{
 		home = ft_get_env("HOME", mini);
 		if (!home)
+		{
+			print_cmd_error("cd Error", 0, "HOME not set");
+			mini->status = 1;
 			return (0);
+		}
 		if (chdir(home) == -1)
 		{
 			free(home);
+			print_cmd_error("cd Error", 0, "HOME");
+			mini->status = 1;
 			return (0);
 		}
 		free(home);
@@ -46,11 +52,6 @@ int	cd_handler(t_mini *mini, char **line)
 		}
 		else if (strarr_len(line) == 1 || chdir(line[1]) == -1)
 		{
-			// if (strarr_len(line) == 1)
-			// {
-			// 	home = getenv("HOME");
-			// 	chdir(home);
-			// }
 			if (cd_home(mini, line))
 			{
 				replace_node(mini->env, "OLDPWD", oldpwd);
@@ -59,11 +60,8 @@ int	cd_handler(t_mini *mini, char **line)
 			}
 		}
 	}
-	// else
-	// {
-	// 	print_cmd_error("cd", 0, "Invalid number of argument");
-	// 	mini->status = 1;
-	// }
+	else
+		mini->status = 1;
 	return (1);
 }
 
