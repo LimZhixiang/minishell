@@ -76,6 +76,7 @@ void	ft_free_all(t_mini *mini, int state)
 	{
 		close(mini->term_in);
 		close(mini->term_out);
+		close(mini->std_err);
 		if (mini->in != -1)
 			close(mini->in);
 		if (mini->out != -1)
