@@ -32,7 +32,10 @@ void	minishell(t_mini *mini)
 	if (heredoc_handler(mini) != 0)
 	{
 		if (mini->pipe == 1)
+		{
 			mini->status = subshell_recus(mini, input_cpy, -1, env);
+			print_error_file(mini);
+		}
 		else
 			exec_handler(mini, input_cpy, env);
 	}
@@ -66,6 +69,7 @@ t_mini	*innit_mini(int argc, char **argv, char **envp)
 	mini->out = -1;
 	mini->term_in = dup(0);
 	mini->term_out = dup(1);
+	mini->std_err = dup(2);
 	mini->pipe = 0;
 	mini->status = 0;
 	return (mini);

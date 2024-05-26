@@ -32,12 +32,12 @@ EXECUTE_FILES = \
 	execute.c cmdpath.c getcmd.c
 
 BUILT_INS_FILES = \
-	builtin_main.c directory.c env_builtin.c echo.c modify_env.c builtin_exit.c export_list.c
+	builtin_main.c directory.c env_builtin.c echo.c modify_env.c builtin_exit.c export_list.c export.c unset.c
 
 
 UTILS_FILES = \
 	subshell_utils.c print_error.c env_node_utils.c free_mini.c is_directory.c str_empty.c \
-	heredoc_utils.c export_node_utils.c input_env_check.c input_env_utils.c
+	heredoc_utils.c export_node_utils.c input_env_check.c input_env_utils.c subshell_error.c
 
 #Libft files
 LIBFT_FILES = \

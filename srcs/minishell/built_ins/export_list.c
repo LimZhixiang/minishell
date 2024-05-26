@@ -38,7 +38,7 @@ t_export	*rmv_list(t_export *list, char *name)
 		if (ft_strcmp(iter->name, name))
 		{
 			if (temp == iter)
-				list = temp->next;
+				list = del_export_node(temp, iter);
 			else
 				temp = del_export_node(temp, iter);
 			break ;

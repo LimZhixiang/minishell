@@ -12,31 +12,56 @@
 
 #include "../../../includes/minishell.h"
 
+int	cd_home(t_mini	*mini, char **line)
+{
+	char	*home;
+
+	if (strarr_len(line) == 1)
+	{
+		home = ft_get_env("HOME", mini);
+		if (!home)
+		{
+			print_cmd_error("cd Error", 0, "HOME not set");
+			mini->status = 1;
+			return (0);
+		}
+		if (chdir(home) == -1)
+		{
+			free(home);
+			print_cmd_error("cd Error", 0, "HOME");
+			mini->status = 1;
+			return (0);
+		}
+		free(home);
+	}
+	return (1);
+}
+
 int	cd_handler(t_mini *mini, char **line)
 {
 	char	buffer[PATH_MAX];
 	char	*oldpwd;
 
 	oldpwd = getcwd(buffer, sizeof(buffer));
-	if (strarr_len(line) == 2)
+	if (strarr_len(line) <= 2)
 	{
-		if (chdir(line[1]) == -1)
+		if (strarr_len(line) == 2 && chdir(line[1]) == -1)
 		{
 			print_cmd_error("cd Error", 0, line[1]);
 			mini->status = 1;
 		}
-		else
+		else if (strarr_len(line) == 1 || chdir(line[1]) == -1)
 		{
-			replace_node(mini->env, "OLDPWD", oldpwd);
-			replace_node(mini->env, "PWD", getcwd(buffer, sizeof(buffer)));
-			mini->status = 0;
+			if (cd_home(mini, line))
+			{
+				replace_node(mini->env, "OLDPWD", oldpwd);
+				replace_node(mini->env, "PWD", getcwd(buffer, sizeof(buffer)));
+				mini->status = 0;
+			}
 		}
 	}
 	else
-	{
-		print_cmd_error("cd", 0, "Invalid number of argument");
 		mini->status = 1;
-	}
 	return (1);
 }
 

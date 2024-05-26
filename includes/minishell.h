@@ -69,7 +69,8 @@ typedef struct s_parse
 	struct s_parse	*prev;
 }	t_parse;
 
-typedef struct s_pipe{
+typedef struct s_pipe
+{
 	char	**env;
 	t_parse	*next;
 	int		fd_status;
@@ -88,6 +89,7 @@ typedef struct s_mini
 	int			out;
 	int			term_in;
 	int			term_out;
+	int			std_err;
 	int			status;
 	int			pipe;
 	int			exit;
@@ -110,6 +112,8 @@ int			env_builtin(t_mini *mini, char **cmdarg);
 int			export_handler(t_mini *mini, char **cmdarg);
 int			export(t_mini *mini, char *env);
 int			unset(t_mini *mini, char **cmdarg);
+int			valid_env_name(char *line);
+int			is_current_env(t_mini *mini, char *arg, char *arg_name);
 
 //./env/env.c
 int			init_mini_env(t_mini *mini, char **env);
@@ -205,6 +209,10 @@ int			pipe_present(t_parse *head);
 int			create_pipe(t_parse *next, int *pipefd, t_mini *mini);
 t_pipe		subshell_var(t_parse *next, int *pipe, char **envs, int fd_input);
 t_parse		*nxt_subshell(t_mini *mini, t_parse *node);
+
+void		print_error_file(t_mini *mini);
+void		create_error_file(t_parse *current);
+
 //end
 
 #endif

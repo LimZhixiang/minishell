@@ -12,7 +12,7 @@
 
 #include "../../../includes/minishell.h"
 
-static int	valid_env_name(char *line)
+int	valid_env_name(char *line)
 {
 	int	i;
 
@@ -72,9 +72,19 @@ void	new_env_var(t_mini *mini, char *env)
 	if (export_exist(mini, name))
 		rplace_export_value(mini, env, name);
 	else
-		mini->list = add_export_node(mini->list, create_export_node(name, value));
+	{
+		mini->list = add_export_node(mini->list,
+				create_export_node(name, value));
+	}
 	free(name);
 	free(value);
+}
+
+static void	export_noarg(t_mini *mini, char *name)
+{
+	if (!export_exist(mini, name))
+		mini->list = add_export_node(mini->list,
+				create_export_node(name, NULL));
 }
 
 int	export_handler(t_mini *mini, char **cmdarg)
@@ -91,10 +101,7 @@ int	export_handler(t_mini *mini, char **cmdarg)
 		if (!valid_env_name(cmdarg[i]))
 			print_env_error(cmdarg[i], mini, 1);
 		else if (!ft_strchr(cmdarg[i], '='))
-		{
-			if (!export_exist(mini, cmdarg[i]))
-				mini->list = add_export_node(mini->list, create_export_node(cmdarg[i], NULL));
-		}
+			export_noarg(mini, cmdarg[i]);
 		else
 		{
 			arg_name = get_envp_name(cmdarg[i]);
@@ -103,62 +110,6 @@ int	export_handler(t_mini *mini, char **cmdarg)
 			free(arg_name);
 		}
 		i++;
-	}
-	return (1);
-}
-
-int	export(t_mini *mini, char *env)
-{
-	t_env	*new;
-	char	*arg_name;
-	int		status;
-
-	status = 1;
-	if (!valid_env_name(env))
-	{
-		print_env_error(env, mini, 1);
-		return (1);
-	}
-	arg_name = get_envp_name(env);
-	if (!arg_name)
-		status = 0;
-	if (is_current_env(mini, env, arg_name) == 0 && status)
-	{
-		new = create_node(env);
-		mini->env = add_node(mini->env, new);
-		if (!new)
-			status = 0;
-	}
-	free(arg_name);
-	return (1);
-}
-
-int	unset(t_mini *mini, char **cmdarg)
-{
-	t_env	*iter;
-	t_env	*temp;
-	int		i;
-
-	i = 1;
-	iter = mini->env;
-	temp = iter;
-	mini->status = 0;
-	if (!cmdarg[i])
-		return (1);
-	while (iter && cmdarg[i])
-	{
-		while (cmdarg[i])
-		{
-			if (env_compare(iter->value, cmdarg[i]))
-				iter = del_curr_node(temp, iter, mini);
-			if (export_exist(mini, cmdarg[i]))
-				mini->list = rmv_list(mini->list, cmdarg[i]);
-			i++;
-		}
-		i = 1;
-		temp = iter;
-		if (iter)
-			iter = iter->next;
 	}
 	return (1);
 }
