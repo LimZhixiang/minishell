@@ -38,7 +38,7 @@ static int	exec_path_check(char *path)
 	return (status);
 }
 
-void	execute(t_parse *node, char **envp)
+void	execute(t_mini *mini, t_parse *node, char **envp)
 {
 	char	*envpath;
 	char	*cmdpath;
@@ -52,16 +52,29 @@ void	execute(t_parse *node, char **envp)
 	{
 		status = exec_path_check(cmdarg[0]);
 		if (status == 0)
+		{
+			free_t_parse(mini->input);
+			free_t_export(mini->list);
+			free_t_env(mini->env);
+			free(mini->user_input);
+			free(mini);
 			execve(cmdarg[0], cmdarg, envp);
+		}
 		else
 			exit(status);
 	}
 	else if (cmdarg && envpath)
 	{
 		cmdpath = getcmdpath(cmdarg[0], envpath);
+		free_t_parse(mini->input);
+		free_t_export(mini->list);
+		free_t_env(mini->env);
+		free(mini->user_input);
+		free(mini);
 		execve(cmdpath, cmdarg, envp);
 	}
 	free(cmdpath);
+	ft_free_all(mini, EXIT_SHELL);
 	print_cmd_error("execve error", 0, "");
 	exit(1);
 }
@@ -74,7 +87,7 @@ static void	get_execution(t_mini *mini, t_parse *node, char **envp)
 	pid = fork();
 	pipe_signal(pid);
 	if (pid == 0)
-		execute(node, envp);
+		execute(mini, node, envp);
 	else if (pid > 0)
 		waitpid(pid, &status, 0);
 	else

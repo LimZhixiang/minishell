@@ -61,41 +61,36 @@ ENV = $(addprefix $(ENV_DIR), $(ENV_FILES))
 PARSING = $(addprefix $(PARSING_DIR), $(PARSING_FILES))
 SIGNAL = $(addprefix $(SIGNAL_DIR), $(SIGNAL_FILES))
 REDIR = $(addprefix $(REDIR_DIR), $(REDIR_FILES))
-BUILT_INS= $(addprefix $(BUILT_INS_DIR), $(BUILT_INS_FILES)) $(addprefix srcs/minishell/built_ins/env/, $(BENV_FILES))
+BUILT_INS= $(addprefix $(BUILT_INS_DIR), $(BUILT_INS_FILES))
 EXECUTE= $(addprefix $(EXECUTE_DIR), $(EXECUTE_FILES))
 UTILS= $(addprefix $(UTILS_DIR), $(UTILS_FILES))
 LIBFT = $(addprefix $(LIBFT_DIR), $(LIBFT_FILES))
 
 FILES = $(SRC) $(LIBFT) $(ENV) $(PARSING) $(SIGNAL) $(REDIR) $(BUILT_INS) $(EXECUTE) $(UTILS)
-FILE_NAME = $(SRC_FILES) $(LIBFT_FILES) $(ENV_FILES) $(PARSING_FILES) $(SIGNAL_FILES) $(REDIR_FILES) $(BUILT_INS_FILES) $(EXECUTE_FILES) $(UTILS_FILES)
-OBJ_NAME = $(FILE_NAME:.c=.o)
 OBJ = $(FILES:.c=.o)
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 LFLAGS = -lreadline -lncurses
 
+%.o: %.c 
+	$(CC) $(CFLAGS) -c $? -o $@
+
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) -o $@ $(OBJ_NAME) $(LFLAGS)
-
-%.o: %.c
-	$(CC) $(CFLAGS) -c $?
-
-echo:
-	echo $(OBJ_NAME)
+	$(CC) $(CFLAGS) -o $@ $(OBJ) $(LFLAGS)
 
 clean:
-	rm -f $(OBJ_NAME)
+	rm -f $(OBJ)
 
 fclean:
-	rm -f $(NAME) $(OBJ_NAME)
+	rm -f $(NAME) $(OBJ)
 
 re: fclean all
 
 valgrind:
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp -s ./minishell
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --trace-children=yes --suppressions=readline.supp -s ./minishell
+
 filecheck:
-	valgrind --track-fds=yes ./minishell
-.PHONY: all clean fclean re
+	valgrind --track-fds=yes --suppressions=readline.supp -s ./minishell

@@ -12,7 +12,7 @@
 
 #include "../../../includes/minishell.h"
 
-static void	free_t_parse(t_parse *ptr)
+void	free_t_parse(t_parse *ptr)
 {
 	t_parse	*current;
 	t_parse	*next;
@@ -35,7 +35,7 @@ static void	free_t_parse(t_parse *ptr)
 	}
 }
 
-static void	free_t_env(t_env *ptr)
+void	free_t_env(t_env *ptr)
 {
 	t_env	*current;
 	t_env	*next;
@@ -70,6 +70,11 @@ void	free_t_export(t_export *list)
 	}
 }
 
+// void	free_t_pipe(t_pipe *pipe)
+// {
+
+// }
+
 void	ft_free_all(t_mini *mini, int state)
 {
 	if (state == EXIT_SHELL)
@@ -81,8 +86,6 @@ void	ft_free_all(t_mini *mini, int state)
 			close(mini->in);
 		if (mini->out != -1)
 			close(mini->out);
-		close(0);
-		close(1);
 		free_t_env(mini->env);
 		free_t_export(mini->list);
 		free (mini->user_input);

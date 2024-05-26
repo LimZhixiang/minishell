@@ -127,7 +127,7 @@ char		**get_env_arr(t_mini *mini);
 char		*extract_path(char **env);
 char		*getcmdpath(char *cmdarg, char *envpath);
 //./execution/execute.c
-void		execute(t_parse *node, char **envp);
+void		execute(t_mini *mini, t_parse *node, char **envp);
 void		exec_handler(t_mini *mini, t_parse *node, char **env);
 //./execution/getcmd.c
 char		**get_command(t_parse *input);
@@ -192,6 +192,9 @@ int			env_found(char *line);
 char		*invalid_env(char *line);
 
 void		ft_free_all(t_mini *mini, int state);
+void		free_t_parse(t_parse *ptr);
+void		free_t_env(t_env *ptr);
+void		free_t_export(t_export *list);
 
 t_export	*add_export_node(t_export *head, t_export *new);
 void		replace_export_node(t_export *node, char *env_name, char *value);

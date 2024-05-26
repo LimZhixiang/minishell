@@ -66,14 +66,28 @@ static void	subshell_parent(t_pipe info, t_mini *mini, pid_t pid)
 
 static void	subshell_child_process(t_mini *mini, t_pipe info, t_parse *current)
 {
+	int	i;
+
 	subshell_child_fd(mini, info.next, info.input_fd, info.pipefd);
 	create_error_file(current);
 	if (info.fd_status)
 	{
 		if (!builtin_handler(mini, current))
-			execute(current, info.env);
+			execute(mini, current, info.env);
 		else
-			exit(mini->status);
+		{
+			i = mini->status;
+			close(mini->std_err);
+			close(mini->term_in);
+			close(mini->term_out);
+			free_t_parse(mini->input);
+			free_t_export(mini->list);
+			free_t_env(mini->env);
+			free_str_arr(info.env);
+			free(mini->user_input);
+			free(mini);
+			exit(i);
+		}
 	}
 	else
 		exit(mini->status);
