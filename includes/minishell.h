@@ -195,6 +195,7 @@ void		ft_free_all(t_mini *mini, int state);
 void		free_t_parse(t_parse *ptr);
 void		free_t_env(t_env *ptr);
 void		free_t_export(t_export *list);
+void		free_execution(t_mini *mini);
 
 t_export	*add_export_node(t_export *head, t_export *new);
 void		replace_export_node(t_export *node, char *env_name, char *value);

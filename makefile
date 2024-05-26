@@ -90,7 +90,7 @@ fclean:
 re: fclean all
 
 valgrind:
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --trace-children=yes --suppressions=readline.supp -s ./minishell
+	valgrind --leak-check=full --track-fds=yes --show-leak-kinds=all --track-origins=yes --trace-children=yes --suppressions=readline.supp -s ./minishell
 
 filecheck:
 	valgrind --track-fds=yes --suppressions=readline.supp -s ./minishell

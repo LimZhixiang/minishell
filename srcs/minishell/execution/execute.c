@@ -38,6 +38,13 @@ static int	exec_path_check(char *path)
 	return (status);
 }
 
+void	free_exec_var(char **cmdarg, char *cmdpath, char**envp)
+{
+	free(cmdpath);
+	free_str_arr(cmdarg);
+	free_str_arr(envp);
+}
+
 void	execute(t_mini *mini, t_parse *node, char **envp)
 {
 	char	*envpath;
@@ -46,37 +53,24 @@ void	execute(t_mini *mini, t_parse *node, char **envp)
 	int		status;
 
 	cmdarg = get_command(node);
-	envpath = extract_path(envp);
 	cmdpath = NULL;
+	status = 1;
+	free_execution(mini);
 	if (ft_strchr(cmdarg[0], '/') && cmdarg)
 	{
 		status = exec_path_check(cmdarg[0]);
 		if (status == 0)
-		{
-			free_t_parse(mini->input);
-			free_t_export(mini->list);
-			free_t_env(mini->env);
-			free(mini->user_input);
-			free(mini);
 			execve(cmdarg[0], cmdarg, envp);
-		}
-		else
-			exit(status);
 	}
-	else if (cmdarg && envpath)
+	else if (cmdarg)
 	{
+		envpath = extract_path(envp);
 		cmdpath = getcmdpath(cmdarg[0], envpath);
-		free_t_parse(mini->input);
-		free_t_export(mini->list);
-		free_t_env(mini->env);
-		free(mini->user_input);
-		free(mini);
-		execve(cmdpath, cmdarg, envp);
+		if (cmdpath)
+			execve(cmdpath, cmdarg, envp);
 	}
-	free(cmdpath);
-	ft_free_all(mini, EXIT_SHELL);
-	print_cmd_error("execve error", 0, "");
-	exit(1);
+	free_exec_var(cmdarg, cmdpath, envp);
+	exit(status);
 }
 
 static void	get_execution(t_mini *mini, t_parse *node, char **envp)

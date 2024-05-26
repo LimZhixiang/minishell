@@ -70,10 +70,14 @@ void	free_t_export(t_export *list)
 	}
 }
 
-// void	free_t_pipe(t_pipe *pipe)
-// {
-
-// }
+void	free_execution(t_mini *mini)
+{
+	free_t_parse(mini->input);
+	free_t_export(mini->list);
+	free_t_env(mini->env);
+	free(mini->user_input);
+	free(mini);
+}
 
 void	ft_free_all(t_mini *mini, int state)
 {

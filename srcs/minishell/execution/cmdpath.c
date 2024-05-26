@@ -49,6 +49,8 @@ static char	*check_cmd(char *envpath, char *cmd)
 	int		i;
 
 	path = NULL;
+	if (!envpath)
+		return (NULL);
 	paths = ft_split(envpath, ':');
 	if (paths == NULL)
 		print_cmd_error("malloc Error", 0, "");
@@ -75,10 +77,7 @@ char	*getcmdpath(char *cmdarg, char *envpath)
 	if (cmdarg != NULL)
 		cmdpath = check_cmd(envpath, cmdarg);
 	if (!cmdpath)
-	{
 		print_cmd_error(cmdarg, 0, "command not found");
-		exit(127);
-	}
 	free(envpath);
 	return (cmdpath);
 }
