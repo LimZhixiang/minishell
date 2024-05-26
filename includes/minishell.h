@@ -94,13 +94,6 @@ typedef struct s_mini
 }	t_mini;
 
 //start
-//./built_ins/env/input_env_check.c
-int			env_found(char *line);
-char		*invalid_env(char *line);
-//./built_ins/env/input_env_utils.c
-int			find_env(char *line, char *wrd);
-char		*get_envp_name(char *str);
-char		*get_envp_value(char *str);
 
 //./built_ins/builtin_exit.c
 int			mini_exit(t_mini *mini, char **cmdarg);
@@ -187,6 +180,12 @@ t_env		*add_node(t_env *head, t_env *new);
 void		replace_node(t_env *node, char *env_name, char *value);
 t_env		*create_node(char *value);
 t_env		*del_curr_node(t_env *prev, t_env *del, t_mini *mini);
+
+int			find_env(char *line, char *wrd);
+char		*get_envp_name(char *str);
+char		*get_envp_value(char *str);
+int			env_found(char *line);
+char		*invalid_env(char *line);
 
 void		ft_free_all(t_mini *mini, int state);
 

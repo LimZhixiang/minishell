@@ -1,6 +1,7 @@
 NAME = minishell
 
 MINISHELL_DIR = srcs/minishell/
+LIBFT_DIR = srcs/libft/
 
 BUILT_INS_DIR = $(MINISHELL_DIR)/built_ins/
 ENV_DIR = $(MINISHELL_DIR)env/
@@ -33,15 +34,13 @@ EXECUTE_FILES = \
 BUILT_INS_FILES = \
 	builtin_main.c directory.c env_builtin.c echo.c modify_env.c builtin_exit.c export_list.c
 
-#files that check env in user input
-ENV_FUNC = input_env_check.c input_env_utils.c
 
 UTILS_FILES = \
 	subshell_utils.c print_error.c env_node_utils.c free_mini.c is_directory.c str_empty.c \
-	heredoc_utils.c export_node_utils.c
+	heredoc_utils.c export_node_utils.c input_env_check.c input_env_utils.c
 
 #Libft files
-LIBFT = \
+LIBFT_FILES = \
 	ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c \
 	ft_strlen.c ft_memset.c ft_bzero.c ft_memcpy.c ft_memmove.c \
 	ft_strlcpy.c ft_strlcat.c ft_toupper.c ft_tolower.c ft_strchr.c \
@@ -52,21 +51,25 @@ LIBFT = \
 	free_str_arr.c ft_isspace.c str_isdigit.c str_find_replace.c find_word.c \
 	strarr_len.c get_next_line.c ft_putnbr_base.c join_split.c sandwich_join.c
 
-LIBFTBONUS = \
+LIBFTBONUS_FILES = \
 	ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c \
 	ft_lstlast_bonus.c ft_lstadd_back_bonus.c ft_lstdelone_bonus.c \
 	ft_lstclear_bonus.c ft_lstiter_bonus.c ft_lstmap_bonus.c
 
-#files that manipulates env in user input
 SRC = $(addprefix $(MINISHELL_DIR), $(SRC_FILES))
 ENV = $(addprefix $(ENV_DIR), $(ENV_FILES))
 PARSING = $(addprefix $(PARSING_DIR), $(PARSING_FILES))
 SIGNAL = $(addprefix $(SIGNAL_DIR), $(SIGNAL_FILES))
 REDIR = $(addprefix $(REDIR_DIR), $(REDIR_FILES))
-BUILT_INS= $(addprefix $(BUILT_INS_DIR), $(BUILT_INS_FILES)) $(addprefix srcs/minishell/built_ins/env/, $(ENV_FUNC))
+BUILT_INS= $(addprefix $(BUILT_INS_DIR), $(BUILT_INS_FILES)) $(addprefix srcs/minishell/built_ins/env/, $(BENV_FILES))
 EXECUTE= $(addprefix $(EXECUTE_DIR), $(EXECUTE_FILES))
 UTILS= $(addprefix $(UTILS_DIR), $(UTILS_FILES))
+LIBFT = $(addprefix $(LIBFT_DIR), $(LIBFT_FILES))
 
+FILES = $(SRC) $(LIBFT) $(ENV) $(PARSING) $(SIGNAL) $(REDIR) $(BUILT_INS) $(EXECUTE) $(UTILS)
+FILE_NAME = $(SRC_FILES) $(LIBFT_FILES) $(ENV_FILES) $(PARSING_FILES) $(SIGNAL_FILES) $(REDIR_FILES) $(BUILT_INS_FILES) $(EXECUTE_FILES) $(UTILS_FILES)
+OBJ_NAME = $(FILE_NAME:.c=.o)
+OBJ = $(FILES:.c=.o)
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
@@ -74,14 +77,20 @@ LFLAGS = -lreadline -lncurses
 
 all: $(NAME)
 
-$(NAME):
-	$(CC) $(CFLAGS) -o $(NAME) $(SRC) $(addprefix srcs/libft/, $(LIBFT)) $(ENV) $(PARSING) $(SIGNAL) $(REDIR) $(BUILT_INS) $(EXECUTE) $(UTILS) $(LFLAGS)
+$(NAME): $(OBJ)
+	$(CC) $(CFLAGS) -o $@ $(OBJ_NAME) $(LFLAGS)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $?
+
+echo:
+	echo $(OBJ_NAME)
 
 clean:
-	rm -f $(NAME)
+	rm -f $(OBJ_NAME)
 
 fclean:
-	rm -f $(NAME)
+	rm -f $(NAME) $(OBJ_NAME)
 
 re: fclean all
 

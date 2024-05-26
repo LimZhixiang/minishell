@@ -10,37 +10,71 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
-int	env_found(char *line)
+int	find_env(char *line, char *wrd)
 {
-	char	*temp;
-
-	temp = ft_strchr(line, '$');
-	if (!temp)
-		return (0);
-	if (temp[1] != ' ' && temp[1])
-		return (1);
-	if (ft_strchr(temp + 1, '$'))
-		return (1);
-	return (0);
-}
-
-char	*invalid_env(char *line)
-{
-	int		i;
-	int		index;
-	char	*temp;
+	int	i;
+	int	j;
 
 	i = 0;
-	while (line[i] != '$')
+	j = 0;
+	while (line[i])
+	{
+		while (wrd[j] == line[i + j])
+		{
+			if (wrd[j + 1] == 0)
+				if (line[i + j + 1] == ' ' || line[i + j + 1] == 0)
+					return (i);
+			j++;
+		}
+		j = 0;
 		i++;
-	index = i;
-	while (line[i] != ' ' && line[i])
+	}
+	return (-1);
+}
+
+char	*get_envp_name(char *str)
+{
+	int		i;
+	char	*res;
+
+	i = 0;
+	while (str[i] != '=')
 		i++;
-	i = i - index;
-	temp = ft_substr((const char *)line, index, i);
-	line = str_find_replace(line, temp, "");
-	free(temp);
-	return (line);
+	res = malloc(sizeof(char) * (i + 1));
+	if (!res)
+	{
+		print_cmd_error("malloc Error", 0, "");
+		return (NULL);
+	}
+	i = 0;
+	while (str[i] != '=')
+	{
+		res[i] = str[i];
+		i++;
+	}
+	res[i] = 0;
+	return (res);
+}
+
+char	*get_envp_value(char *str)
+{
+	int		i;
+	int		l;
+	char	*res;
+
+	i = 0;
+	res = NULL;
+	while (str[i] != '=')
+		i++;
+	l = ft_strlen(str);
+	res = malloc(sizeof(char) * (l - i));
+	if (!res)
+		return (NULL);
+	l = 0;
+	while (str[++i])
+		res[l++] = str[i];
+	res[l] = 0;
+	return (res);
 }
