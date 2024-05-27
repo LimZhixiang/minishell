@@ -69,7 +69,7 @@ static char	*check_cmd(char *envpath, char *cmd)
 	return (path);
 }
 
-char	*getcmdpath(char *cmdarg, char *envpath)
+char	*getcmdpath(char *cmdarg, char *envpath, int *status)
 {
 	char	*cmdpath;
 
@@ -77,7 +77,10 @@ char	*getcmdpath(char *cmdarg, char *envpath)
 	if (cmdarg != NULL)
 		cmdpath = check_cmd(envpath, cmdarg);
 	if (!cmdpath)
+	{
 		print_cmd_error(cmdarg, 0, "command not found");
+		*status = 127;
+	}
 	free(envpath);
 	return (cmdpath);
 }

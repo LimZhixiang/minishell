@@ -65,7 +65,7 @@ void	execute(t_mini *mini, t_parse *node, char **envp)
 	else if (cmdarg)
 	{
 		envpath = extract_path(envp);
-		cmdpath = getcmdpath(cmdarg[0], envpath);
+		cmdpath = getcmdpath(cmdarg[0], envpath, &status);
 		if (cmdpath)
 			execve(cmdpath, cmdarg, envp);
 	}

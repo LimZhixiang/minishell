@@ -125,7 +125,7 @@ char		**get_env_arr(t_mini *mini);
 
 //./execution/cmdpath
 char		*extract_path(char **env);
-char		*getcmdpath(char *cmdarg, char *envpath);
+char		*getcmdpath(char *cmdarg, char *envpath, int *status);
 //./execution/execute.c
 void		execute(t_mini *mini, t_parse *node, char **envp);
 void		exec_handler(t_mini *mini, t_parse *node, char **env);
