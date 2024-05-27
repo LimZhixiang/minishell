@@ -43,14 +43,12 @@ int	create_pipe(t_parse *next, int *pipefd, t_mini *mini)
 t_pipe	subshell_var(t_parse *next, int *pipe, char **envs, int fd_input)
 {
 	t_pipe	ret;
-	int		i;
 
-	i = 0;
+	ret.env = envs;
 	ret.next = next;
 	ret.pipefd = pipe;
-	ret.env = envs;
 	ret.input_fd = fd_input;
-	ret.status = &i;
+	ret.status = NULL;
 	return (ret);
 }
 

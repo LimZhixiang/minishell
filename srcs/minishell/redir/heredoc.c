@@ -59,7 +59,7 @@ static void	heredoc(t_mini *mini, char *eof, int fd)
 	free(line);
 }
 
-void	heredoc_controller(t_mini *mini, char *eof, int fd)
+void	heredoc_controller(t_mini *mini, char *eof, int fd, char *name)
 {
 	pid_t	pid;
 	int		status;
@@ -71,6 +71,8 @@ void	heredoc_controller(t_mini *mini, char *eof, int fd)
 		heredoc_signal_controller(pid);
 		heredoc(mini, eof, fd);
 		close(fd);
+		free(name);
+		free_execution(mini, HDOC);
 		exit(0);
 	}
 	else if (pid > 0)

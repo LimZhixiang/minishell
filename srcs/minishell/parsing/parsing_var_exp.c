@@ -84,25 +84,6 @@ char	*get_line_env(char *line, t_mini *mini, int i, int j)
 	return (line);
 }
 
-int	check_equal(char *arg, int i)
-{
-	int	ret;
-
-	ret = 0;
-	if (arg == NULL)
-		return (0);
-	while (i >= 0 && arg[i] != ' ')
-	{
-		if (arg[i] == '=')
-		{
-			ret = 1;
-			break;
-		}
-		i--;
-	}
-	return (ret);
-}
-
 char	*ft_var_exp(char *arg, t_mini *mini, int flag)
 {
 	int	i;

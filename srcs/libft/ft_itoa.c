@@ -34,6 +34,8 @@ static int	numlen(long n)
 
 static char	*assignstr(char *str, int len, long n)
 {
+	if (!str)
+		return (NULL);
 	if (n < 0)
 	{
 		n *= -1;

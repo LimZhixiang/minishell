@@ -137,6 +137,8 @@ int			is_sep(char c);
 int			ft_quote_c(char c);
 int			ft_quote(char *line, int i);
 int			ft_valid_env(char c);
+int			check_equal(char *arg, int i);
+
 //./parsing/parsing_init_input.c
 int			init_input(char **split, t_mini *mini);
 //./parsing/parsing_main.c
@@ -169,7 +171,7 @@ int			fd_handler(t_mini *mini, t_parse *head);
 //./redir/heredoc_handler.c
 int			heredoc_handler(t_mini *mini);
 //./redir/heredoc.c
-void		heredoc_controller(t_mini *mini, char *eof, int fd);
+void		heredoc_controller(t_mini *mini, char *eof, int fd, char *name);
 //./redir/pipex.c
 int			subshell_recus(t_mini *mini, t_parse *current, int input_fd,
 				char **env);
@@ -192,10 +194,10 @@ int			env_found(char *line);
 char		*invalid_env(char *line);
 
 void		ft_free_all(t_mini *mini, int state);
-void		free_t_parse(t_parse *ptr);
+void		free_t_parse(t_parse *ptr, int type);
 void		free_t_env(t_env *ptr);
 void		free_t_export(t_export *list);
-void		free_execution(t_mini *mini);
+void		free_execution(t_mini *mini, int type);
 
 t_export	*add_export_node(t_export *head, t_export *new);
 void		replace_export_node(t_export *node, char *env_name, char *value);
