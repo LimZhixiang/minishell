@@ -75,6 +75,9 @@ void	free_execution(t_mini *mini)
 	free_t_parse(mini->input);
 	free_t_export(mini->list);
 	free_t_env(mini->env);
+	close(mini->term_in);
+	close(mini->term_out);
+	close(mini->std_err);
 	free(mini->user_input);
 	free(mini);
 }

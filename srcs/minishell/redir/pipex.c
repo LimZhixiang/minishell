@@ -74,23 +74,18 @@ static void	subshell_child_process(t_mini *mini, t_pipe info, t_parse *current)
 	{
 		if (!builtin_handler(mini, current))
 			execute(mini, current, info.env);
-		else
-		{
-			i = mini->status;
-			close(mini->std_err);
-			close(mini->term_in);
-			close(mini->term_out);
-			free_t_parse(mini->input);
-			free_t_export(mini->list);
-			free_t_env(mini->env);
-			free_str_arr(info.env);
-			free(mini->user_input);
-			free(mini);
-			exit(i);
-		}
 	}
-	else
-		exit(mini->status);
+	i = mini->status;
+	close(mini->std_err);
+	close(mini->term_in);
+	close(mini->term_out);
+	free_t_parse(mini->input);
+	free_t_export(mini->list);
+	free_t_env(mini->env);
+	free_str_arr(info.env);
+	free(mini->user_input);
+	free(mini);
+	exit(i);
 }
 
 int	subshell_recus(t_mini *mini, t_parse *current, int input_fd, char **env)
