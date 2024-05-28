@@ -42,7 +42,7 @@ char	*get_filename(int i)
 	free(no);
 	if (!ret)
 		return (NULL);
-	full = ft_strjoin("./redir", ret);
+	full = ft_strjoin(".", ret);
 	free(ret);
 	if (!full)
 		return (NULL);

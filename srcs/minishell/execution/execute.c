@@ -54,15 +54,15 @@ void	execute(t_mini *mini, t_parse *node, char **envp)
 
 	cmdarg = get_command(node);
 	cmdpath = NULL;
-	status = 1;
-	free_execution(mini);
-	if (ft_strchr(cmdarg[0], '/') && cmdarg)
+	status = 0;
+	free_execution(mini, 0);
+	if (cmdarg[0] != NULL && ft_strchr(cmdarg[0], '/') && cmdarg)
 	{
 		status = exec_path_check(cmdarg[0]);
 		if (status == 0)
 			execve(cmdarg[0], cmdarg, envp);
 	}
-	else if (cmdarg)
+	else if (cmdarg[0])
 	{
 		envpath = extract_path(envp);
 		cmdpath = getcmdpath(cmdarg[0], envpath, &status);

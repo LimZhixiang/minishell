@@ -27,10 +27,10 @@ void	minishell(t_mini *mini)
 	char	**env;
 
 	input_cpy = mini->input;
-	env = get_env_arr(mini);
 	mini->pipe = pipe_present(mini->input);
 	if (heredoc_handler(mini) != 0)
 	{
+		env = get_env_arr(mini);
 		if (mini->pipe == 1)
 		{
 			mini->status = subshell_recus(mini, input_cpy, -1, env);
@@ -38,12 +38,12 @@ void	minishell(t_mini *mini)
 		}
 		else
 			exec_handler(mini, input_cpy, env);
+		free_str_arr(env);
 	}
 	mini->in = -1;
 	mini->out = -1;
 	dup2(mini->term_in, 0);
 	dup2(mini->term_out, 1);
-	free_str_arr(env);
 }
 
 t_mini	*innit_mini(int argc, char **argv, char **envp)

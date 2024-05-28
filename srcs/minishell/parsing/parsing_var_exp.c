@@ -95,7 +95,7 @@ char	*ft_var_exp(char *arg, t_mini *mini, int flag)
 		if (ft_quote(arg, i) != 1 && arg[i] == '$'
 			&& ft_valid_env(arg[i + 1]) != 0)
 		{
-			if (!(flag == 1 && i != 0 && arg[i - 1] == '='))
+			if (!(flag == 1 && i != 0 && check_equal(arg, i)))
 			{
 				j = 1;
 				while (ft_valid_env(arg[i + j]) > 0)

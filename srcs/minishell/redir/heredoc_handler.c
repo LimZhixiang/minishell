@@ -19,7 +19,7 @@ static int	here_doc(t_mini *mini, t_parse *node, char *name)
 	herefd = -1;
 	node->heredoc = ft_strdup(name);
 	mini->status = filehandler(name, &herefd, OUTPUT);
-	heredoc_controller(mini, node->next->arg, herefd);
+	heredoc_controller(mini, node->next->arg, herefd, name);
 	close(herefd);
 	if (mini->status == 0)
 		mini->status = filehandler(name, &mini->in, INPUT);

@@ -68,3 +68,22 @@ int	ft_valid_env(char c)
 		return (-1);
 	return (0);
 }
+
+int	check_equal(char *arg, int i)
+{
+	int	ret;
+
+	ret = 0;
+	if (arg == NULL)
+		return (0);
+	while (i >= 0 && arg[i] != ' ')
+	{
+		if (arg[i] == '=')
+		{
+			ret = 1;
+			break ;
+		}
+		i--;
+	}
+	return (ret);
+}
