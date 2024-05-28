@@ -55,7 +55,7 @@ void	execute(t_mini *mini, t_parse *node, char **envp)
 	cmdarg = get_command(node);
 	cmdpath = NULL;
 	status = 0;
-	free_execution(mini, 0);
+	free_execution(mini, HDOC);
 	if (cmdarg[0] != NULL && ft_strchr(cmdarg[0], '/') && cmdarg)
 	{
 		status = exec_path_check(cmdarg[0]);
@@ -80,6 +80,7 @@ static void	get_execution(t_mini *mini, t_parse *node, char **envp)
 
 	pid = fork();
 	pipe_signal(pid);
+	status = 0;
 	if (pid == 0)
 		execute(mini, node, envp);
 	else if (pid > 0)

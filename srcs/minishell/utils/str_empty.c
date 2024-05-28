@@ -18,15 +18,10 @@ int	str_empty(char *str)
 
 	i = 0;
 	if (!str)
-		return (0);
-	while (str[i])
-	{
-		if (!ft_isspace(str[i]))
-			break ;
+		return (1);
+	while (ft_isspace(str[i]))
 		i++;
-	}
 	if (str[i])
 		return (0);
-	else
-		return (1);
+	return (1);
 }

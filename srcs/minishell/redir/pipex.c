@@ -79,7 +79,7 @@ static void	subshell_child_process(t_mini *mini, t_pipe info, t_parse *current)
 	close(mini->std_err);
 	close(mini->term_in);
 	close(mini->term_out);
-	free_t_parse(mini->input, 0);
+	free_t_parse(mini->input, HDOC);
 	free_t_export(mini->list);
 	free_t_env(mini->env);
 	free_str_arr(info.env);

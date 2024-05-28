@@ -50,7 +50,7 @@ int	cd_handler(t_mini *mini, char **line)
 			print_cmd_error("cd Error", 0, line[1]);
 			mini->status = 1;
 		}
-		else if (strarr_len(line) == 1 && chdir(line[1]) == -1)
+		else if (strarr_len(line) == 1)
 		{
 			if (cd_home(mini, line))
 			{

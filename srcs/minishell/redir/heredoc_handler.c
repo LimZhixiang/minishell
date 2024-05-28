@@ -55,9 +55,10 @@ int	heredoc_handler(t_mini *mini)
 		{
 			if (node->type == HDOC)
 				if (!name || !here_doc(mini, node, name))
-					i = 0;
+					i = -1;
 			node = node->next;
 		}
+		i++;
 		free(name);
 		if (!node)
 			break ;
