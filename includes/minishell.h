@@ -46,6 +46,8 @@
 # include <errno.h>
 # include "../srcs/libft/libft.h"
 
+extern int	g_sig;
+
 typedef struct s_env
 {
 	char			*value;

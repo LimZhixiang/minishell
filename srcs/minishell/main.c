@@ -12,6 +12,8 @@
 
 #include "../../includes/minishell.h"
 
+int	g_sig = 0;
+
 int	input_handler(char *input)
 {
 	if (input == 0)
@@ -44,6 +46,7 @@ void	minishell(t_mini *mini)
 	mini->out = -1;
 	dup2(mini->term_in, 0);
 	dup2(mini->term_out, 1);
+	g_sig = 0;
 }
 
 t_mini	*innit_mini(int argc, char **argv, char **envp)
@@ -85,6 +88,8 @@ int	main(int argc, char **argv, char **envp)
 	{
 		signal_controller();
 		mini->user_input = readline("minishell: ");
+		if (g_sig)
+			mini->status = g_sig;
 		if (input_handler(mini->user_input))
 			break ;
 		if (parsing(mini->user_input, mini) == 0)
