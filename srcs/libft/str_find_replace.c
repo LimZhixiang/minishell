@@ -77,6 +77,8 @@ char	*str_find_replace(char *line, char *find, char *replace)
 	char	*result;
 	char	*temp;
 
+	if (!line)
+		return (NULL);
 	result = line;
 	i = wrd_found(line, find);
 	while (i != -1)

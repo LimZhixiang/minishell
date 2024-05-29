@@ -21,7 +21,7 @@ char	*extract_path(char **env)
 
 	i = 0;
 	j = 0;
-	path = "";
+	path = NULL;
 	pattern = "PATH=\0";
 	while (env[i])
 	{
@@ -30,14 +30,14 @@ char	*extract_path(char **env)
 			if (!pattern[++j])
 			{
 				path = ft_strdup(env[i]);
-				break ;
+				if (!path)
+					print_cmd_error("malloc Error", 0, "");
+				return (path);
 			}
 		}
 		j = 0;
 		i++;
 	}
-	if (!path)
-		print_cmd_error("malloc Error", 0, "");
 	return (path);
 }
 
@@ -72,8 +72,12 @@ static char	*check_cmd(char *envpath, char *cmd)
 char	*getcmdpath(char *cmdarg, char *envpath, int *status)
 {
 	char	*cmdpath;
+	char	*temp;
 
 	cmdpath = NULL;
+	temp = envpath;
+	envpath = str_find_replace(temp, "PATH=", "");
+	free(temp);
 	if (cmdarg != NULL)
 		cmdpath = check_cmd(envpath, cmdarg);
 	if (!cmdpath)
