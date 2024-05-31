@@ -26,9 +26,10 @@ static int	n_checker(char **cmdarg, int i)
 	while (cmdarg[i])
 	{
 		j = 0;
-		if (cmdarg[i][j] == '-')
-			j++;
-		else
+		if (cmdarg[i][j] != '-')
+			return (i);
+		j++;
+		if (!cmdarg[i][j])
 			return (i);
 		while (cmdarg[i][j])
 		{
