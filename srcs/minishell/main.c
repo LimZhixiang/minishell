@@ -32,6 +32,8 @@ void	minishell(t_mini *mini)
 	mini->pipe = pipe_present(mini->input);
 	if (heredoc_handler(mini) != 0)
 	{
+		mini->in = -1;
+		mini->out = -1;
 		env = get_env_arr(mini);
 		if (mini->pipe == 1)
 		{
